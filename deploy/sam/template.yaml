@@ -1,0 +1,97 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: CloudTrail Watcher
+
+Parameters:
+  ResourcesDefaultPrefix:
+    Type: String
+    AllowedPattern: '[a-z0-9\-]+'
+    ConstraintDescription: "Default prefix for resources MUST contain lowercase letters, hyphens, numbers"
+    Description: "Default prefix for resources"
+
+Resources:
+  WatcherFunction:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      FunctionName: !Ref ResourcesDefaultPrefix
+      Description: "CloudTrail Watcher Function"
+      CodeUri: "../../functions/watcher"
+      Role: !GetAtt WatcherFunctionRole.Arn
+      Timeout: 120
+      MemorySize: 512
+      Runtime: python3.9
+      Handler: lambda_function.handler
+      Events:
+        DetectLogsFromS3:       # AWS::Lambda::Permission resource created automatically by SAM
+          Type: S3
+          Properties:
+            Bucket: !Ref WatcherLogsBucket
+            Events: s3:ObjectCreated:*
+  
+  WatcherLogsBucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Ref ResourcesDefaultPrefix
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteLogAfter1Year
+            Status: Enabled
+            ExpirationInDays: 365
+  
+  # Amazon S3 Bucket Policy for CloudTrail:
+  # https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create-s3-bucket-policy-for-cloudtrail.html
+  WatcherLogsBucketPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket: !Ref WatcherLogsBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudtrail.amazonaws.com
+            Action: "s3:GetBucketAcl"
+            Resource: !GetAtt WatcherLogsBucket.Arn
+          - Effect: Allow
+            Principal:
+              Service: cloudtrail.amazonaws.com
+            Action: "s3:PutObject"
+            Resource: !Sub "${WatcherLogsBucket.Arn}/*"
+
+  WatcherTrail:
+    Type: "AWS::CloudTrail::Trail"
+    DependsOn: [WatcherLogsBucketPolicy]
+    Properties:
+      TrailName: !Ref ResourcesDefaultPrefix
+      IsLogging: true
+      S3BucketName: !Ref WatcherLogsBucket
+  
+  WatcherSNSTopic:
+    Type: "AWS::SNS::Topic"
+    Properties:
+      TopicName: !Ref ResourcesDefaultPrefix
+  
+  WatcherFunctionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: !Sub "cloudtrailwatcher-${AWS::AccountId}-role"
+      Description: "Role for CloudTrail Watcher Lambda function"
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: !Sub "cloudtrailwatcher-${AWS::AccountId}-policy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "s3:GetObject"
+                Resource: !Sub "arn:aws:s3:::${ResourcesDefaultPrefix}/*"
+              - Effect: Allow
+                Action: "sns:Publish"
+                Resource: !Ref WatcherSNSTopic

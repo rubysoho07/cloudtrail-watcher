@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# SAM (Serverless Application Model)
+.aws-sam/
+samconfig.toml
