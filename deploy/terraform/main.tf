@@ -33,6 +33,11 @@ resource "aws_lambda_function" "watcher_function" {
   memory_size = 512
   runtime = "python3.9"
   handler = "lambda_function.handler"
+  environment {
+    variables = {
+      SNS_TOPIC_ARN = aws_sns_topic.watcher_sns_topic.arn
+    }
+  }
 }
 
 resource "aws_lambda_permission" "watcher_function_permission" {

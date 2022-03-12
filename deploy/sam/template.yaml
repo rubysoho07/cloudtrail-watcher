@@ -21,6 +21,9 @@ Resources:
       MemorySize: 512
       Runtime: python3.9
       Handler: lambda_function.handler
+      Environment:
+        Variables:
+          SNS_TOPIC_ARN: !Ref WatcherSNSTopic
       Events:
         DetectLogsFromS3:       # AWS::Lambda::Permission resource created automatically by SAM
           Type: S3
