@@ -11,6 +11,9 @@ $ cd deploy/sam
 $ ACCOUNT_ID=$(aws sts get-caller-identity | jq -r '.Account')
 $ sam build
 $ sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID --capabilities CAPABILITY_NAMED_IAM
+
+# Destroy SAM stack
+$ sam delete 
 ```
 
 ### Deploy with Terraform 
@@ -24,4 +27,7 @@ $ terraform apply -var 'aws_region=ap-northeast-2' -var 'resource_prefix=<your_r
 
 # If you don't need to set prefix for resources
 $ terraform apply -var 'aws_region=ap-northeast-2' -var 'resource_prefix='
+
+# Destroy infrastructure deployments
+$ terraform destroy -var 'aws_region=ap-northeast-2' -var 'resource_prefix=<your_resource_prefix or blank>'
 ```
