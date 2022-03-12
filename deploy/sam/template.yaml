@@ -7,7 +7,7 @@ Parameters:
     Type: String
     AllowedPattern: '[a-z0-9\-]+'
     ConstraintDescription: "Default prefix for resources MUST contain lowercase letters, hyphens, numbers"
-    Description: "Default prefix for resources"
+    Description: "Prefix for resources related with CloudTrail Watcher"
 
 Resources:
   WatcherFunction:
@@ -74,7 +74,7 @@ Resources:
   WatcherFunctionRole:
     Type: "AWS::IAM::Role"
     Properties:
-      RoleName: !Sub "cloudtrailwatcher-${AWS::AccountId}-role"
+      RoleName: !Sub "${ResourcesDefaultPrefix}-role"
       Description: "Role for CloudTrail Watcher Lambda function"
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
@@ -85,7 +85,7 @@ Resources:
                 - lambda.amazonaws.com
             Action: "sts:AssumeRole"
       Policies:
-        - PolicyName: !Sub "cloudtrailwatcher-${AWS::AccountId}-policy"
+        - PolicyName: !Sub "${ResourcesDefaultPrefix}-policy"
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
