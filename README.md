@@ -1,8 +1,11 @@
-# cloudtrail-watcher
-Watching AWS CloudTrail Tool
+# CloudTrail Watcher
 
+When a resource like EC2, S3, and Lambda was created...
 
-## Deploy
+* You can be notified via email or Slack message by using Amazon SNS. 
+* You can set default tags for resources.
+
+## Deploy Infrastructures
 
 ### Deploy with SAM (Serverless Application Model)
 
@@ -10,7 +13,8 @@ Watching AWS CloudTrail Tool
 $ cd deploy/sam
 $ ACCOUNT_ID=$(aws sts get-caller-identity | jq -r '.Account')
 $ sam build
-$ sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID --capabilities CAPABILITY_NAMED_IAM
+$ sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID \ 
+             --capabilities CAPABILITY_NAMED_IAM
 
 # Destroy SAM stack
 $ sam delete 
@@ -29,5 +33,6 @@ $ terraform apply -var 'aws_region=ap-northeast-2' -var 'resource_prefix=<your_r
 $ terraform apply -var 'aws_region=ap-northeast-2' -var 'resource_prefix='
 
 # Destroy infrastructure deployments
-$ terraform destroy -var 'aws_region=ap-northeast-2' -var 'resource_prefix=<your_resource_prefix or blank>'
+$ terraform destroy -var 'aws_region=ap-northeast-2' \
+                    -var 'resource_prefix=<your_resource_prefix or blank>'
 ```
