@@ -131,3 +131,8 @@ dmypy.json
 # SAM (Serverless Application Model)
 .aws-sam/
 samconfig.toml
+
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
