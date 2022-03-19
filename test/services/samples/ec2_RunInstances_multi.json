@@ -1,0 +1,380 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "RANDOM_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-19T01:50:34Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-03-19T02:18:29Z",
+    "eventSource": "ec2.amazonaws.com",
+    "eventName": "RunInstances",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "AWS Internal",
+    "userAgent": "AWS Internal",
+    "requestParameters": {
+        "instancesSet": {
+            "items": [
+                {
+                    "imageId": "ami-033a6a056910d1137",
+                    "minCount": 2,
+                    "maxCount": 2,
+                    "keyName": "20160829_aws_yungon"
+                }
+            ]
+        },
+        "groupSet": {
+            "items": [
+                {
+                    "groupId": "sg-0e6a228a9a2f101c1"
+                }
+            ]
+        },
+        "instanceType": "t3.nano",
+        "blockDeviceMapping": {
+            "items": [
+                {
+                    "deviceName": "/dev/xvda",
+                    "ebs": {
+                        "volumeSize": 8,
+                        "deleteOnTermination": true,
+                        "volumeType": "gp2"
+                    }
+                }
+            ]
+        },
+        "tenancy": "default",
+        "monitoring": {
+            "enabled": false
+        },
+        "disableApiTermination": false,
+        "disableApiStop": false,
+        "instanceInitiatedShutdownBehavior": "stop",
+        "ebsOptimized": true,
+        "tagSpecificationSet": {
+            "items": [
+                {
+                    "resourceType": "instance",
+                    "tags": [
+                        {
+                            "key": "Name",
+                            "value": "test"
+                        }
+                    ]
+                },
+                {
+                    "resourceType": "volume",
+                    "tags": [
+                        {
+                            "key": "Name",
+                            "value": "test"
+                        }
+                    ]
+                },
+                {
+                    "resourceType": "network-interface",
+                    "tags": [
+                        {
+                            "key": "Name",
+                            "value": "test"
+                        }
+                    ]
+                }
+            ]
+        },
+        "creditSpecification": {
+            "cpuCredits": "unlimited"
+        },
+        "capacityReservationSpecification": {
+            "capacityReservationPreference": "open"
+        },
+        "hibernationOptions": {
+            "configured": false
+        },
+        "metadataOptions": {
+            "httpTokens": "optional",
+            "httpPutResponseHopLimit": 1,
+            "httpEndpoint": "enabled",
+            "instanceMetadataTags": "disabled"
+        },
+        "privateDnsNameOptions": {
+            "hostnameType": "ip-name",
+            "enableResourceNameDnsARecord": true,
+            "enableResourceNameDnsAAAARecord": false
+        }
+    },
+    "responseElements": {
+        "requestId": "6a9b757f-4c13-47d9-bdd1-b498d404334e",
+        "reservationId": "r-033f54b791a4486ef",
+        "ownerId": "000000000000",
+        "groupSet": {},
+        "instancesSet": {
+            "items": [
+                {
+                    "instanceId": "i-YOUR_INSTANCE_IDS",
+                    "imageId": "ami-033a6a056910d1137",
+                    "instanceState": {
+                        "code": 0,
+                        "name": "pending"
+                    },
+                    "privateDnsName": "ip-172-31-33-12.ap-northeast-2.compute.internal",
+                    "keyName": "20160829_aws_yungon",
+                    "amiLaunchIndex": 1,
+                    "productCodes": {},
+                    "instanceType": "t3.nano",
+                    "launchTime": 1647656309000,
+                    "placement": {
+                        "availabilityZone": "ap-northeast-2b",
+                        "tenancy": "default"
+                    },
+                    "monitoring": {
+                        "state": "disabled"
+                    },
+                    "subnetId": "subnet-1216d269",
+                    "vpcId": "vpc-YOUR_VPC_ID",
+                    "privateIpAddress": "172.31.33.12",
+                    "stateReason": {
+                        "code": "pending",
+                        "message": "pending"
+                    },
+                    "architecture": "x86_64",
+                    "rootDeviceType": "ebs",
+                    "rootDeviceName": "/dev/xvda",
+                    "blockDeviceMapping": {},
+                    "virtualizationType": "hvm",
+                    "hypervisor": "xen",
+                    "tagSet": {
+                        "items": [
+                            {
+                                "key": "Name",
+                                "value": "test"
+                            }
+                        ]
+                    },
+                    "groupSet": {
+                        "items": [
+                            {
+                                "groupId": "sg-0e6a228a9a2f101c1",
+                                "groupName": "SSH_for_home"
+                            }
+                        ]
+                    },
+                    "sourceDestCheck": true,
+                    "networkInterfaceSet": {
+                        "items": [
+                            {
+                                "networkInterfaceId": "eni-01b2a3f446746578f",
+                                "subnetId": "subnet-1216d269",
+                                "vpcId": "vpc-YOUR_VPC_ID",
+                                "ownerId": "000000000000",
+                                "status": "in-use",
+                                "macAddress": "06:84:69:39:8f:8a",
+                                "privateIpAddress": "172.31.33.12",
+                                "privateDnsName": "ip-172-31-33-12.ap-northeast-2.compute.internal",
+                                "sourceDestCheck": true,
+                                "interfaceType": "interface",
+                                "groupSet": {
+                                    "items": [
+                                        {
+                                            "groupId": "sg-0e6a228a9a2f101c1",
+                                            "groupName": "SSH_for_home"
+                                        }
+                                    ]
+                                },
+                                "attachment": {
+                                    "attachmentId": "eni-attach-0b306c67804e16ae5",
+                                    "deviceIndex": 0,
+                                    "networkCardIndex": 0,
+                                    "status": "attaching",
+                                    "attachTime": 1647656309000,
+                                    "deleteOnTermination": true
+                                },
+                                "privateIpAddressesSet": {
+                                    "item": [
+                                        {
+                                            "privateIpAddress": "172.31.33.12",
+                                            "privateDnsName": "ip-172-31-33-12.ap-northeast-2.compute.internal",
+                                            "primary": true
+                                        }
+                                    ]
+                                },
+                                "ipv6AddressesSet": {},
+                                "tagSet": {}
+                            }
+                        ]
+                    },
+                    "ebsOptimized": true,
+                    "enaSupport": true,
+                    "cpuOptions": {
+                        "coreCount": 1,
+                        "threadsPerCore": 2
+                    },
+                    "capacityReservationSpecification": {
+                        "capacityReservationPreference": "open"
+                    },
+                    "hibernationOptions": {
+                        "configured": false
+                    },
+                    "enclaveOptions": {
+                        "enabled": false
+                    },
+                    "metadataOptions": {
+                        "state": "pending",
+                        "httpTokens": "optional",
+                        "httpPutResponseHopLimit": 1,
+                        "httpEndpoint": "enabled",
+                        "httpProtocolIpv4": "enabled",
+                        "httpProtocolIpv6": "disabled",
+                        "instanceMetadataTags": "disabled"
+                    },
+                    "privateDnsNameOptions": {
+                        "hostnameType": "ip-name",
+                        "enableResourceNameDnsARecord": true,
+                        "enableResourceNameDnsAAAARecord": false
+                    }
+                },
+                {
+                    "instanceId": "i-YOUR_INSTANCE_IDS",
+                    "imageId": "ami-033a6a056910d1137",
+                    "instanceState": {
+                        "code": 0,
+                        "name": "pending"
+                    },
+                    "privateDnsName": "ip-172-31-34-33.ap-northeast-2.compute.internal",
+                    "keyName": "20160829_aws_yungon",
+                    "amiLaunchIndex": 0,
+                    "productCodes": {},
+                    "instanceType": "t3.nano",
+                    "launchTime": 1647656309000,
+                    "placement": {
+                        "availabilityZone": "ap-northeast-2b",
+                        "tenancy": "default"
+                    },
+                    "monitoring": {
+                        "state": "disabled"
+                    },
+                    "subnetId": "subnet-1216d269",
+                    "vpcId": "vpc-YOUR_VPC_ID",
+                    "privateIpAddress": "172.31.34.33",
+                    "stateReason": {
+                        "code": "pending",
+                        "message": "pending"
+                    },
+                    "architecture": "x86_64",
+                    "rootDeviceType": "ebs",
+                    "rootDeviceName": "/dev/xvda",
+                    "blockDeviceMapping": {},
+                    "virtualizationType": "hvm",
+                    "hypervisor": "xen",
+                    "tagSet": {
+                        "items": [
+                            {
+                                "key": "Name",
+                                "value": "test"
+                            }
+                        ]
+                    },
+                    "groupSet": {
+                        "items": [
+                            {
+                                "groupId": "sg-0e6a228a9a2f101c1",
+                                "groupName": "SSH_for_home"
+                            }
+                        ]
+                    },
+                    "sourceDestCheck": true,
+                    "networkInterfaceSet": {
+                        "items": [
+                            {
+                                "networkInterfaceId": "eni-0d80ee85b99e3c1c2",
+                                "subnetId": "subnet-1216d269",
+                                "vpcId": "vpc-YOUR_VPC_ID",
+                                "ownerId": "000000000000",
+                                "status": "in-use",
+                                "macAddress": "06:f7:20:97:c6:c8",
+                                "privateIpAddress": "172.31.34.33",
+                                "privateDnsName": "ip-172-31-34-33.ap-northeast-2.compute.internal",
+                                "sourceDestCheck": true,
+                                "interfaceType": "interface",
+                                "groupSet": {
+                                    "items": [
+                                        {
+                                            "groupId": "sg-0e6a228a9a2f101c1",
+                                            "groupName": "SSH_for_home"
+                                        }
+                                    ]
+                                },
+                                "attachment": {
+                                    "attachmentId": "eni-attach-02af8704d5a22a7cc",
+                                    "deviceIndex": 0,
+                                    "networkCardIndex": 0,
+                                    "status": "attaching",
+                                    "attachTime": 1647656309000,
+                                    "deleteOnTermination": true
+                                },
+                                "privateIpAddressesSet": {
+                                    "item": [
+                                        {
+                                            "privateIpAddress": "172.31.34.33",
+                                            "privateDnsName": "ip-172-31-34-33.ap-northeast-2.compute.internal",
+                                            "primary": true
+                                        }
+                                    ]
+                                },
+                                "ipv6AddressesSet": {},
+                                "tagSet": {}
+                            }
+                        ]
+                    },
+                    "ebsOptimized": true,
+                    "enaSupport": true,
+                    "cpuOptions": {
+                        "coreCount": 1,
+                        "threadsPerCore": 2
+                    },
+                    "capacityReservationSpecification": {
+                        "capacityReservationPreference": "open"
+                    },
+                    "hibernationOptions": {
+                        "configured": false
+                    },
+                    "enclaveOptions": {
+                        "enabled": false
+                    },
+                    "metadataOptions": {
+                        "state": "pending",
+                        "httpTokens": "optional",
+                        "httpPutResponseHopLimit": 1,
+                        "httpEndpoint": "enabled",
+                        "httpProtocolIpv4": "enabled",
+                        "httpProtocolIpv6": "disabled",
+                        "instanceMetadataTags": "disabled"
+                    },
+                    "privateDnsNameOptions": {
+                        "hostnameType": "ip-name",
+                        "enableResourceNameDnsARecord": true,
+                        "enableResourceNameDnsAAAARecord": false
+                    }
+                }
+            ]
+        }
+    },
+    "requestID": "6a9b757f-4c13-47d9-bdd1-b498d404334e",
+    "eventID": "6c4c7930-81f5-47d8-9815-7bfd2f342c37",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "sessionCredentialFromConsole": "true"
+}

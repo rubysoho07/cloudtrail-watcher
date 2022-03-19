@@ -1,0 +1,46 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "RANDOM_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test"
+    },
+    "eventTime": "2022-03-12T07:03:21Z",
+    "eventSource": "s3.amazonaws.com",
+    "eventName": "CreateBucket",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "172.0.0.1",
+    "userAgent": "USER_AGENT",
+    "requestParameters": {
+        "CreateBucketConfiguration": {
+            "LocationConstraint": "ap-northeast-2",
+            "xmlns": "http://s3.amazonaws.com/doc/2006-03-01/"
+        },
+        "bucketName": "cloudtrailwatcher-000000000000",
+        "Host": "cloudtrailwatcher-000000000000.s3.ap-northeast-2.amazonaws.com"
+    },
+    "responseElements": null,
+    "additionalEventData": {
+        "SignatureVersion": "SigV4",
+        "CipherSuite": "ECDHE-RSA-AES128-GCM-SHA256",
+        "bytesTransferredIn": 158,
+        "AuthenticationMethod": "AuthHeader",
+        "x-amz-id-2": "IFtfvjYhXwkJ5NqMbIP3esNsZ1fz+3ryxXDRF1JsQeE95UlL7lvdSy9B/dhVNNOdkvvMl8/O6+U=",
+        "bytesTransferredOut": 0
+    },
+    "requestID": "46XFGX85YA275RKV",
+    "eventID": "0ac2b453-9809-4292-a1b7-f7c774b55006",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "tlsDetails": {
+        "tlsVersion": "TLSv1.2",
+        "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256",
+        "clientProvidedHostHeader": "cloudtrailwatcher-000000000000.s3.ap-northeast-2.amazonaws.com"
+    }
+}

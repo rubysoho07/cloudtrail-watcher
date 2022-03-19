@@ -1,0 +1,60 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "RANDOM_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test"
+    },
+    "eventTime": "2022-03-12T07:03:32Z",
+    "eventSource": "lambda.amazonaws.com",
+    "eventName": "CreateFunction20150331",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "172.0.0.1",
+    "userAgent": "RANDOM_AGENT_NAME",
+    "requestParameters": {
+        "functionName": "cloudtrailwatcher-000000000000",
+        "runtime": "python3.9",
+        "role": "arn:aws:iam::000000000000:role/cloudtrailwatcher-000000000000-role",
+        "handler": "lambda_function.handler",
+        "code": {},
+        "description": "CloudTrail Watcher Funcion",
+        "timeout": 120,
+        "memorySize": 512,
+        "publish": false,
+        "packageType": "Zip",
+        "environment": {}
+    },
+    "responseElements": {
+        "functionName": "cloudtrailwatcher-000000000000",
+        "functionArn": "arn:aws:lambda:ap-northeast-2:000000000000:function:cloudtrailwatcher-000000000000",
+        "runtime": "python3.9",
+        "role": "arn:aws:iam::000000000000:role/cloudtrailwatcher-000000000000-role",
+        "handler": "lambda_function.handler",
+        "codeSize": 366,
+        "description": "CloudTrail Watcher Funcion",
+        "timeout": 120,
+        "memorySize": 512,
+        "lastModified": "2022-03-12T07:03:32.737+0000",
+        "codeSha256": "UVIcm/ykjM0VfDq+AjXsQk/p5RmFRNF9bgyTVkxQ/+4=",
+        "version": "$LATEST",
+        "environment": {},
+        "tracingConfig": {
+            "mode": "PassThrough"
+        },
+        "revisionId": "f0ab0519-f7c4-41de-a463-7b48edfd3330",
+        "state": "Pending",
+        "stateReason": "The function is being created.",
+        "stateReasonCode": "Creating",
+        "packageType": "Zip"
+    },
+    "requestID": "89f2c288-299e-4135-926d-3455e28e58d7",
+    "eventID": "2fe6dcc9-0858-4527-9af2-0097752588ef",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management"
+}

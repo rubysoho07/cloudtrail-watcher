@@ -1,0 +1,42 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "RANDOM_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-01-23T00:31:34Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-01-23T01:21:35Z",
+    "eventSource": "ec2.amazonaws.com",
+    "eventName": "CreateSecurityGroup",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "172.0.0.1",
+    "userAgent": "console.ec2.amazonaws.com",
+    "requestParameters": {
+        "groupName": "Test",
+        "groupDescription": "test",
+        "vpcId": "vpc-YOUR_VPC_ID"
+    },
+    "responseElements": {
+        "requestId": "21c6c878-dd73-41e5-9730-977a2a146c29",
+        "_return": true,
+        "groupId": "sg-YOUR_SECURITY_GROUP_ID"
+    },
+    "requestID": "21c6c878-dd73-41e5-9730-977a2a146c29",
+    "eventID": "23f64b42-8858-4c45-9fa0-5e575903140a",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management"
+}
