@@ -10,6 +10,12 @@ terraform {
 provider "aws" {
   profile = var.aws_profile
   region = var.aws_region
+
+  default_tags {
+    tags = {
+      User = "cloudtrail-watcher"
+    }
+  }
 }
 
 data "aws_caller_identity" "current_account" {}
@@ -26,7 +32,7 @@ locals {
 
 resource "aws_lambda_function" "watcher_function" {
   function_name = local.resource_prefix
-  description = "CloudTrail Watcher Funcion"
+  description = "CloudTrail Watcher Function"
   role = aws_iam_role.watcher_function_role.arn
   filename = data.archive_file.watcher_function_codes.output_path
   timeout = 120
@@ -36,6 +42,7 @@ resource "aws_lambda_function" "watcher_function" {
   environment {
     variables = {
       SNS_TOPIC_ARN = aws_sns_topic.watcher_sns_topic.arn
+      SLACK_WEBHOOK_URL = var.slack_webhook_url
     }
   }
 }
@@ -103,6 +110,10 @@ resource "aws_cloudtrail" "watcher_trail" {
   name = local.resource_prefix
   s3_bucket_name = aws_s3_bucket.watcher_logs_bucket.id
   enable_logging = true
+
+  event_selector {
+    read_write_type = "WriteOnly"
+  }
 }
 
 resource "aws_sns_topic" "watcher_sns_topic" {
@@ -125,6 +136,10 @@ resource "aws_iam_role" "watcher_function_role" {
     ]
   })
 
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  ]
+
   inline_policy {
     name = "${local.resource_prefix}-policy"
     policy = jsonencode({
@@ -138,6 +153,20 @@ resource "aws_iam_role" "watcher_function_role" {
           Effect = "Allow"
           Action = "sns:Publish"
           Resource = aws_sns_topic.watcher_sns_topic.arn
+        },{
+          Effect = "Allow"
+          Action = [
+            "lambda:ListTags",
+            "lambda:TagResource",
+            "s3:GetBucketTagging",
+            "s3:PutBucketTagging",
+            "ec2:DescribeNetworkInterfaces",
+            "ec2:DescribeTags",
+            "ec2:DescribeVolumes",
+            "ec2:DescribeSecurityGroups",
+            "ec2:CreateTags"
+          ]
+          Resource = "*"
         }
       ]
     })

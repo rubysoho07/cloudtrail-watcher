@@ -9,6 +9,12 @@ Parameters:
     ConstraintDescription: "Default prefix for resources MUST contain lowercase letters, hyphens, numbers"
     Description: "Prefix for resources related with CloudTrail Watcher"
 
+  SlackWebhookURL:
+    Type: String
+    AllowedPattern: '^(DISABLED|https://hooks.slack.com/services/[a-zA-Z/0-9]+)$'
+    ConstraintDescription: "If you disable Slack notification, set this value DISABLED."
+    Description: "Slack Webhook URL (If you don't want to use the feature, set DISABLED)"
+
 Resources:
   WatcherFunction:
     Type: "AWS::Serverless::Function"
@@ -24,6 +30,7 @@ Resources:
       Environment:
         Variables:
           SNS_TOPIC_ARN: !Ref WatcherSNSTopic
+          SLACK_WEBHOOK_URL: !Ref SlackWebhookURL
       Events:
         DetectLogsFromS3:       # AWS::Lambda::Permission resource created automatically by SAM
           Type: S3
@@ -68,6 +75,8 @@ Resources:
       TrailName: !Ref ResourcesDefaultPrefix
       IsLogging: true
       S3BucketName: !Ref WatcherLogsBucket
+      EventSelectors:
+        - ReadWriteType: WriteOnly
   
   WatcherSNSTopic:
     Type: "AWS::SNS::Topic"
@@ -87,6 +96,8 @@ Resources:
               Service:
                 - lambda.amazonaws.com
             Action: "sts:AssumeRole"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Policies:
         - PolicyName: !Sub "${ResourcesDefaultPrefix}-policy"
           PolicyDocument:
@@ -98,3 +109,16 @@ Resources:
               - Effect: Allow
                 Action: "sns:Publish"
                 Resource: !Ref WatcherSNSTopic
+              - Effect: Allow
+                Action: [
+                  "lambda:ListTags",
+                  "lambda:TagResource",
+                  "s3:GetBucketTagging",
+                  "s3:PutBucketTagging",
+                  "ec2:DescribeNetworkInterfaces",
+                  "ec2:DescribeTags",
+                  "ec2:DescribeVolumes",
+                  "ec2:DescribeSecurityGroups",
+                  "ec2:CreateTags"
+                ]
+                Resource: "*"

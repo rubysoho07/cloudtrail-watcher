@@ -19,3 +19,14 @@ variable "resource_prefix" {
     error_message = "Default prefix for resources MUST be blank or contain lowercase letters, hyphens, numbers."
   }
 }
+
+variable "slack_webhook_url" {
+  type = string
+  description = "Slack Webhook URL (If you don't want to use the feature, set DISABLED)"
+  default = "DISABLED"
+
+  validation {
+    condition = can(regex("^(DISABLED|https://hooks.slack.com/services/[a-zA-Z/0-9]+)$", var.slack_webhook_url))
+    error_message = "If you disable Slack notification, set this value DISABLED."
+  }
+}
