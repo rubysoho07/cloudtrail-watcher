@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from functions.watcher.lambda_function import process_event_by_service
+from functions.watcher.lambda_function import process_event_by_service, notify_slack
 
 
 class ProcessEventTest(unittest.TestCase):
@@ -17,3 +17,13 @@ class ProcessEventTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateBucket')
         self.assertEqual(result['source_ip_address'], '172.0.0.1')
         self.assertEqual(result['event_source'], 's3')
+
+    def test_send_message(self):
+        with open('./samples/s3_CreateBucket.json') as f:
+            data = json.loads(f.read())
+
+        result = process_event_by_service(data)
+        result['account_id'] = '000000000000'
+
+        notify_slack(result)
+        self.assert_(True)
