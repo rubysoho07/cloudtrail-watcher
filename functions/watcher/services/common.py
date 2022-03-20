@@ -19,7 +19,8 @@ def check_set_mandatory_tag() -> bool:
         Check if watcher function sets mandatory tags for new resources.
         If you want to set required tags, set environment variable named 'SET_MANDATORY_TAG'
     """
-    if 'SET_MANDATORY_TAG' in os.environ.keys():
+    if 'SET_MANDATORY_TAG' in os.environ.keys() and \
+       os.environ['SET_MANDATORY_TAG'] not in ['DISABLED', 'False', '0', 'false']:
         return True
 
     return False

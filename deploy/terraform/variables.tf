@@ -30,3 +30,9 @@ variable "slack_webhook_url" {
     error_message = "If you disable Slack notification, set this value DISABLED."
   }
 }
+
+variable "set_mandatory_tag" {
+  type = string
+  description = "Set mandatory tags when resources are created."
+  default = "DISABLED"
+}

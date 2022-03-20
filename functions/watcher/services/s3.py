@@ -1,5 +1,7 @@
 import boto3
 
+from botocore.exceptions import ClientError
+
 from services.common import *
 
 s3 = boto3.resource('s3')
@@ -24,17 +26,25 @@ def _process_create_bucket(event: dict, set_tags: bool = False) -> list:
     # Set mandatory tags
     if set_tags is True:
         bucket_tagging = s3.BucketTagging(bucket_name)
-        tag_set = bucket_tagging.tag_set
 
-        if _check_user_tag(tag_set) is False:
-            tag_set.append({
-                'Key': 'User',
-                'Value': get_user_identity(event)
-            })
+        try:
+            tag_set = bucket_tagging.tag_set
 
-            bucket_tagging.put(Tagging={
-                'TagSet': tag_set
-            })
+            if _check_user_tag(tag_set) is False:
+                tag_set.append({
+                    'Key': 'User',
+                    'Value': get_user_identity(event)
+                })
+
+                bucket_tagging.put(Tagging={
+                    'TagSet': tag_set
+                })
+        except ClientError as ce:
+            if ce.response['Error']['Code'] == 'NoSuchTagSet':
+                bucket_tagging.put(Tagging={'TagSet': [{'Key': 'User', 'Value': get_user_identity(event)}]})
+            else:
+                print(ce.response)
+                print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
 
     return [bucket_name]
 

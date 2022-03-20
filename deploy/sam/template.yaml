@@ -11,9 +11,15 @@ Parameters:
 
   SlackWebhookURL:
     Type: String
+    Default: "DISABLED"
     AllowedPattern: '^(DISABLED|https://hooks.slack.com/services/[a-zA-Z/0-9]+)$'
     ConstraintDescription: "If you disable Slack notification, set this value DISABLED."
     Description: "Slack Webhook URL (If you don't want to use the feature, set DISABLED)"
+
+  SetMandatoryTag:
+    Type: String
+    Default: "DISABLED"
+    Description: "Set mandatory tags when resources are created."
 
 Resources:
   WatcherFunction:
@@ -31,6 +37,7 @@ Resources:
         Variables:
           SNS_TOPIC_ARN: !Ref WatcherSNSTopic
           SLACK_WEBHOOK_URL: !Ref SlackWebhookURL
+          SET_MANDATORY_TAG: !Ref SetMandatoryTag
       Events:
         DetectLogsFromS3:       # AWS::Lambda::Permission resource created automatically by SAM
           Type: S3
@@ -118,6 +125,7 @@ Resources:
                   "ec2:DescribeNetworkInterfaces",
                   "ec2:DescribeTags",
                   "ec2:DescribeVolumes",
+                  "ec2:DescribeInstances",
                   "ec2:DescribeSecurityGroups",
                   "ec2:CreateTags"
                 ]

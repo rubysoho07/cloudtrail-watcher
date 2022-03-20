@@ -44,6 +44,7 @@ resource "aws_lambda_function" "watcher_function" {
     variables = {
       SNS_TOPIC_ARN = aws_sns_topic.watcher_sns_topic.arn
       SLACK_WEBHOOK_URL = var.slack_webhook_url
+      SET_MANDATORY_TAG = var.set_mandatory_tag
     }
   }
 }
@@ -164,6 +165,7 @@ resource "aws_iam_role" "watcher_function_role" {
             "ec2:DescribeNetworkInterfaces",
             "ec2:DescribeTags",
             "ec2:DescribeVolumes",
+            "ec2:DescribeInstances",
             "ec2:DescribeSecurityGroups",
             "ec2:CreateTags"
           ]

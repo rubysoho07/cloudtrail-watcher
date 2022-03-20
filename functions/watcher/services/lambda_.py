@@ -1,5 +1,7 @@
 import boto3
 
+from botocore.exceptions import ClientError
+
 from services.common import *
 
 
@@ -10,16 +12,22 @@ def _process_create_function_20150331(event: dict, set_tags: bool = False) -> li
 
     # Set mandatory tags
     if set_tags is True:
-        function_arn = event['responseElements']['functionArn']
-        function_tags = lambda_.list_tags(Resource=function_arn)
+        try:
+            function_arn = event['responseElements']['functionArn']
+            function_tags = lambda_.list_tags(Resource=function_arn)
 
-        if 'User' not in function_tags['Tags'].keys():
-            lambda_.tag_resource(
-                Resource=function_arn,
-                Tags={
-                    'User': get_user_identity(event)
-                }
-            )
+            tags_list = function_tags['Tags'].keys()
+
+            if 'User' not in tags_list:
+                lambda_.tag_resource(
+                    Resource=function_arn,
+                    Tags={
+                        'User': get_user_identity(event)
+                    }
+                )
+        except ClientError as ce:
+            print(ce.response)
+            print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
 
     return [event['responseElements']['functionName']]
 
