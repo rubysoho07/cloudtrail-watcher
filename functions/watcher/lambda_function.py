@@ -7,7 +7,7 @@ import traceback
 import boto3
 import requests
 
-from .services import common
+from services import common
 
 
 s3 = boto3.client('s3')
@@ -19,6 +19,9 @@ def process_event_by_service(record: dict) -> dict:
 
     service_name = common.get_service_name(record)
     try:
+        if service_name == 'lambda':
+            service_name = 'lambda_'
+
         module = importlib.import_module(f"services.{service_name}")
         return module.process_event(record)
     except ImportError:
@@ -68,9 +71,7 @@ def notify_sns(summary: dict):
         raise ValueError('SNS Topic not found')
 
     topic = sns.Topic(os.environ['SNS_TOPIC_ARN'])
-    response = topic.publish(Message=json.dumps(summary))
-
-    return response
+    topic.publish(Message=json.dumps(summary))
 
 
 def handler(event, context):
@@ -87,31 +88,27 @@ def handler(event, context):
 
         # Check each event
         for record in data['Records']:
-            if record['readOnly'] is False:
+            if record['readOnly'] is True:
                 continue
 
             # Process event
             result = process_event_by_service(record)
 
             # Add account ID information
-            if 'recipientAccountId' in event.keys():
-                result['account_id'] = event['recipientAccountId']
+            if 'recipientAccountId' in record.keys():
+                result['account_id'] = record['recipientAccountId']
             else:
                 result['account_id'] = None
 
             if 'error' in result.keys():
                 print(json.dumps(result, ensure_ascii=False))
-                return result
+                continue
 
             # Send notification
             notify_slack(result)
-            response = notify_sns(result)
+            notify_sns(result)
 
-            return {
-                'message': result,
-                'message_id': response['MessageId'],
-                'sequence_number': response['SequenceNumber']
-            }
+        return {'message': event}
     except Exception as e:
         traceback.print_exc()
 

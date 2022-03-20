@@ -1,6 +1,6 @@
 import boto3
 
-from .common import *
+from services.common import *
 
 s3 = boto3.resource('s3')
 
