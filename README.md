@@ -15,7 +15,7 @@ $ ACCOUNT_ID=$(aws sts get-caller-identity | jq -r '.Account')
 $ sam build
 $ sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID \ 
              --capabilities CAPABILITY_NAMED_IAM
-
+             --tags 'User=cloudtrail-watcher'
 # Destroy SAM stack
 $ sam delete 
 ```
@@ -36,3 +36,25 @@ $ terraform apply -var 'aws_region=ap-northeast-2' -var 'resource_prefix='
 $ terraform destroy -var 'aws_region=ap-northeast-2' \
                     -var 'resource_prefix=<your_resource_prefix or blank>'
 ```
+
+## Notification
+
+### Slack
+
+* Change functions environment variable `SLACK_WEBHOOK_URL` to Slack Incoming Webhook URL.
+
+### Email
+
+```shell
+# Get SNS Topic ARN
+TOPIC_ARN=$(aws sns list-topics | jq -r '.Topics[].TopicArn' | grep cloudtrailwatcher)
+
+# Subscribe
+aws sns subscribe --topic-arn $TOPIC_ARN --protocol email --notification-endpoint your@email.address
+```
+
+If you receive email from AWS SNS, please confirm the email to complete subscription.
+
+## References
+
+* [CloudTrail Log Event Reference](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference.html)
