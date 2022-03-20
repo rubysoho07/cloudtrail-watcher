@@ -35,6 +35,7 @@ resource "aws_lambda_function" "watcher_function" {
   description = "CloudTrail Watcher Function"
   role = aws_iam_role.watcher_function_role.arn
   filename = data.archive_file.watcher_function_codes.output_path
+  source_code_hash = data.archive_file.watcher_function_codes.output_base64sha256
   timeout = 120
   memory_size = 512
   runtime = "python3.9"
