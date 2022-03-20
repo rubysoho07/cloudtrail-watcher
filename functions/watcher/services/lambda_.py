@@ -41,6 +41,8 @@ def process_event(event: dict) -> dict:
     if event['eventName'] == "CreateFunction20150331":
         result['resource_id'] = _process_create_function_20150331(event, set_tag)
     else:
-        print(f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}")
+        message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
+        print(message)
+        result['error'] = message
 
     return result
