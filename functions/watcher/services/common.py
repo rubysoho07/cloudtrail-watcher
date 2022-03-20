@@ -8,6 +8,9 @@ def get_service_name(event: dict) -> str:
 
 def get_user_identity(event: dict) -> str:
     """ Get user identity from CloudTrail event. """
+    if 'arn' not in event['userIdentity'].keys():
+        return "Unknown"
+
     return event['userIdentity']['arn'].split(':')[-1]
 
 
