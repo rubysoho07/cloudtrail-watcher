@@ -10,10 +10,12 @@ When a resource like EC2, S3, and Lambda was created...
 * EC2 (Instance, Security Group)
 * RDS (Cluster, Instance)
 * S3 (Bucket)
-* ElastiCache
-* EMR
-* Lambda 
-* Redshift
+* ElastiCache (Redis, Memcached)
+* EMR (Cluster)
+* Lambda (Function)
+* Redshift (Cluster)
+* ECS (Cluster)
+* EKS (Cluster)
 
 ## Deploy Infrastructures
 
