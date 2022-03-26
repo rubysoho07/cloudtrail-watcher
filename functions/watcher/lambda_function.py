@@ -76,6 +76,7 @@ def notify_sns(summary: dict):
 
 def handler(event, context):
     print(event)
+    record = None
 
     # Get object information
     bucket = event['Records'][0]['s3']['bucket']['name']
@@ -111,7 +112,8 @@ def handler(event, context):
         return {'message': event}
     except Exception as e:
         traceback.print_exc()
-
+        if record is not None:
+            print(f"Cannot process event record: ID - {record['eventID']}, eventName: {record['eventName']}")
         return {
             "error": str(e)
         }
