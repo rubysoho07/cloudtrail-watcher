@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from functions.watcher.services import ec2, lambda_, s3, rds
+from functions.watcher.services import ec2, lambda_, s3, rds, elasticache
 
 
 class EC2Test(unittest.TestCase):
@@ -102,3 +102,31 @@ class RDSTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateDBInstance')
         self.assertEqual(result['source_ip_address'], 'AWS Internal')
         self.assertEqual(result['event_source'], 'rds')
+
+
+class ElastiCacheTest(unittest.TestCase):
+    def test_create_cache_cluster(self):
+        with open('./samples/elasticache_CreateCacheCluster.json') as f:
+            data = json.loads(f.read())
+
+        result = elasticache.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test-memcached'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateCacheCluster')
+        self.assertEqual(result['source_ip_address'], 'AWS Internal')
+        self.assertEqual(result['event_source'], 'elasticache')
+
+    def test_create_replication_group(self):
+        with open('./samples/elasticache_CreateReplicationGroup.json') as f:
+            data = json.loads(f.read())
+
+        result = elasticache.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateReplicationGroup')
+        self.assertEqual(result['source_ip_address'], 'AWS Internal')
+        self.assertEqual(result['event_source'], 'elasticache')

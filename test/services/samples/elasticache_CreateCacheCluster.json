@@ -1,0 +1,77 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-26T01:31:30Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-03-26T02:14:09Z",
+    "eventSource": "elasticache.amazonaws.com",
+    "eventName": "CreateCacheCluster",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "AWS Internal",
+    "userAgent": "AWS Internal",
+    "requestParameters": {
+        "cacheClusterId": "test-memcached",
+        "numCacheNodes": 1,
+        "cacheNodeType": "cache.t4g.micro",
+        "engine": "memcached",
+        "engineVersion": "1.6.6",
+        "cacheParameterGroupName": "default.memcached1.6",
+        "cacheSubnetGroupName": "redis-group",
+        "securityGroupIds": [
+            "sg-YOUR_SECURITY_GROUP_ID"
+        ],
+        "port": 11211
+    },
+    "responseElements": {
+        "cacheClusterId": "test-memcached",
+        "clientDownloadLandingPage": "https://console.aws.amazon.com/elasticache/home#client-download:",
+        "cacheNodeType": "cache.t4g.micro",
+        "engine": "memcached",
+        "engineVersion": "1.6.6",
+        "cacheClusterStatus": "creating",
+        "numCacheNodes": 1,
+        "preferredMaintenanceWindow": "mon:05:30-mon:06:30",
+        "pendingModifiedValues": {},
+        "cacheSecurityGroups": [],
+        "cacheParameterGroup": {
+            "cacheParameterGroupName": "default.memcached1.6",
+            "parameterApplyStatus": "in-sync",
+            "cacheNodeIdsToReboot": []
+        },
+        "cacheSubnetGroupName": "redis-group",
+        "autoMinorVersionUpgrade": true,
+        "securityGroups": [
+            {
+                "securityGroupId": "sg-YOUR_SECURITY_GROUP_ID",
+                "status": "active"
+            }
+        ],
+        "transitEncryptionEnabled": false,
+        "atRestEncryptionEnabled": false,
+        "aRN": "arn:aws:elasticache:ap-northeast-2:000000000000:cluster:test-memcached",
+        "deleteProtection": false,
+        "replicationGroupLogDeliveryEnabled": false,
+        "logDeliveryConfigurations": []
+    },
+    "requestID": "e2e011e5-00d1-428f-9d6c-a10a57ee3bd9",
+    "eventID": "45aa1faf-a3ef-420f-a070-0d365903d2cb",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "sessionCredentialFromConsole": "true"
+}

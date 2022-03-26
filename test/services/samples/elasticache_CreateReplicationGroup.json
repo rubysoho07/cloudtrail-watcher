@@ -1,0 +1,86 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::YOUR_ACCOUNT_ID:user/test",
+        "accountId": "YOUR_ACCOUNT_ID",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-21T08:23:50Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-03-21T08:27:21Z",
+    "eventSource": "elasticache.amazonaws.com",
+    "eventName": "CreateReplicationGroup",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "AWS Internal",
+    "userAgent": "AWS Internal",
+    "requestParameters": {
+        "replicationGroupId": "test",
+        "automaticFailoverEnabled": true,
+        "multiAZEnabled": true,
+        "numCacheClusters": 2,
+        "cacheNodeType": "cache.t4g.micro",
+        "engine": "redis",
+        "engineVersion": "6.2",
+        "cacheParameterGroupName": "default.redis6.x",
+        "cacheSubnetGroupName": "redis-group",
+        "securityGroupIds": [
+            "sg-YOUR_SECURITY_GROUP_ID"
+        ],
+        "port": 6379,
+        "snapshotRetentionLimit": 1,
+        "transitEncryptionEnabled": false,
+        "atRestEncryptionEnabled": false,
+        "logDeliveryConfigurations": [
+            {
+                "logType": "slow-log",
+                "enabled": false
+            },
+            {
+                "logType": "engine-log",
+                "enabled": false
+            }
+        ]
+    },
+    "responseElements": {
+        "replicationGroupId": "test",
+        "description": " ",
+        "globalReplicationGroupInfo": {},
+        "status": "creating",
+        "pendingModifiedValues": {},
+        "memberClusters": [
+            "test-001",
+            "test-002"
+        ],
+        "snapshottingClusterId": "test-002",
+        "automaticFailover": "enabling",
+        "multiAZ": "enabled",
+        "snapshotRetentionLimit": 1,
+        "snapshotWindow": "23:30-00:30",
+        "clusterEnabled": false,
+        "cacheNodeType": "cache.t4g.micro",
+        "transitEncryptionEnabled": false,
+        "atRestEncryptionEnabled": false,
+        "aRN": "arn:aws:elasticache:ap-northeast-2:YOUR_ACCOUNT_ID:replicationgroup:test",
+        "deleteProtection": false,
+        "logDeliveryConfigurations": [],
+        "replicationGroupCreateTime": "Mar 21, 2022 8:27:21 AM",
+        "autoMinorVersionUpgrade": false
+    },
+    "requestID": "f356de2f-90bf-4655-9432-5a64037e1bc6",
+    "eventID": "d2928d94-a770-4c17-85d1-7e2d59cdfe2b",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "YOUR_ACCOUNT_ID",
+    "eventCategory": "Management",
+    "sessionCredentialFromConsole": "true"
+}
