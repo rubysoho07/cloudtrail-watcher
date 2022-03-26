@@ -24,3 +24,23 @@ def check_set_mandatory_tag() -> bool:
         return True
 
     return False
+
+
+def check_contain_mandatory_tag(tags: list) -> bool:
+    """
+        Check if mandatory tag exists in tag list.
+        In tag list, a tag contains a key-value pair.
+        for example:
+        {
+            "Key": "ExampleKey",
+            "Value": "Example_Value"
+        }
+    """
+
+    result = False
+
+    for tag in tags:
+        if tag['Key'] == 'User':
+            return True
+
+    return result

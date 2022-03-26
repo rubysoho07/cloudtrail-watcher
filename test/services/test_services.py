@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from functions.watcher.services import ec2, lambda_, s3, rds, elasticache
+from functions.watcher.services import ec2, lambda_, s3, rds, elasticache, elasticmapreduce
 
 
 class EC2Test(unittest.TestCase):
@@ -130,3 +130,18 @@ class ElastiCacheTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateReplicationGroup')
         self.assertEqual(result['source_ip_address'], 'AWS Internal')
         self.assertEqual(result['event_source'], 'elasticache')
+
+
+class EMRTest(unittest.TestCase):
+    def test_run_job_flow(self):
+        with open('./samples/elasticmapreduce_RunJobFlow.json') as f:
+            data = json.loads(f.read())
+
+        result = elasticmapreduce.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['cluster/j-2E1G6JJE6X1MQ'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'RunJobFlow')
+        self.assertEqual(result['source_ip_address'], 'AWS Internal')
+        self.assertEqual(result['event_source'], 'elasticmapreduce')

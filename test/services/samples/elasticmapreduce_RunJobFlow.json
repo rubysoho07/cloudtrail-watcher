@@ -1,0 +1,114 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::YOUR_ACCOUNT_ID:user/test",
+        "accountId": "YOUR_ACCOUNT_ID",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-21T08:23:50Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-03-21T12:40:21Z",
+    "eventSource": "elasticmapreduce.amazonaws.com",
+    "eventName": "RunJobFlow",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "AWS Internal",
+    "userAgent": "AWS Internal",
+    "requestParameters": {
+        "name": "My cluster",
+        "logUri": "s3://aws-logs-YOUR_ACCOUNT_ID-ap-northeast-2/elasticmapreduce/",
+        "releaseLabel": "emr-5.34.0",
+        "instances": {
+            "instanceGroups": [
+                {
+                    "name": "Master - 1",
+                    "market": "ON_DEMAND",
+                    "instanceRole": "MASTER",
+                    "instanceType": "r3.xlarge",
+                    "instanceCount": 1,
+                    "configurations": [],
+                    "ebsConfiguration": {
+                        "ebsBlockDeviceConfigs": []
+                    }
+                },
+                {
+                    "name": "Core - 2",
+                    "market": "ON_DEMAND",
+                    "instanceRole": "CORE",
+                    "instanceType": "r3.xlarge",
+                    "instanceCount": 2,
+                    "configurations": [],
+                    "ebsConfiguration": {
+                        "ebsBlockDeviceConfigs": []
+                    }
+                }
+            ],
+            "instanceFleets": [],
+            "ec2KeyName": "YOUR_KEYPAIR_NAME",
+            "placement": {},
+            "keepJobFlowAliveWhenNoSteps": true,
+            "terminationProtected": true,
+            "hadoopVersion": "2.10.1",
+            "ec2SubnetId": "subnet-YOUR_SUBNET_ID",
+            "additionalMasterSecurityGroups": [],
+            "additionalSlaveSecurityGroups": []
+        },
+        "steps": [
+            {
+                "name": "Setup hadoop debugging",
+                "actionOnFailure": "TERMINATE_JOB_FLOW",
+                "hadoopJarStep": {
+                    "properties": [],
+                    "jar": "command-runner.jar",
+                    "args": []
+                }
+            }
+        ],
+        "bootstrapActions": [],
+        "applications": [
+            {
+                "name": "Hadoop"
+            },
+            {
+                "name": "Hive"
+            },
+            {
+                "name": "Pig"
+            },
+            {
+                "name": "Hue"
+            }
+        ],
+        "configurations": [],
+        "visibleToAllUsers": true,
+        "jobFlowRole": "EMR_EC2_DefaultRole",
+        "serviceRole": "EMR_DefaultRole",
+        "autoScalingRole": "EMR_AutoScaling_DefaultRole",
+        "tags": [],
+        "ebsRootVolumeSize": 10,
+        "stepConcurrencyLevel": 1,
+        "autoTerminationPolicy": {
+            "idleTimeout": 3600
+        }
+    },
+    "responseElements": {
+        "jobFlowId": "j-2E1G6JJE6X1MQ",
+        "clusterArn": "arn:aws:elasticmapreduce:ap-northeast-2:YOUR_ACCOUNT_ID:cluster/j-2E1G6JJE6X1MQ"
+    },
+    "requestID": "0e153b58-908f-4550-ba99-be00f81274f3",
+    "eventID": "578779cc-9e2f-4b7b-b1da-4d335f4ad1b4",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "YOUR_ACCOUNT_ID",
+    "eventCategory": "Management",
+    "sessionCredentialFromConsole": "true"
+}
