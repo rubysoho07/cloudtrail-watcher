@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from functions.watcher.services import ec2, lambda_, s3, rds, elasticache, elasticmapreduce, redshift
+from functions.watcher.services import *
 
 
 class EC2Test(unittest.TestCase):
@@ -160,3 +160,33 @@ class RedshiftTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateCluster')
         self.assertEqual(result['source_ip_address'], 'AWS Internal')
         self.assertEqual(result['event_source'], 'redshift')
+
+
+class ECSTest(unittest.TestCase):
+    def test_create_cluster(self):
+        with open('./samples/ecs_CreateCluster.json') as f:
+            data = json.loads(f.read())
+
+        result = ecs.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test-ecs'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateCluster')
+        self.assertEqual(result['source_ip_address'], 'cloudformation.amazonaws.com')
+        self.assertEqual(result['event_source'], 'ecs')
+
+
+class EKSTest(unittest.TestCase):
+    def test_create_cluster(self):
+        with open('./samples/eks_CreateCluster.json') as f:
+            data = json.loads(f.read())
+
+        result = eks.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateCluster')
+        self.assertEqual(result['source_ip_address'], '172.0.0.1')
+        self.assertEqual(result['event_source'], 'eks')

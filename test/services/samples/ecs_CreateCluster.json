@@ -1,0 +1,109 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-26T01:31:30Z",
+                "mfaAuthenticated": "true"
+            }
+        },
+        "invokedBy": "cloudformation.amazonaws.com"
+    },
+    "eventTime": "2022-03-26T08:15:54Z",
+    "eventSource": "ecs.amazonaws.com",
+    "eventName": "CreateCluster",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "cloudformation.amazonaws.com",
+    "userAgent": "cloudformation.amazonaws.com",
+    "requestParameters": {
+        "clusterName": "test-ecs",
+        "tags": [
+            {
+                "key": "ecs:cluster:createdFrom",
+                "value": "ecs-console-v2"
+            },
+            {
+                "key": "aws:cloudformation:stack-name",
+                "value": "Infra-ECS-Cluster-cf14ddf5-f89d-4495-864a-8dac6f8ac8ab"
+            },
+            {
+                "key": "aws:cloudformation:logical-id",
+                "value": "ECSCluster"
+            },
+            {
+                "key": "aws:cloudformation:stack-id",
+                "value": "arn:aws:cloudformation:ap-northeast-2:000000000000:stack/Infra-ECS-Cluster-cf14ddf5-f89d-4495-864a-8dac6f8ac8ab/f0f3b9d0-acdc-11ec-a992-0abfc302ccc4"
+            }
+        ],
+        "settings": [
+            {
+                "name": "containerInsights",
+                "value": "disabled"
+            }
+        ],
+        "configuration": {
+            "executeCommandConfiguration": {
+                "logging": "DEFAULT"
+            }
+        },
+        "defaultCapacityProviderStrategy": []
+    },
+    "responseElements": {
+        "cluster": {
+            "clusterArn": "arn:aws:ecs:ap-northeast-2:000000000000:cluster/test-ecs",
+            "clusterName": "test-ecs",
+            "configuration": {
+                "executeCommandConfiguration": {
+                    "logging": "DEFAULT"
+                }
+            },
+            "status": "ACTIVE",
+            "registeredContainerInstancesCount": 0,
+            "runningTasksCount": 0,
+            "pendingTasksCount": 0,
+            "activeServicesCount": 0,
+            "statistics": [],
+            "tags": [
+                {
+                    "key": "ecs:cluster:createdFrom",
+                    "value": "ecs-console-v2"
+                },
+                {
+                    "key": "aws:cloudformation:stack-name",
+                    "value": "Infra-ECS-Cluster-cf14ddf5-f89d-4495-864a-8dac6f8ac8ab"
+                },
+                {
+                    "key": "aws:cloudformation:stack-id",
+                    "value": "arn:aws:cloudformation:ap-northeast-2:000000000000:stack/Infra-ECS-Cluster-cf14ddf5-f89d-4495-864a-8dac6f8ac8ab/f0f3b9d0-acdc-11ec-a992-0abfc302ccc4"
+                },
+                {
+                    "key": "aws:cloudformation:logical-id",
+                    "value": "ECSCluster"
+                }
+            ],
+            "settings": [
+                {
+                    "name": "containerInsights",
+                    "value": "disabled"
+                }
+            ],
+            "capacityProviders": [],
+            "defaultCapacityProviderStrategy": []
+        }
+    },
+    "requestID": "bb818777-fceb-4f81-9c06-0a8c0f07f2cd",
+    "eventID": "611b6d9d-ecea-440e-a82d-01ddbbfd349e",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management"
+}

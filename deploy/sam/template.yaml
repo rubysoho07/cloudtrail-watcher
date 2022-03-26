@@ -131,6 +131,8 @@ Resources:
                   "elasticache:AddTagsToResource",
                   "rds:AddTagsToResource",
                   "elasticmapreduce:AddTags",
-                  "redshift:CreateTags"
+                  "redshift:CreateTags",
+                  "ecs:TagResource",
+                  "eks:TagResource"
                 ]
                 Resource: "*"

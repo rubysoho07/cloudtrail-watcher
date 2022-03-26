@@ -171,7 +171,9 @@ resource "aws_iam_role" "watcher_function_role" {
             "elasticache:AddTagsToResource",
             "rds:AddTagsToResource",
             "elasticmapreduce:AddTags",
-            "redshift:CreateTags"
+            "redshift:CreateTags",
+            "ecs:TagResource",
+            "eks:TagResource"
           ]
           Resource = "*"
         }

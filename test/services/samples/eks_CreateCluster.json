@@ -1,0 +1,121 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-26T01:31:30Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-03-26T08:14:48Z",
+    "eventSource": "eks.amazonaws.com",
+    "eventName": "CreateCluster",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "172.0.0.1",
+    "userAgent": "aws-internal/3 aws-sdk-java/1.12.182 Linux/5.4.181-109.354.amzn2int.x86_64 OpenJDK_64-Bit_Server_VM/25.322-b06 java/1.8.0_322 vendor/Oracle_Corporation cfg/retry-mode/standard",
+    "requestParameters": {
+        "resourcesVpcConfig": {
+            "subnetIds": [
+                "YOUR_SUBNET_ID",
+                "YOUR_SUBNET_ID",
+                "YOUR_SUBNET_ID",
+                "YOUR_SUBNET_ID",
+                "YOUR_SUBNET_ID",
+                "YOUR_SUBNET_ID"
+            ],
+            "securityGroupIds": [],
+            "endpointPublicAccess": true,
+            "endpointPrivateAccess": false
+        },
+        "clientRequestToken": "002940ba-0e2f-4216-81ac-c8d46ee8af49",
+        "roleArn": "arn:aws:iam::000000000000:role/AmazonEKSClusterRole",
+        "name": "test",
+        "logging": {
+            "clusterLogging": [
+                {
+                    "enabled": true,
+                    "types": []
+                },
+                {
+                    "enabled": false,
+                    "types": [
+                        "api",
+                        "audit",
+                        "authenticator",
+                        "controllerManager",
+                        "scheduler"
+                    ]
+                }
+            ]
+        },
+        "version": "1.21",
+        "kubernetesNetworkConfig": {
+            "ipFamily": "ipv4"
+        },
+        "tags": {}
+    },
+    "responseElements": {
+        "cluster": {
+            "name": "test",
+            "arn": "arn:aws:eks:ap-northeast-2:000000000000:cluster/test",
+            "createdAt": 1648282488.418,
+            "version": "1.21",
+            "roleArn": "arn:aws:iam::000000000000:role/AmazonEKSClusterRole",
+            "resourcesVpcConfig": {
+                "subnetIds": [
+                    "YOUR_SUBNET_ID",
+                    "YOUR_SUBNET_ID",
+                    "YOUR_SUBNET_ID",
+                    "YOUR_SUBNET_ID",
+                    "YOUR_SUBNET_ID",
+                    "YOUR_SUBNET_ID"
+                ],
+                "securityGroupIds": [],
+                "vpcId": "YOUR_VPC_ID",
+                "endpointPublicAccess": true,
+                "endpointPrivateAccess": false,
+                "publicAccessCidrs": [
+                    "0.0.0.0/0"
+                ]
+            },
+            "kubernetesNetworkConfig": {
+                "serviceIpv4Cidr": "10.100.0.0/16",
+                "ipFamily": "ipv4"
+            },
+            "logging": {
+                "clusterLogging": [
+                    {
+                        "types": [
+                            "api",
+                            "audit",
+                            "authenticator",
+                            "controllerManager",
+                            "scheduler"
+                        ],
+                        "enabled": false
+                    }
+                ]
+            },
+            "status": "CREATING",
+            "certificateAuthority": {},
+            "platformVersion": "eks.5",
+            "tags": {}
+        }
+    },
+    "requestID": "7fcbbbdc-f7b8-4edb-b3ba-093292db30f5",
+    "eventID": "b0c1336e-914c-42b3-b79d-9ebd7027468d",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management"
+}
