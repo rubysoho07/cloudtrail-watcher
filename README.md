@@ -5,6 +5,16 @@ When a resource like EC2, S3, and Lambda was created...
 * You can be notified via email or Slack message by using Amazon SNS. 
 * You can set default tags for resources.
 
+## Supported AWS Resources
+
+* EC2 (Instance, Security Group)
+* RDS (Cluster, Instance)
+* S3 (Bucket)
+* ElastiCache
+* EMR
+* Lambda 
+* Redshift
+
 ## Deploy Infrastructures
 
 ### Deploy with SAM (Serverless Application Model)
