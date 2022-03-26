@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from functions.watcher.services import ec2, lambda_, s3, rds, elasticache, elasticmapreduce
+from functions.watcher.services import ec2, lambda_, s3, rds, elasticache, elasticmapreduce, redshift
 
 
 class EC2Test(unittest.TestCase):
@@ -139,9 +139,24 @@ class EMRTest(unittest.TestCase):
 
         result = elasticmapreduce.process_event(data)
 
-        self.assertEqual(result['resource_id'], ['cluster/j-2E1G6JJE6X1MQ'])
+        self.assertEqual(result['resource_id'], ['j-2E1G6JJE6X1MQ'])
         self.assertEqual(result['identity'], 'user/test')
         self.assertEqual(result['region'], 'ap-northeast-2')
         self.assertEqual(result['event_name'], 'RunJobFlow')
         self.assertEqual(result['source_ip_address'], 'AWS Internal')
         self.assertEqual(result['event_source'], 'elasticmapreduce')
+
+
+class RedshiftTest(unittest.TestCase):
+    def test_create_cluster(self):
+        with open('./samples/redshift_CreateCluster.json') as f:
+            data = json.loads(f.read())
+
+        result = redshift.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test-goni'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateCluster')
+        self.assertEqual(result['source_ip_address'], 'AWS Internal')
+        self.assertEqual(result['event_source'], 'redshift')

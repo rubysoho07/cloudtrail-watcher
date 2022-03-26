@@ -1,0 +1,97 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::YOUR_ACCOUNT_ID:user/test",
+        "accountId": "YOUR_ACCOUNT_ID",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-21T08:23:50Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-03-21T08:39:13Z",
+    "eventSource": "redshift.amazonaws.com",
+    "eventName": "CreateCluster",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "AWS Internal",
+    "userAgent": "AWS Internal",
+    "requestParameters": {
+        "dBName": "dev",
+        "clusterIdentifier": "test-goni",
+        "clusterType": "single-node",
+        "nodeType": "dc2.large",
+        "masterUsername": "awsuser",
+        "masterUserPassword": "****",
+        "clusterParameterGroupName": "default.redshift-1.0",
+        "automatedSnapshotRetentionPeriod": 1,
+        "manualSnapshotRetentionPeriod": -1,
+        "port": 5439,
+        "publiclyAccessible": false,
+        "encrypted": false,
+        "enhancedVpcRouting": false,
+        "iamRoles": [],
+        "maintenanceTrackName": "current",
+        "availabilityZoneRelocation": false,
+        "aquaConfigurationStatus": "auto"
+    },
+    "responseElements": {
+        "clusterIdentifier": "test-goni",
+        "nodeType": "dc2.large",
+        "clusterStatus": "creating",
+        "clusterAvailabilityStatus": "Modifying",
+        "masterUsername": "awsuser",
+        "dBName": "dev",
+        "automatedSnapshotRetentionPeriod": 1,
+        "manualSnapshotRetentionPeriod": -1,
+        "clusterSecurityGroups": [],
+        "vpcSecurityGroups": [
+            {
+                "vpcSecurityGroupId": "sg-YOUR_SECURITY_GROUP_ID",
+                "status": "active"
+            }
+        ],
+        "clusterParameterGroups": [
+            {
+                "parameterGroupName": "default.redshift-1.0",
+                "parameterApplyStatus": "in-sync"
+            }
+        ],
+        "clusterSubnetGroupName": "default",
+        "vpcId": "vpc-YOUR_VPC_ID",
+        "preferredMaintenanceWindow": "tue:18:00-tue:18:30",
+        "pendingModifiedValues": {
+            "masterUserPassword": "****"
+        },
+        "clusterVersion": "1.0",
+        "allowVersionUpgrade": true,
+        "numberOfNodes": 1,
+        "publiclyAccessible": false,
+        "encrypted": false,
+        "tags": [],
+        "enhancedVpcRouting": false,
+        "iamRoles": [],
+        "maintenanceTrackName": "current",
+        "deferredMaintenanceWindows": [],
+        "nextMaintenanceWindowStartTime": "Mar 22, 2022 6:00:00 PM",
+        "aquaConfiguration": {
+            "aquaStatus": "disabled",
+            "aquaConfigurationStatus": "auto"
+        },
+        "isSilentUpdateActivated": false
+    },
+    "requestID": "ba8424b5-6be5-4cb9-9a7c-4107d1cd323d",
+    "eventID": "d98345b0-8452-4aae-983a-b57997c73452",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "YOUR_ACCOUNT_ID",
+    "eventCategory": "Management",
+    "sessionCredentialFromConsole": "true"
+}
