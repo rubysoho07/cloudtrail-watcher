@@ -167,7 +167,11 @@ resource "aws_iam_role" "watcher_function_role" {
             "ec2:DescribeVolumes",
             "ec2:DescribeInstances",
             "ec2:DescribeSecurityGroups",
-            "ec2:CreateTags"
+            "ec2:CreateTags",
+            "elasticache:AddTagsToResource",
+            "rds:AddTagsToResource",
+            "elasticmapreduce:AddTags",
+            "redshift:CreateTags"
           ]
           Resource = "*"
         }
