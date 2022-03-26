@@ -24,7 +24,7 @@ def _process_create_cluster(event: dict, set_tag: bool = False) -> list:
     if set_tag is True:
         try:
             if 'tags' not in event['responseElements'].keys() or \
-               check_contain_mandatory_tag(event['responseElements']['tags']) is False:
+               check_contain_mandatory_tag_list(event['responseElements']['tags']) is False:
                 redshift.create_tags(
                     ResourceName=_get_redshift_cluster_arn(event),
                     Tags=[{

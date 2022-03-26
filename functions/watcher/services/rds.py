@@ -13,7 +13,7 @@ def _set_mandatory_tag(event: dict, set_tags: bool = False):
         return
 
     try:
-        if check_contain_mandatory_tag(event['responseElements']['tagList']) is True:
+        if check_contain_mandatory_tag_list(event['responseElements']['tagList']) is True:
             return
 
         if event['eventName'] == 'CreateDBCluster':

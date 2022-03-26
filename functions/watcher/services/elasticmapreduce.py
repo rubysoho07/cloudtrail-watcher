@@ -15,7 +15,7 @@ def _process_run_job_flow(event: dict, set_tag: bool = False) -> list:
     try:
         if set_tag is True:
             if 'tags' not in event['requestParameters'] or \
-                    check_contain_mandatory_tag(event['requestParameters']['tags']) is False:
+                    check_contain_mandatory_tag_list(event['requestParameters']['tags']) is False:
                 emr.add_tags(
                     ResourceId=job_flow_id,
                     Tags=[{
