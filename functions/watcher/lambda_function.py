@@ -76,19 +76,18 @@ def notify_sns(summary: dict):
 
 def handler(event, context):
     print(event)
-    record = None
 
     # Get object information
     bucket = event['Records'][0]['s3']['bucket']['name']
     key = event['Records'][0]['s3']['object']['key']
 
     # Transform raw data to dict type
-    try:
-        response = s3.get_object(Bucket=bucket, Key=key)
-        data = json.load(gzip.GzipFile(fileobj=response['Body']))
+    response = s3.get_object(Bucket=bucket, Key=key)
+    data = json.load(gzip.GzipFile(fileobj=response['Body']))
 
-        # Check each event
-        for record in data['Records']:
+    # Check each event
+    for record in data['Records']:
+        try:
             if record['readOnly'] is True:
                 continue
 
@@ -108,12 +107,12 @@ def handler(event, context):
             # Send notification
             notify_slack(result)
             notify_sns(result)
+        except Exception as e:
+            traceback.print_exc()
+            if record is not None:
+                print(f"Cannot process event record: ID - {record['eventID']}, eventName: {record['eventName']}")
+            return {
+                "error": str(e)
+            }
 
-        return {'message': event}
-    except Exception as e:
-        traceback.print_exc()
-        if record is not None:
-            print(f"Cannot process event record: ID - {record['eventID']}, eventName: {record['eventName']}")
-        return {
-            "error": str(e)
-        }
+    return {'message': event}

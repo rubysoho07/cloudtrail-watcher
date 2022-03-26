@@ -108,6 +108,10 @@ def process_event(event: dict) -> dict:
         "event_source": get_service_name(event)
     }
 
+    if event['responseElements'] is None:
+        result['error'] = f"response is null: eventName - {event['eventName']}, eventID: {event['eventID']},"
+        return result
+
     set_tag = check_set_mandatory_tag()
 
     if event['eventName'] == "RunInstances":
@@ -115,7 +119,7 @@ def process_event(event: dict) -> dict:
     elif event['eventName'] == "CreateSecurityGroup":
         result['resource_id'] = _process_create_security_group(event, set_tag)
     else:
-        message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
+        message = f"Cannot process event: {event['eventName']}, eventID: {event['eventID']}"
         print(message)
         result['error'] = message
 
