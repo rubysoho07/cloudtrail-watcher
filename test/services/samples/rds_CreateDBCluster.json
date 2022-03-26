@@ -1,0 +1,102 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::YOUR_ACCOUNT_ID:user/test",
+        "accountId": "YOUR_ACCOUNT_ID",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-21T08:23:50Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-03-21T08:26:28Z",
+    "eventSource": "rds.amazonaws.com",
+    "eventName": "CreateDBCluster",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "AWS Internal",
+    "userAgent": "AWS Internal",
+    "requestParameters": {
+        "backupRetentionPeriod": 1,
+        "databaseName": "",
+        "dBClusterIdentifier": "test-db",
+        "dBClusterParameterGroupName": "default.aurora-mysql5.7",
+        "vpcSecurityGroupIds": [
+            "sg-YOUR_SECURITY_GROUP_ID"
+        ],
+        "dBSubnetGroupName": "default",
+        "engine": "aurora-mysql",
+        "engineVersion": "5.7.mysql_aurora.2.07.2",
+        "port": 3306,
+        "masterUsername": "admin",
+        "masterUserPassword": "****",
+        "storageEncrypted": true,
+        "preSignedUrl": "",
+        "enableCloudwatchLogsExports": [],
+        "engineMode": "provisioned",
+        "deletionProtection": true,
+        "copyTagsToSnapshot": true
+    },
+    "responseElements": {
+        "allocatedStorage": 1,
+        "availabilityZones": [
+            "ap-northeast-2b",
+            "ap-northeast-2c",
+            "ap-northeast-2a"
+        ],
+        "backupRetentionPeriod": 1,
+        "databaseName": "",
+        "dBClusterIdentifier": "test-db",
+        "dBClusterParameterGroup": "default.aurora-mysql5.7",
+        "dBSubnetGroup": "default",
+        "status": "creating",
+        "endpoint": "test-db.cluster-cdx8qwjtc5np.ap-northeast-2.rds.amazonaws.com",
+        "readerEndpoint": "test-db.cluster-ro-cdx8qwjtc5np.ap-northeast-2.rds.amazonaws.com",
+        "multiAZ": false,
+        "engine": "aurora-mysql",
+        "engineVersion": "5.7.mysql_aurora.2.07.2",
+        "port": 3306,
+        "masterUsername": "admin",
+        "preferredBackupWindow": "15:05-15:35",
+        "preferredMaintenanceWindow": "sun:13:50-sun:14:20",
+        "readReplicaIdentifiers": [],
+        "dBClusterMembers": [],
+        "vpcSecurityGroups": [
+            {
+                "vpcSecurityGroupId": "sg-YOUR_SECURITY_GROUP_ID",
+                "status": "active"
+            }
+        ],
+        "hostedZoneId": "ZLA2NUCOLGUUR",
+        "storageEncrypted": true,
+        "kmsKeyId": "arn:aws:kms:ap-northeast-2:YOUR_ACCOUNT_ID:key/UUID",
+        "dbClusterResourceId": "cluster-LW7S7IQISHWDNBX43ZH26BXXK4",
+        "dBClusterArn": "arn:aws:rds:ap-northeast-2:YOUR_ACCOUNT_ID:cluster:test-db",
+        "associatedRoles": [],
+        "iAMDatabaseAuthenticationEnabled": false,
+        "clusterCreateTime": "Mar 21, 2022 8:26:27 AM",
+        "engineMode": "provisioned",
+        "autoMinorVersionUpgrade": false,
+        "deletionProtection": true,
+        "httpEndpointEnabled": false,
+        "copyTagsToSnapshot": true,
+        "crossAccountClone": false,
+        "domainMemberships": [],
+        "tagList": [],
+        "networkType": "IPV4"
+    },
+    "requestID": "4ae4aca1-17c6-48c9-86ff-7d51cda4f931",
+    "eventID": "0571f2a7-1f42-4bad-b6d7-f4deaa5419a7",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "YOUR_ACCOUNT_ID",
+    "eventCategory": "Management",
+    "sessionCredentialFromConsole": "true"
+}

@@ -1,0 +1,130 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::YOUR_ACCOUNT_ID:user/test",
+        "accountId": "YOUR_ACCOUNT_ID",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-21T08:23:50Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-03-21T08:26:40Z",
+    "eventSource": "rds.amazonaws.com",
+    "eventName": "CreateDBInstance",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "AWS Internal",
+    "userAgent": "AWS Internal",
+    "requestParameters": {
+        "dBInstanceIdentifier": "test-db-instance-1",
+        "dBInstanceClass": "db.t3.small",
+        "engine": "aurora-mysql",
+        "dBSubnetGroupName": "default",
+        "dBParameterGroupName": "default.aurora-mysql5.7",
+        "engineVersion": "5.7.mysql_aurora.2.07.2",
+        "autoMinorVersionUpgrade": true,
+        "publiclyAccessible": false,
+        "dBClusterIdentifier": "test-db",
+        "monitoringInterval": 60,
+        "monitoringRoleArn": "arn:aws:iam::YOUR_ACCOUNT_ID:role/rds-monitoring-role"
+    },
+    "responseElements": {
+        "dBInstanceIdentifier": "test-db-instance-1",
+        "dBInstanceClass": "db.t3.small",
+        "engine": "aurora-mysql",
+        "dBInstanceStatus": "creating",
+        "masterUsername": "admin",
+        "allocatedStorage": 1,
+        "preferredBackupWindow": "15:05-15:35",
+        "backupRetentionPeriod": 1,
+        "dBSecurityGroups": [],
+        "vpcSecurityGroups": [
+            {
+                "vpcSecurityGroupId": "sg-YOUR_SECURITY_GROUP_ID",
+                "status": "active"
+            }
+        ],
+        "dBParameterGroups": [
+            {
+                "dBParameterGroupName": "default.aurora-mysql5.7",
+                "parameterApplyStatus": "in-sync"
+            }
+        ],
+        "dBSubnetGroup": {
+            "dBSubnetGroupName": "default",
+            "dBSubnetGroupDescription": "default",
+            "vpcId": "vpc-YOUR_VPC_ID",
+            "subnetGroupStatus": "Complete",
+            "subnets": [
+                {
+                    "subnetIdentifier": "subnet-YOUR_SUBNET_ID_1",
+                    "subnetAvailabilityZone": {
+                        "name": "ap-northeast-2c"
+                    },
+                    "subnetOutpost": {},
+                    "subnetStatus": "Active"
+                },
+                {
+                    "subnetIdentifier": "subnet-YOUR_SUBNET_ID_2",
+                    "subnetAvailabilityZone": {
+                        "name": "ap-northeast-2a"
+                    },
+                    "subnetOutpost": {},
+                    "subnetStatus": "Active"
+                }
+            ]
+        },
+        "preferredMaintenanceWindow": "mon:14:25-mon:14:55",
+        "pendingModifiedValues": {},
+        "multiAZ": false,
+        "engineVersion": "5.7.mysql_aurora.2.07.2",
+        "autoMinorVersionUpgrade": true,
+        "readReplicaDBInstanceIdentifiers": [],
+        "licenseModel": "general-public-license",
+        "storageThroughput": 0,
+        "optionGroupMemberships": [
+            {
+                "optionGroupName": "default:aurora-mysql-5-7",
+                "status": "in-sync"
+            }
+        ],
+        "publiclyAccessible": false,
+        "storageType": "aurora",
+        "dbInstancePort": 0,
+        "dBClusterIdentifier": "test-db",
+        "storageEncrypted": true,
+        "kmsKeyId": "arn:aws:kms:ap-northeast-2:YOUR_ACCOUNT_ID:key/UUID",
+        "dbiResourceId": "db-DBI_RESOURCE_ID",
+        "cACertificateIdentifier": "rds-ca-2019",
+        "domainMemberships": [],
+        "copyTagsToSnapshot": false,
+        "monitoringInterval": 60,
+        "monitoringRoleArn": "arn:aws:iam::YOUR_ACCOUNT_ID:role/rds-monitoring-role",
+        "promotionTier": 1,
+        "dBInstanceArn": "arn:aws:rds:ap-northeast-2:YOUR_ACCOUNT_ID:db:test-db-instance-1",
+        "iAMDatabaseAuthenticationEnabled": false,
+        "performanceInsightsEnabled": false,
+        "deletionProtection": false,
+        "associatedRoles": [],
+        "httpEndpointEnabled": false,
+        "tagList": [],
+        "customerOwnedIpEnabled": false,
+        "networkType": "IPV4",
+        "backupTarget": "region"
+    },
+    "requestID": "1ad97ed0-c7ca-4864-ac10-4fc571aa4d1f",
+    "eventID": "25d32dac-865d-4aa9-8c2f-51d8a1be7892",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "YOUR_ACCOUNT_ID",
+    "eventCategory": "Management",
+    "sessionCredentialFromConsole": "true"
+}

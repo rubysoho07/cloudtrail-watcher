@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from functions.watcher.services import ec2, lambda_, s3
+from functions.watcher.services import ec2, lambda_, s3, rds
 
 
 class EC2Test(unittest.TestCase):
@@ -74,3 +74,31 @@ class S3Test(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateBucket')
         self.assertEqual(result['source_ip_address'], '172.0.0.1')
         self.assertEqual(result['event_source'], 's3')
+
+
+class RDSTest(unittest.TestCase):
+    def test_create_db_cluster(self):
+        with open('./samples/rds_CreateDBCluster.json') as f:
+            data = json.loads(f.read())
+
+        result = rds.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test-db'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateDBCluster')
+        self.assertEqual(result['source_ip_address'], 'AWS Internal')
+        self.assertEqual(result['event_source'], 'rds')
+
+    def test_create_db_instance(self):
+        with open('./samples/rds_CreateDBInstance.json') as f:
+            data = json.loads(f.read())
+
+        result = rds.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test-db-instance-1'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateDBInstance')
+        self.assertEqual(result['source_ip_address'], 'AWS Internal')
+        self.assertEqual(result['event_source'], 'rds')
