@@ -82,6 +82,8 @@ Resources:
       TrailName: !Ref ResourcesDefaultPrefix
       IsLogging: true
       S3BucketName: !Ref WatcherLogsBucket
+      IsMultiRegionTrail: true
+      IncludeGlobalServiceEvents: true
       EventSelectors:
         - ReadWriteType: WriteOnly
   
@@ -133,6 +135,14 @@ Resources:
                   "elasticmapreduce:AddTags",
                   "redshift:CreateTags",
                   "ecs:TagResource",
-                  "eks:TagResource"
+                  "eks:TagResource",
+                  "iam:ListUserTags",
+                  "iam:ListRoleTags",
+                  "iam:ListPolicyTags",
+                  "iam:ListInstanceProfileTags",
+                  "iam:TagUser",
+                  "iam:TagRole",
+                  "iam:TagPolicy",
+                  "iam:TagInstanceProfile"
                 ]
                 Resource: "*"

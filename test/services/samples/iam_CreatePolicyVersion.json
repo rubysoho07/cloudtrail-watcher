@@ -1,0 +1,45 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-30T10:42:01Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-03-30T11:40:05Z",
+    "eventSource": "iam.amazonaws.com",
+    "eventName": "CreatePolicyVersion",
+    "awsRegion": "us-east-1",
+    "sourceIPAddress": "AWS Internal",
+    "userAgent": "AWS Internal",
+    "requestParameters": {
+        "policyArn": "arn:aws:iam::000000000000:policy/test-policy",
+        "policyDocument": "{}",
+        "setAsDefault": true
+    },
+    "responseElements": {
+        "policyVersion": {
+            "versionId": "v2",
+            "isDefaultVersion": true,
+            "createDate": "Mar 30, 2022 11:40:05 AM"
+        }
+    },
+    "requestID": "81fe0cd0-f431-44dc-9b44-88c8aad49e70",
+    "eventID": "aaffd467-6424-4ea1-88cc-9a0156def376",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "sessionCredentialFromConsole": "true"
+}

@@ -1,0 +1,46 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-21T08:23:50Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-03-21T12:40:09Z",
+    "eventSource": "iam.amazonaws.com",
+    "eventName": "CreateInstanceProfile",
+    "awsRegion": "us-east-1",
+    "sourceIPAddress": "AWS Internal",
+    "userAgent": "AWS Internal",
+    "requestParameters": {
+        "instanceProfileName": "EC2_Role"
+    },
+    "responseElements": {
+        "instanceProfile": {
+            "path": "/",
+            "instanceProfileName": "EC2_Role",
+            "instanceProfileId": "YOUR_INSTANCE_PROFILE_ID",
+            "arn": "arn:aws:iam::000000000000:instance-profile/EC2_Role",
+            "createDate": "Mar 21, 2022 12:40:09 PM",
+            "roles": []
+        }
+    },
+    "requestID": "303703f0-5014-42de-b13e-8f3cada642fe",
+    "eventID": "95085143-52c4-40d4-b1f7-7c2fb48ef80a",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "sessionCredentialFromConsole": "true"
+}

@@ -1,0 +1,50 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-02-26T03:20:49Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-02-26T03:22:15Z",
+    "eventSource": "iam.amazonaws.com",
+    "eventName": "CreatePolicy",
+    "awsRegion": "us-east-1",
+    "sourceIPAddress": "172.0.0.1",
+    "userAgent": "aws-internal/3 aws-sdk-java/1.11.1030 Linux/5.4.156-94.273.amzn2int.x86_64 OpenJDK_64-Bit_Server_VM/25.312-b07 java/1.8.0_312 vendor/Oracle_Corporation cfg/retry-mode/standard, AWSLambdaConsole/1.1",
+    "requestParameters": {
+        "policyName": "your_policy_name",
+        "path": "/service-role/",
+        "policyDocument": "{"
+    },
+    "responseElements": {
+        "policy": {
+            "policyName": "your_policy_name",
+            "policyId": "YOUR_POLICY_ID",
+            "arn": "arn:aws:iam::000000000000:policy/service-role/your_policy_name",
+            "path": "/service-role/",
+            "defaultVersionId": "v1",
+            "attachmentCount": 0,
+            "isAttachable": true,
+            "createDate": "Feb 26, 2022 3:22:15 AM",
+            "updateDate": "Feb 26, 2022 3:22:15 AM"
+        }
+    },
+    "requestID": "59fa5768-94c0-4cdd-844e-33ddb056d851",
+    "eventID": "91d76262-cf9f-4b38-8eb1-c3660d7f0987",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management"
+}

@@ -1,0 +1,46 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-30T10:42:01Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-03-30T11:35:44Z",
+    "eventSource": "iam.amazonaws.com",
+    "eventName": "CreateUser",
+    "awsRegion": "us-east-1",
+    "sourceIPAddress": "AWS Internal",
+    "userAgent": "AWS Internal",
+    "requestParameters": {
+        "userName": "test_user",
+        "tags": []
+    },
+    "responseElements": {
+        "user": {
+            "path": "/",
+            "userName": "test_user",
+            "userId": "YOUR_USER_ID",
+            "arn": "arn:aws:iam::000000000000:user/test_user",
+            "createDate": "Mar 30, 2022 11:35:44 AM"
+        }
+    },
+    "requestID": "6b8363c9-efef-43b9-8e5a-7211f77b40ac",
+    "eventID": "9f264511-4ffc-4802-ab6b-3784c2ff2c20",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "sessionCredentialFromConsole": "true"
+}

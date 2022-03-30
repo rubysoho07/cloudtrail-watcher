@@ -190,3 +190,83 @@ class EKSTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateCluster')
         self.assertEqual(result['source_ip_address'], '172.0.0.1')
         self.assertEqual(result['event_source'], 'eks')
+
+
+class IAMTest(unittest.TestCase):
+    def test_create_user(self):
+        with open('./samples/iam_CreateUser.json') as f:
+            data = json.loads(f.read())
+
+        result = iam.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test_user'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'us-east-1')
+        self.assertEqual(result['event_name'], 'CreateUser')
+        self.assertEqual(result['source_ip_address'], 'AWS Internal')
+        self.assertEqual(result['event_source'], 'iam')
+
+    def test_create_group(self):
+        with open('./samples/iam_CreateGroup.json') as f:
+            data = json.loads(f.read())
+
+        result = iam.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test_group'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'us-east-1')
+        self.assertEqual(result['event_name'], 'CreateGroup')
+        self.assertEqual(result['source_ip_address'], 'AWS Internal')
+        self.assertEqual(result['event_source'], 'iam')
+
+    def test_create_policy(self):
+        with open('./samples/iam_CreatePolicy.json') as f:
+            data = json.loads(f.read())
+
+        result = iam.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['your_policy_name'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'us-east-1')
+        self.assertEqual(result['event_name'], 'CreatePolicy')
+        self.assertEqual(result['source_ip_address'], '172.0.0.1')
+        self.assertEqual(result['event_source'], 'iam')
+
+    def test_create_role(self):
+        with open('./samples/iam_CreateRole.json') as f:
+            data = json.loads(f.read())
+
+        result = iam.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['role/service-role/your_role_name'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'us-east-1')
+        self.assertEqual(result['event_name'], 'CreateRole')
+        self.assertEqual(result['source_ip_address'], '172.0.0.1')
+        self.assertEqual(result['event_source'], 'iam')
+
+    def test_create_policy_version(self):
+        with open('./samples/iam_CreatePolicyVersion.json') as f:
+            data = json.loads(f.read())
+
+        result = iam.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test-policy:v2'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'us-east-1')
+        self.assertEqual(result['event_name'], 'CreatePolicyVersion')
+        self.assertEqual(result['source_ip_address'], 'AWS Internal')
+        self.assertEqual(result['event_source'], 'iam')
+
+    def test_create_instance_profile(self):
+        with open('./samples/iam_CreateInstanceProfile.json') as f:
+            data = json.loads(f.read())
+
+        result = iam.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['EC2_Role'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'us-east-1')
+        self.assertEqual(result['event_name'], 'CreateInstanceProfile')
+        self.assertEqual(result['source_ip_address'], 'AWS Internal')
+        self.assertEqual(result['event_source'], 'iam')

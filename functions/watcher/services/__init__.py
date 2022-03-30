@@ -1,4 +1,5 @@
 __all__ = [
+    'common',
     'ec2',
     'ecs',
     'eks',
@@ -8,5 +9,5 @@ __all__ = [
     'redshift',
     'rds',
     's3',
-    'common'
+    'iam'
 ]

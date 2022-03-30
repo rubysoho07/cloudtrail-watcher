@@ -112,6 +112,8 @@ resource "aws_cloudtrail" "watcher_trail" {
   name = local.resource_prefix
   s3_bucket_name = aws_s3_bucket.watcher_logs_bucket.id
   enable_logging = true
+  is_multi_region_trail = true
+  include_global_service_events = true
 
   event_selector {
     read_write_type = "WriteOnly"
@@ -173,7 +175,15 @@ resource "aws_iam_role" "watcher_function_role" {
             "elasticmapreduce:AddTags",
             "redshift:CreateTags",
             "ecs:TagResource",
-            "eks:TagResource"
+            "eks:TagResource",
+            "iam:ListUserTags",
+            "iam:ListRoleTags",
+            "iam:ListPolicyTags",
+            "iam:ListInstanceProfileTags",
+            "iam:TagUser",
+            "iam:TagRole",
+            "iam:TagPolicy",
+            "iam:TagInstanceProfile"
           ]
           Resource = "*"
         }
