@@ -4,8 +4,11 @@ import json
 import importlib
 import traceback
 
+from urllib import request
+
 import boto3
-import requests
+
+from botocore.exceptions import ClientError
 
 from services import common
 
@@ -81,9 +84,11 @@ def notify_slack(summary: dict):
     message = _convert_to_slack_message(summary)
 
     if 'SLACK_WEBHOOK_URL' in os.environ.keys() and os.environ['SLACK_WEBHOOK_URL'] != 'DISABLED':
-        requests.post(os.environ['SLACK_WEBHOOK_URL'],
-                      data=json.dumps(message, ensure_ascii=False),
-                      headers={'Content-Type': 'application/json'})
+        req = request.Request(url=os.environ['SLACK_WEBHOOK_URL'],
+                              data=json.dumps(message, ensure_ascii=False).encode(),
+                              headers={'Content-Type': 'application/json'},
+                              method='POST')
+        request.urlopen(req)
 
 
 def notify_sns(summary: dict):
@@ -131,12 +136,13 @@ def handler(event, context):
             # Send notification
             notify_slack(result)
             notify_sns(result)
+        except ClientError as ce:
+            print(f"event ID: {event['eventID']}, event name: {event['eventName']}, "
+                  f"error code: {ce.response['Error']['Code']}, error message: {ce.response['Error']['Message']}")
         except Exception as e:
             traceback.print_exc()
             if record is not None:
                 print(f"Cannot process event record: ID - {record['eventID']}, eventName: {record['eventName']}")
-            return {
-                "error": str(e)
-            }
+            return {"error": str(e)}
 
     return {'message': event}
