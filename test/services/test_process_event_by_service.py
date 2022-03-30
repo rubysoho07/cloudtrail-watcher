@@ -41,7 +41,7 @@ class ProcessEventTest(unittest.TestCase):
         result['account_id'] = '000000000000'
 
         notify_slack(result)
-        self.assert_(True)
+        self.assertTrue(True)
 
     def test_send_console_login_message(self):
         with open('samples/signin_ConsoleLogin.json') as f:
@@ -51,4 +51,4 @@ class ProcessEventTest(unittest.TestCase):
         result['account_id'] = '000000000000'
 
         notify_slack(result)
-        self.assert_(True)
+        self.assertTrue(True)
