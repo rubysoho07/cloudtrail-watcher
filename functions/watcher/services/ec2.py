@@ -1,7 +1,5 @@
 import boto3
 
-from botocore.exceptions import ClientError
-
 from services.common import *
 
 ec2 = boto3.resource('ec2')
@@ -35,37 +33,33 @@ def _process_run_instances(event: dict, set_tags: bool = False) -> list:
 
     # Set mandatory tags
     if set_tags is True:
-        try:
-            has_user_tag = {
-                'instance': False,
-                'volume': False,
-                'network-interface': False
-            }
+        has_user_tag = {
+            'instance': False,
+            'volume': False,
+            'network-interface': False
+        }
 
-            common_tags = [{
-                'Key': 'User',
-                'Value': get_user_identity(event)
-            }]
+        common_tags = [{
+            'Key': 'User',
+            'Value': get_user_identity(event)
+        }]
 
-            if 'tagSpecificationSet' in event['requestParameters'].keys():
-                _check_instance_tag_requests(event['requestParameters']['tagSpecificationSet'], has_user_tag)
+        if 'tagSpecificationSet' in event['requestParameters'].keys():
+            _check_instance_tag_requests(event['requestParameters']['tagSpecificationSet'], has_user_tag)
 
-            for resource_id in resource_ids:
-                instance = ec2.Instance(resource_id)
+        for resource_id in resource_ids:
+            instance = ec2.Instance(resource_id)
 
-                if has_user_tag['instance'] is False:
-                    instance.create_tags(Tags=common_tags)
+            if has_user_tag['instance'] is False:
+                instance.create_tags(Tags=common_tags)
 
-                if has_user_tag['volume'] is False:
-                    for volume in instance.volumes.all():
-                        volume.create_tags(Tags=common_tags)
+            if has_user_tag['volume'] is False:
+                for volume in instance.volumes.all():
+                    volume.create_tags(Tags=common_tags)
 
-                if has_user_tag['network-interface'] is False and instance.network_interfaces is not None:
-                    for eni in instance.network_interfaces:
-                        eni.create_tags(Tags=common_tags)
-        except ClientError as ce:
-            print(ce.response)
-            print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
+            if has_user_tag['network-interface'] is False and instance.network_interfaces is not None:
+                for eni in instance.network_interfaces:
+                    eni.create_tags(Tags=common_tags)
 
     return resource_ids
 
@@ -120,7 +114,6 @@ def process_event(event: dict) -> dict:
         result['resource_id'] = _process_create_security_group(event, set_tag)
     else:
         message = f"Cannot process event: {event['eventName']}, eventID: {event['eventID']}"
-        print(message)
         result['error'] = message
 
     return result

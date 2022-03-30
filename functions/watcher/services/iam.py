@@ -1,7 +1,5 @@
 import boto3
 
-from botocore.exceptions import ClientError
-
 from services.common import *
 
 
@@ -14,18 +12,14 @@ def _process_create_user(event: dict, set_tag: bool = False) -> list:
     user_name = event['responseElements']['user']['userName']
 
     if set_tag is True:
-        try:
-            tags = iam.list_user_tags(UserName=user_name)['Tags']
+        tags = iam.list_user_tags(UserName=user_name)['Tags']
 
-            if check_contain_mandatory_tag_list(tags) is False:
-                iam.tag_user(UserName=user_name,
-                             Tags=[{
-                                 'Key': 'User',
-                                 'Value': get_user_identity(event)
-                             }])
-        except ClientError as ce:
-            print(ce.response)
-            print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
+        if check_contain_mandatory_tag_list(tags) is False:
+            iam.tag_user(UserName=user_name,
+                         Tags=[{
+                             'Key': 'User',
+                             'Value': get_user_identity(event)
+                         }])
 
     return [user_name]
 
@@ -36,18 +30,14 @@ def _process_create_role(event: dict, set_tag: bool = False) -> list:
     role_name = event['responseElements']['role']['arn'].split(':')[-1]
 
     if set_tag is True:
-        try:
-            tags = iam.list_role_tags(RoleName=role_name.split('/')[-1])['Tags']
+        tags = iam.list_role_tags(RoleName=role_name.split('/')[-1])['Tags']
 
-            if check_contain_mandatory_tag_list(tags) is False:
-                iam.tag_role(RoleName=role_name.split('/')[-1],
-                             Tags=[{
-                                 'Key': 'User',
-                                 'Value': get_user_identity(event)
-                             }])
-        except ClientError as ce:
-            print(ce.response)
-            print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
+        if check_contain_mandatory_tag_list(tags) is False:
+            iam.tag_role(RoleName=role_name.split('/')[-1],
+                         Tags=[{
+                             'Key': 'User',
+                             'Value': get_user_identity(event)
+                         }])
 
     return [role_name]
 
@@ -56,20 +46,16 @@ def _process_create_policy(event: dict, set_tag: bool = False) -> list:
     """ Process CreatePolicy event. """
 
     if set_tag is True:
-        try:
-            policy_arn = event['responseElements']['policy']['arn']
+        policy_arn = event['responseElements']['policy']['arn']
 
-            tags = iam.list_policy_tags(PolicyArn=policy_arn)['Tags']
+        tags = iam.list_policy_tags(PolicyArn=policy_arn)['Tags']
 
-            if check_contain_mandatory_tag_list(tags) is False:
-                iam.tag_policy(PolicyArn=policy_arn,
-                               Tags=[{
-                                   'Key': 'User',
-                                   'Value': get_user_identity(event)
-                               }])
-        except ClientError as ce:
-            print(ce.response)
-            print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
+        if check_contain_mandatory_tag_list(tags) is False:
+            iam.tag_policy(PolicyArn=policy_arn,
+                           Tags=[{
+                               'Key': 'User',
+                               'Value': get_user_identity(event)
+                           }])
 
     return [event['responseElements']['policy']['policyName']]
 
@@ -80,18 +66,14 @@ def _process_create_instance_profile(event: dict, set_tag: bool = False) -> list
     instance_profile_name = event['responseElements']['instanceProfile']['instanceProfileName']
 
     if set_tag is True:
-        try:
-            tags = iam.list_instance_profile_tags(InstanceProfileName=instance_profile_name)['Tags']
+        tags = iam.list_instance_profile_tags(InstanceProfileName=instance_profile_name)['Tags']
 
-            if check_contain_mandatory_tag_list(tags) is False:
-                iam.tag_instance_profile(InstanceProfileName=instance_profile_name,
-                                         Tags=[{
-                                             'Key': 'User',
-                                             'Value': get_user_identity(event)
-                                         }])
-        except ClientError as ce:
-            print(ce.response)
-            print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
+        if check_contain_mandatory_tag_list(tags) is False:
+            iam.tag_instance_profile(InstanceProfileName=instance_profile_name,
+                                     Tags=[{
+                                         'Key': 'User',
+                                         'Value': get_user_identity(event)
+                                     }])
 
     return [instance_profile_name]
 
@@ -143,7 +125,6 @@ def process_event(event: dict) -> dict:
         result['resource_id'] = _process_create_group(event)
     else:
         message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
-        print(message)
         result['error'] = message
 
     return result

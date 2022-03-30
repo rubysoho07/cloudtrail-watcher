@@ -43,8 +43,7 @@ def _process_create_bucket(event: dict, set_tags: bool = False) -> list:
             if ce.response['Error']['Code'] == 'NoSuchTagSet':
                 bucket_tagging.put(Tagging={'TagSet': [{'Key': 'User', 'Value': get_user_identity(event)}]})
             else:
-                print(ce.response)
-                print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
+                raise ce
 
     return [bucket_name]
 
@@ -67,7 +66,6 @@ def process_event(event: dict) -> dict:
         result['resource_id'] = _process_create_bucket(event, set_tag)
     else:
         message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
-        print(message)
         result['error'] = message
 
     return result

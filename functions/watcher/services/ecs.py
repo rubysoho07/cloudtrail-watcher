@@ -1,7 +1,5 @@
 import boto3
 
-from botocore.exceptions import ClientError
-
 from services.common import *
 
 ecs = boto3.client('ecs')
@@ -11,18 +9,14 @@ def _process_create_cluster(event: dict, set_tag: bool = False) -> list:
     """ Process ECS CreateCluster API. """
 
     if set_tag is True:
-        try:
-            if check_contain_mandatory_tag_list(event['responseElements']['cluster']['tags']) is False:
-                ecs.tag_resource(
-                    resourceArn=event['responseElements']['cluster']['clusterArn'],
-                    tags=[{
-                        'key': 'User',
-                        'value': get_user_identity(event)
-                    }]
-                )
-        except ClientError as ce:
-            print(ce.response)
-            print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
+        if check_contain_mandatory_tag_list(event['responseElements']['cluster']['tags']) is False:
+            ecs.tag_resource(
+                resourceArn=event['responseElements']['cluster']['clusterArn'],
+                tags=[{
+                    'key': 'User',
+                    'value': get_user_identity(event)
+                }]
+            )
 
     return [event['responseElements']['cluster']['clusterName']]
 
@@ -45,7 +39,6 @@ def process_event(event: dict) -> dict:
         result['resource_id'] = _process_create_cluster(event, set_tag)
     else:
         message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
-        print(message)
         result['error'] = message
 
     return result

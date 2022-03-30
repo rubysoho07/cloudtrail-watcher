@@ -1,7 +1,5 @@
 import boto3
 
-from botocore.exceptions import ClientError
-
 from services.common import *
 
 redshift = boto3.client('redshift')
@@ -22,19 +20,15 @@ def _process_create_cluster(event: dict, set_tag: bool = False) -> list:
     """ Process Redshift CreateCluster API """
 
     if set_tag is True:
-        try:
-            if 'tags' not in event['responseElements'].keys() or \
-               check_contain_mandatory_tag_list(event['responseElements']['tags']) is False:
-                redshift.create_tags(
-                    ResourceName=_get_redshift_cluster_arn(event),
-                    Tags=[{
-                        'Key': 'User',
-                        'Value': get_user_identity(event)
-                    }]
-                )
-        except ClientError as ce:
-            print(ce.response)
-            print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
+        if 'tags' not in event['responseElements'].keys() or \
+           check_contain_mandatory_tag_list(event['responseElements']['tags']) is False:
+            redshift.create_tags(
+                ResourceName=_get_redshift_cluster_arn(event),
+                Tags=[{
+                    'Key': 'User',
+                    'Value': get_user_identity(event)
+                }]
+            )
 
     return [event['responseElements']['clusterIdentifier']]
 
@@ -61,7 +55,6 @@ def process_event(event: dict) -> dict:
         result['resource_id'] = _process_create_cluster(event, set_tag)
     else:
         message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
-        print(message)
         result['error'] = message
 
     return result

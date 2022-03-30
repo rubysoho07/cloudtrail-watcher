@@ -130,19 +130,19 @@ def handler(event, context):
                 result['account_id'] = None
 
             if 'error' in result.keys():
-                print(json.dumps(result, ensure_ascii=False))
+                # Skip to send notification
                 continue
 
             # Send notification
             notify_slack(result)
             notify_sns(result)
         except ClientError as ce:
-            print(f"event ID: {event['eventID']}, event name: {event['eventName']}, "
+            print(f"(ClientError) event ID: {event['eventID']}, event name: {event['eventName']}, "
                   f"error code: {ce.response['Error']['Code']}, error message: {ce.response['Error']['Message']}")
         except Exception as e:
             traceback.print_exc()
             if record is not None:
-                print(f"Cannot process event record: ID - {record['eventID']}, eventName: {record['eventName']}")
-            return {"error": str(e)}
+                print(f"(Cannot process event record) event ID: {record['eventID']}, eventName: {record['eventName']}, "
+                      f"Error: {e}")
 
     return {'message': event}

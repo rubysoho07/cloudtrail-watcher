@@ -1,7 +1,5 @@
 import boto3
 
-from botocore.exceptions import ClientError
-
 from services.common import *
 
 emr = boto3.client('emr')
@@ -12,23 +10,18 @@ def _process_run_job_flow(event: dict, set_tag: bool = False) -> list:
 
     job_flow_id = event['responseElements']['jobFlowId']
 
-    try:
-        if set_tag is True:
-            if 'tags' not in event['requestParameters'] or \
-                    check_contain_mandatory_tag_list(event['requestParameters']['tags']) is False:
-                emr.add_tags(
-                    ResourceId=job_flow_id,
-                    Tags=[{
-                        'Key': 'User',
-                        'Value': get_user_identity(event)
-                    }]
-                )
+    if set_tag is True:
+        if 'tags' not in event['requestParameters'] or \
+                check_contain_mandatory_tag_list(event['requestParameters']['tags']) is False:
+            emr.add_tags(
+                ResourceId=job_flow_id,
+                Tags=[{
+                    'Key': 'User',
+                    'Value': get_user_identity(event)
+                }]
+            )
 
-    except ClientError as ce:
-        print(ce.response)
-        print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
-    finally:
-        return [job_flow_id]
+    return [job_flow_id]
 
 
 def process_event(event: dict) -> dict:
@@ -49,7 +42,6 @@ def process_event(event: dict) -> dict:
         result['resource_id'] = _process_run_job_flow(event, set_tag)
     else:
         message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
-        print(message)
         result['error'] = message
 
     return result

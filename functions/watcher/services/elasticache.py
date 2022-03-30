@@ -1,7 +1,5 @@
 import boto3
 
-from botocore.exceptions import ClientError
-
 from services.common import *
 
 elasticache = boto3.client('elasticache')
@@ -9,23 +7,20 @@ elasticache = boto3.client('elasticache')
 
 def _set_mandatory_tag(event: dict):
     """ Set mandatory tag for ElastiCache resources. """
-    try:
-        if 'tags' in event['requestParameters'].keys():
-            if check_contain_mandatory_tag_list(event['requestParameters']['tags']) is True:
-                return
 
-        resource_id = event['responseElements']['aRN']
+    if 'tags' in event['requestParameters'].keys():
+        if check_contain_mandatory_tag_list(event['requestParameters']['tags']) is True:
+            return
 
-        elasticache.add_tags_to_resource(
-            ResourceName=resource_id,
-            Tags=[{
-                'Key': 'User',
-                'Value': get_user_identity(event)
-            }]
-        )
-    except ClientError as ce:
-        print(ce.response)
-        print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
+    resource_id = event['responseElements']['aRN']
+
+    elasticache.add_tags_to_resource(
+        ResourceName=resource_id,
+        Tags=[{
+            'Key': 'User',
+            'Value': get_user_identity(event)
+        }]
+    )
 
 
 def _process_create_cache_cluster(event: dict, set_tag: bool = False) -> list:
@@ -64,7 +59,6 @@ def process_event(event: dict) -> dict:
         result['resource_id'] = _process_create_replication_group(event, set_tag)
     else:
         message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
-        print(message)
         result['error'] = message
 
     return result

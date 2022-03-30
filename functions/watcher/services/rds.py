@@ -1,7 +1,5 @@
 import boto3
 
-from botocore.exceptions import ClientError
-
 from services.common import *
 
 rds = boto3.client('rds')
@@ -12,27 +10,23 @@ def _set_mandatory_tag(event: dict, set_tags: bool = False):
     if set_tags is False:
         return
 
-    try:
-        if check_contain_mandatory_tag_list(event['responseElements']['tagList']) is True:
-            return
+    if check_contain_mandatory_tag_list(event['responseElements']['tagList']) is True:
+        return
 
-        if event['eventName'] == 'CreateDBCluster':
-            resource_id = event['responseElements']['dBClusterArn']
-        elif event['eventName'] == 'CreateDBInstance':
-            resource_id = event['responseElements']['dBInstanceArn']
-        else:
-            raise ValueError(f"Cannot set mandatory tag for {event['eventName']}")
+    if event['eventName'] == 'CreateDBCluster':
+        resource_id = event['responseElements']['dBClusterArn']
+    elif event['eventName'] == 'CreateDBInstance':
+        resource_id = event['responseElements']['dBInstanceArn']
+    else:
+        raise ValueError(f"Cannot set mandatory tag for {event['eventName']}")
 
-        rds.add_tags_to_resource(
-            ResourceName=resource_id,
-            Tags=[{
-                'Key': 'User',
-                'Value': get_user_identity(event)
-            }]
-        )
-    except ClientError as ce:
-        print(ce.response)
-        print(f"event ID: {event['eventID']}, event name: {event['eventName']}")
+    rds.add_tags_to_resource(
+        ResourceName=resource_id,
+        Tags=[{
+            'Key': 'User',
+            'Value': get_user_identity(event)
+        }]
+    )
 
 
 def _process_create_db_cluster(event: dict, set_tags: bool = False) -> list:
@@ -71,7 +65,6 @@ def process_event(event: dict) -> dict:
         result['resource_id'] = _process_create_db_instance(event, set_tag)
     else:
         message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
-        print(message)
         result['error'] = message
 
     return result
