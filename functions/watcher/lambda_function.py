@@ -14,6 +14,19 @@ s3 = boto3.client('s3')
 sns = boto3.resource('sns')
 
 
+def process_console_login(record: dict) -> dict:
+    """ Process ConsoleLogin event """
+
+    return {
+        "resource_id": [record['responseElements']['ConsoleLogin']],
+        "identity": common.get_user_identity(record),
+        "region": record['awsRegion'],
+        "source_ip_address": record['sourceIPAddress'],
+        "event_name": record['eventName'],
+        "event_source": common.get_service_name(record)
+    }
+
+
 def process_event_by_service(record: dict) -> dict:
     """ Process event by service name"""
 
@@ -31,17 +44,25 @@ def process_event_by_service(record: dict) -> dict:
 def _convert_to_slack_message(summary: dict) -> dict:
     """ Convert summary dict to Slack message format """
 
-    return {
-        "blocks": [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": f":warning: *{summary['identity']}* created new resources on "
-                            f"*{summary['account_id']}:{summary['region']}*."
-                }
-            },
-            {
+    result = {
+        "blocks": [{
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": ""
+            }
+        }]
+    }
+
+    if summary['event_name'] == 'ConsoleLogin':
+        message = f":warning: *{summary['identity']}* logged in *{summary['account_id']}* ({summary['resource_id'][0]})"
+        result['blocks'][0]['text']['text'] = message
+    else:
+        message = f":warning: *{summary['identity']}* created new resources on " \
+                  f"*{summary['account_id']}:{summary['region']}*."
+        result['blocks'][0]['text']['text'] = message
+        # noinspection PyTypeChecker
+        result['blocks'].append({
                 "type": "section",
                 "text": {
                     "type": "plain_text",
@@ -49,9 +70,9 @@ def _convert_to_slack_message(summary: dict) -> dict:
                             f"/ source_ip: {summary['source_ip_address']} / resource_ids: {summary['resource_id']}",
                     "emoji": True
                 }
-            }
-        ]
-    }
+            })
+
+    return result
 
 
 def notify_slack(summary: dict):
@@ -91,8 +112,11 @@ def handler(event, context):
             if record['readOnly'] is True:
                 continue
 
-            # Process event
-            result = process_event_by_service(record)
+            if record['eventName'] == 'ConsoleLogin':
+                result = process_console_login(record)
+            else:
+                # Process event
+                result = process_event_by_service(record)
 
             # Add account ID information
             if 'recipientAccountId' in record.keys():
