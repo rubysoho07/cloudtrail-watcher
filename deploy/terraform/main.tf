@@ -183,7 +183,8 @@ resource "aws_iam_role" "watcher_function_role" {
             "iam:TagUser",
             "iam:TagRole",
             "iam:TagPolicy",
-            "iam:TagInstanceProfile"
+            "iam:TagInstanceProfile",
+            "iam:ListAccountAliases"
           ]
           Resource = "*"
         }

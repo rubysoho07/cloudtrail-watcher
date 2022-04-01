@@ -4,6 +4,7 @@ import json
 import importlib
 import traceback
 
+from typing import Union
 from urllib import request
 
 import boto3
@@ -15,6 +16,25 @@ from services import common
 
 s3 = boto3.client('s3')
 sns = boto3.resource('sns')
+
+account_alias = (None, False)
+
+
+def _get_account_alias() -> Union[tuple[str, bool], tuple[None, bool]]:
+    """
+        Get alias of AWS account.
+        Return alias name in string and checked marker in bool type.
+        If an alias is not associated with your account, alias name will be None.
+    """
+
+    iam = boto3.client('iam')
+
+    result = iam.list_account_aliases()
+
+    if len(result['AccountAliases']) == 0:
+        return None, True
+    else:
+        return result['AccountAliases'][0], True
 
 
 def process_console_login(record: dict) -> dict:
@@ -46,6 +66,7 @@ def process_event_by_service(record: dict) -> dict:
 
 def _convert_to_slack_message(summary: dict) -> dict:
     """ Convert summary dict to Slack message format """
+    global account_alias
 
     result = {
         "blocks": [{
@@ -57,12 +78,18 @@ def _convert_to_slack_message(summary: dict) -> dict:
         }]
     }
 
+    if account_alias[0] is None:
+        account_str = f"{summary['account_id']}"
+    else:
+        account_str = f"{account_alias[0]}({summary['account_id']})"
+
     if summary['event_name'] == 'ConsoleLogin':
-        message = f":warning: *{summary['identity']}* logged in *{summary['account_id']}* ({summary['resource_id'][0]})"
+        message = f":warning: *{summary['identity']}* logged in *{account_str}* " \
+                  f"({summary['resource_id'][0]} / from {summary['source_ip_address']})"
         result['blocks'][0]['text']['text'] = message
     else:
         message = f":warning: *{summary['identity']}* created new resources on " \
-                  f"*{summary['account_id']}:{summary['region']}*."
+                  f"*{account_str}:{summary['region']}*."
         result['blocks'][0]['text']['text'] = message
         # noinspection PyTypeChecker
         result['blocks'].append({
@@ -101,7 +128,11 @@ def notify_sns(summary: dict):
 
 
 def handler(event, context):
+    global account_alias
     print(event)
+
+    if account_alias[1] is False:
+        account_alias = _get_account_alias()
 
     # Get object information
     bucket = event['Records'][0]['s3']['bucket']['name']
