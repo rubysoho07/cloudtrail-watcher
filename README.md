@@ -2,11 +2,12 @@
 
 When a resource like EC2, S3, and Lambda was created...
 
-* You can be notified via email or Slack message by using Amazon SNS. 
-* You can set default tags for resources.
+* You can be notified via Slack message(using Incoming Webhook) or email(using Amazon SNS). 
+* CloudTrail Watcher Lambda Function will create `User` tag on your AWS resources automatically.
 
 ## Supported AWS Resources & Actions
 
+* Console Login
 * EC2 (Instance, Security Group)
 * RDS (Cluster, Instance)
 * S3 (Bucket)
@@ -17,7 +18,6 @@ When a resource like EC2, S3, and Lambda was created...
 * ECS (Cluster)
 * EKS (Cluster)
 * IAM (User, Group, Role, Policy, Instance Profile)
-* Console Login
 
 ## Deploy Infrastructures
 
@@ -34,13 +34,21 @@ $ sam deploy --stack-name cloudtrail-watcher \
              
 # If you want to override additional parameters when deploying
 $ sam deploy --stack-name cloudtrail-watcher \
-             --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID SetMandatoryTag=true \
+             --parameter-overrides ResourcesDefaultPrefix=your_prefix SetMandatoryTag=true \
              --capabilities CAPABILITY_NAMED_IAM
              # If you want more tags
              --tags 'User=cloudtrail-watcher' 'Team=DevOps' 
              
 # Destroy SAM stack
 $ sam delete 
+```
+
+If you are not familiar with SAM CLI, I would recommend using these commands below.
+
+```shell
+$ cd deploy/sam
+$ sam build
+$ sam deploy --guided
 ```
 
 ### Deploy with Terraform 
@@ -92,7 +100,9 @@ terraform apply -var 'slack_webhook_url=https://hooks.slack.com/services/...'
 TOPIC_ARN=$(aws sns list-topics | jq -r '.Topics[].TopicArn' | grep cloudtrailwatcher)
 
 # Subscribe
-aws sns subscribe --topic-arn $TOPIC_ARN --protocol email --notification-endpoint your@email.address
+aws sns subscribe --topic-arn $TOPIC_ARN \ 
+                  --protocol email \ 
+                  --notification-endpoint your@email.address
 ```
 
 If you receive email from AWS SNS, please confirm the email to complete subscription.
