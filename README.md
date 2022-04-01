@@ -27,9 +27,18 @@ When a resource like EC2, S3, and Lambda was created...
 $ cd deploy/sam
 $ ACCOUNT_ID=$(aws sts get-caller-identity | jq -r '.Account')
 $ sam build
-$ sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID \ 
+$ sam deploy --stack-name cloudtrail-watcher \
+             --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID \ 
              --capabilities CAPABILITY_NAMED_IAM
              --tags 'User=cloudtrail-watcher'
+             
+# If you want to override additional parameters when deploying
+$ sam deploy --stack-name cloudtrail-watcher \
+             --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID SetMandatoryTag=true \
+             --capabilities CAPABILITY_NAMED_IAM
+             # If you want more tags
+             --tags 'User=cloudtrail-watcher' 'Team=DevOps' 
+             
 # Destroy SAM stack
 $ sam delete 
 ```
@@ -49,13 +58,32 @@ $ terraform apply -var 'aws_region=ap-northeast-2' -var 'resource_prefix='
 # Destroy infrastructure deployments
 $ terraform destroy -var 'aws_region=ap-northeast-2' \
                     -var 'resource_prefix=<your_resource_prefix or blank>'
+                    # If you have to set more variables...
+                    -var 'variable_name=value'
 ```
 
 ## Notification
 
 ### Slack
 
-* Change functions environment variable `SLACK_WEBHOOK_URL` to Slack Incoming Webhook URL.
+* Change function's `SLACK_WEBHOOK_URL` environment variable to Slack Incoming Webhook URL. 
+* Default value is `DISABLED`. If you don't want to notify resource creation via Slack, set this variable `DISABLED`.
+
+#### SAM
+
+When you deploy with SAM CLI, add `--parameter-overrides` option like below:
+
+```shell
+sam deploy --parameter-overrides SlackWebhookURL=https://hooks.slack.com/services/...
+```
+
+#### Terraform
+
+When you run `terraform apply` command, add option:
+
+```shell
+terraform apply -var 'slack_webhook_url=https://hooks.slack.com/services/...'
+```
 
 ### Email
 
@@ -78,7 +106,26 @@ Creating tag doesn't influence sending messages via Slack or Email by using Amaz
 
 ### Instruction
 
-* Set `SET_MANDATORY_TAG` environment variable on Lambda function: If the value is not in `DISABLED`, `0`, `False`, `false`, the feature setting mandatory tags will work.  
+* Set `SET_MANDATORY_TAG` environment variable on Lambda function: If the value is not in `DISABLED`, `0`, `False`, `false`, the feature setting mandatory tags will work.
+
+#### SAM
+
+When you deploy with SAM CLI, add `--parameter-overrides SetMandatoryTag=true` option like below:
+
+```shell
+sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID \ 
+                                 SetMandatoryTag=true
+```
+
+#### Terraform
+
+When you run `terraform apply` command, add `-var 'set_mandatory_tag=true'`option:
+
+```shell
+terraform apply -var 'aws_region=ap-northeast-2' \
+                -var 'resource_prefix=<your_resource_prefix or blank>' \
+                -var 'set_mandatory_tag=true'
+```
 
 ## References
 
