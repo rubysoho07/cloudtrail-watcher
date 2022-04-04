@@ -23,8 +23,8 @@ def _check_instance_tag_requests(tags: dict, result: dict):
 
     for item in tags['items']:
         for tag in item['tags']:
-            if tag['key'] == 'User':
-                result[tags['resourceType']] = True
+            if tag['key'] == 'User' and item['resourceType'] in result.keys():
+                result[item['resourceType']] = True
 
 
 def _process_run_instances(event: dict, set_tags: bool = False) -> list:
