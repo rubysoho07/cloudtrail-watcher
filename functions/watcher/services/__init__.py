@@ -9,5 +9,6 @@ __all__ = [
     'redshift',
     'rds',
     's3',
-    'iam'
+    'iam',
+    'es'
 ]

@@ -1,0 +1,145 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-03-06T04:26:45Z",
+                "mfaAuthenticated": "false"
+            }
+        }
+    },
+    "eventTime": "2022-03-06T04:42:44Z",
+    "eventSource": "es.amazonaws.com",
+    "eventName": "CreateDomain",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "AWS Internal",
+    "userAgent": "AWS Internal",
+    "requestParameters": {
+        "tagList": [
+            {
+                "key": "Name",
+                "value": "test-es2"
+            }
+        ],
+        "nodeToNodeEncryptionOptions": {
+            "enabled": true
+        },
+        "snapshotOptions": {},
+        "engineVersion": "OpenSearch_1.1",
+        "domainEndpointOptions": {
+            "enforceHTTPS": true,
+            "customEndpointEnabled": false
+        },
+        "eBSOptions": {
+            "volumeType": "gp2",
+            "volumeSize": 10,
+            "eBSEnabled": true
+        },
+        "clusterConfig": {
+            "instanceCount": 1,
+            "zoneAwarenessEnabled": false,
+            "warmEnabled": false,
+            "dedicatedMasterEnabled": false,
+            "instanceType": "t2.small.search",
+            "coldStorageOptions": {
+                "enabled": false
+            }
+        },
+        "advancedOptions": {
+            "indices.fielddata.cache.size": "",
+            "rest.action.multi.allow_explicit_index": "false",
+            "override_main_response_version": "false"
+        },
+        "encryptionAtRestOptions": {
+            "enabled": false
+        },
+        "domainName": "test-es2",
+        "accessPolicies": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"es:*\"],\"Resource\":\"arn:aws:es:ap-northeast-2:000000000000:domain/test-es2/*\"}]}"
+    },
+    "responseElements": {
+        "domainStatus": {
+            "deleted": false,
+            "cognitoOptions": {
+                "enabled": false
+            },
+            "domainName": "test-es2",
+            "autoTuneOptions": {
+                "state": "ENABLE_IN_PROGRESS"
+            },
+            "eBSOptions": {
+                "volumeType": "gp2",
+                "volumeSize": 10,
+                "eBSEnabled": true
+            },
+            "nodeToNodeEncryptionOptions": {
+                "enabled": true
+            },
+            "aRN": "arn:aws:es:ap-northeast-2:000000000000:domain/test-es2",
+            "upgradeProcessing": false,
+            "domainEndpointOptions": {
+                "enforceHTTPS": true,
+                "tLSSecurityPolicy": "Policy-Min-TLS-1-0-2019-07",
+                "customEndpointEnabled": false
+            },
+            "processing": true,
+            "serviceSoftwareOptions": {
+                "description": "There is no software update available for this domain.",
+                "optionalDeployment": true,
+                "automatedUpdateDate": "Dec 31, 1969 4:00:00 PM",
+                "currentVersion": "",
+                "updateAvailable": false,
+                "cancellable": false,
+                "updateStatus": "COMPLETED",
+                "newVersion": ""
+            },
+            "changeProgressDetails": {
+                "changeId": "801e4fb4-3fbb-467a-9268-b3798b212685"
+            },
+            "accessPolicies": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":{\"AWS\":\"*\"},\"Action\":\"es:*\",\"Resource\":\"arn:aws:es:ap-northeast-2:000000000000:domain/test-es2/*\"}]}",
+            "advancedSecurityOptions": {
+                "internalUserDatabaseEnabled": false,
+                "enabled": false,
+                "anonymousAuthEnabled": false
+            },
+            "snapshotOptions": {},
+            "created": true,
+            "domainId": "000000000000/test-es2",
+            "clusterConfig": {
+                "instanceCount": 1,
+                "zoneAwarenessEnabled": false,
+                "warmEnabled": false,
+                "dedicatedMasterEnabled": false,
+                "instanceType": "t2.small.search",
+                "coldStorageOptions": {
+                    "enabled": false
+                }
+            },
+            "encryptionAtRestOptions": {
+                "enabled": false
+            },
+            "engineVersion": "OpenSearch_1.1",
+            "advancedOptions": {
+                "indices.fielddata.cache.size": "",
+                "override_main_response_version": "false",
+                "rest.action.multi.allow_explicit_index": "false"
+            }
+        },
+        "isOpenSearchDomain": true
+    },
+    "requestID": "767e7f7b-44c9-442e-a0af-556d36a22b80",
+    "eventID": "427f1484-0b9f-4cf1-849e-7d35a27962fe",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "sessionCredentialFromConsole": "true"
+}

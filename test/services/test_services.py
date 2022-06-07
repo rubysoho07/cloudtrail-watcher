@@ -270,3 +270,18 @@ class IAMTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateInstanceProfile')
         self.assertEqual(result['source_ip_address'], 'AWS Internal')
         self.assertEqual(result['event_source'], 'iam')
+
+
+class OpenSearchTest(unittest.TestCase):
+    def test_create_db_cluster(self):
+        with open('./samples/es_CreateDomain.json') as f:
+            data = json.loads(f.read())
+
+        result = es.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test-es2'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateDomain')
+        self.assertEqual(result['source_ip_address'], 'AWS Internal')
+        self.assertEqual(result['event_source'], 'es')
