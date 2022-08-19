@@ -326,3 +326,18 @@ class MSKTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateClusterV2')
         self.assertEqual(result['source_ip_address'], '172.0.0.1')
         self.assertEqual(result['event_source'], 'kafka')
+
+
+class MWAATest(unittest.TestCase):
+    def test_create_environment(self):
+        with open('./samples/airflow_CreateEnvironment.json') as f:
+            data = json.loads(f.read())
+
+        result = airflow.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['ct-watcher-test'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateEnvironment')
+        self.assertEqual(result['source_ip_address'], '172.0.0.1')
+        self.assertEqual(result['event_source'], 'airflow')

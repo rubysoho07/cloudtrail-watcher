@@ -11,5 +11,6 @@ __all__ = [
     's3',
     'iam',
     'es',
-    'kafka'
+    'kafka',
+    'airflow'
 ]

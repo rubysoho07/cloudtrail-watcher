@@ -1,0 +1,81 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test_user",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test_user",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-08-18T23:32:57Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-08-19T01:10:09Z",
+    "eventSource": "airflow.amazonaws.com",
+    "eventName": "CreateEnvironment",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "172.0.0.1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:103.0) Gecko/20100101 Firefox/103.0",
+    "requestParameters": {
+        "MaxWorkers": 10,
+        "AirflowConfigurationOptions": "***",
+        "EnvironmentClass": "mw1.small",
+        "Schedulers": 2,
+        "MinWorkers": 1,
+        "AirflowVersion": "2.2.2",
+        "Name": "ct-watcher-test",
+        "SourceBucketArn": "arn:aws:s3:::YOUR_BUCKET_NAME",
+        "ExecutionRoleArn": "arn:aws:iam::000000000000:role/service-role/AmazonMWAA-ct-watcher-test-6RsyG0",
+        "WeeklyMaintenanceWindowStart": "SUN:13:00",
+        "LoggingConfiguration": {
+            "TaskLogs": {
+                "Enabled": true,
+                "LogLevel": "INFO"
+            },
+            "SchedulerLogs": {
+                "Enabled": false,
+                "LogLevel": "WARNING"
+            },
+            "WebserverLogs": {
+                "Enabled": false,
+                "LogLevel": "WARNING"
+            },
+            "WorkerLogs": {
+                "Enabled": false,
+                "LogLevel": "WARNING"
+            },
+            "DagProcessingLogs": {
+                "Enabled": false,
+                "LogLevel": "WARNING"
+            }
+        },
+        "DagS3Path": "dags",
+        "WebserverAccessMode": "PRIVATE_ONLY",
+        "NetworkConfiguration": {
+            "SecurityGroupIds": [
+                "sg-09223fc156927c575"
+            ],
+            "SubnetIds": [
+                "subnet-0676817e4b54a1cbb",
+                "subnet-03a707a8c30952378"
+            ]
+        }
+    },
+    "responseElements": {
+        "Access-Control-Expose-Headers": "x-amzn-RequestId,x-amzn-ErrorType,x-amzn-ErrorMessage,Date",
+        "Arn": "arn:aws:airflow:ap-northeast-2:000000000000:environment/ct-watcher-test"
+    },
+    "requestID": "28bb55b6-a0f0-4300-8078-e9092a9458aa",
+    "eventID": "779db1be-fdd1-4d30-b51f-47169f77a5f4",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management"
+}
