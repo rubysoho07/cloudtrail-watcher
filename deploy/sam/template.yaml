@@ -144,6 +144,8 @@ Resources:
                   "iam:TagRole",
                   "iam:TagPolicy",
                   "iam:TagInstanceProfile",
-                  "iam:ListAccountAliases"
+                  "iam:ListAccountAliases",
+                  "kafka:TagResource",
+                  "airflow:TagResource"
                 ]
                 Resource: "*"
