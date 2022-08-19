@@ -103,6 +103,32 @@ class RDSTest(unittest.TestCase):
         self.assertEqual(result['source_ip_address'], 'AWS Internal')
         self.assertEqual(result['event_source'], 'rds')
 
+    def test_create_db_cluster_docdb(self):
+        with open('./samples/rds_CreateDBCluster_DocDB.json') as f:
+            data = json.loads(f.read())
+
+        result = rds.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['ctw-test'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateDBCluster')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'documentdb')
+
+    def test_create_db_instance_docdb(self):
+        with open('./samples/rds_CreateDBInstance_DocDB.json') as f:
+            data = json.loads(f.read())
+
+        result = rds.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['ctw-test'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateDBInstance')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'documentdb')
+
 
 class ElastiCacheTest(unittest.TestCase):
     def test_create_cache_cluster(self):

@@ -1,0 +1,101 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test_user",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test_user",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-08-18T23:32:57Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-08-18T23:46:24Z",
+    "eventSource": "rds.amazonaws.com",
+    "eventName": "CreateDBCluster",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:103.0) Gecko/20100101 Firefox/103.0",
+    "requestParameters": {
+        "backupRetentionPeriod": 1,
+        "dBClusterIdentifier": "ctw-test",
+        "vpcSecurityGroupIds": [
+            "sg-ef6e8186"
+        ],
+        "engine": "docdb",
+        "engineVersion": "4.0.0",
+        "port": 27017,
+        "masterUsername": "test_user",
+        "masterUserPassword": "****",
+        "preferredBackupWindow": "00:00-00:30",
+        "storageEncrypted": true,
+        "kmsKeyId": "arn:aws:kms:ap-northeast-2:000000000000:key/UUID",
+        "deletionProtection": true
+    },
+    "responseElements": {
+        "allocatedStorage": 1,
+        "availabilityZones": [
+            "ap-northeast-2c",
+            "ap-northeast-2a",
+            "ap-northeast-2d"
+        ],
+        "backupRetentionPeriod": 1,
+        "dBClusterIdentifier": "ctw-test",
+        "dBClusterParameterGroup": "default.docdb4.0",
+        "dBSubnetGroup": "default",
+        "status": "creating",
+        "endpoint": "ctw-test.cluster-1q2w3e4r5t6y.ap-northeast-2.docdb.amazonaws.com",
+        "readerEndpoint": "ctw-test.cluster-ro-1q2w3e4r5t6y.ap-northeast-2.docdb.amazonaws.com",
+        "multiAZ": false,
+        "engine": "docdb",
+        "engineVersion": "4.0.0",
+        "port": 27017,
+        "masterUsername": "yungon",
+        "preferredBackupWindow": "00:00-00:30",
+        "preferredMaintenanceWindow": "sun:14:20-sun:14:50",
+        "readReplicaIdentifiers": [],
+        "dBClusterMembers": [],
+        "vpcSecurityGroups": [
+            {
+                "vpcSecurityGroupId": "sg-ef6e8186",
+                "status": "active"
+            }
+        ],
+        "hostedZoneId": "ZB9XW5O3Q7N8N",
+        "storageEncrypted": true,
+        "kmsKeyId": "arn:aws:kms:ap-northeast-2:000000000000:key/UUID",
+        "dbClusterResourceId": "cluster-4VFKTXKOHEJ4HVTY6IV6YNW7JI",
+        "dBClusterArn": "arn:aws:rds:ap-northeast-2:000000000000:cluster:ctw-test",
+        "associatedRoles": [],
+        "iAMDatabaseAuthenticationEnabled": false,
+        "clusterCreateTime": "Aug 18, 2022 11:46:24 PM",
+        "engineMode": "provisioned",
+        "autoMinorVersionUpgrade": false,
+        "deletionProtection": true,
+        "httpEndpointEnabled": false,
+        "copyTagsToSnapshot": false,
+        "crossAccountClone": false,
+        "domainMemberships": [],
+        "tagList": [],
+        "networkType": "IPV4"
+    },
+    "requestID": "d0d1594d-fe99-4a32-96f3-5586b41d6686",
+    "eventID": "ff218bd3-e3fc-4ea5-9717-cfeec461d9a2",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "tlsDetails": {
+        "tlsVersion": "TLSv1.2",
+        "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256",
+        "clientProvidedHostHeader": "rds.ap-northeast-2.amazonaws.com"
+    },
+    "sessionCredentialFromConsole": "true"
+}

@@ -1,0 +1,127 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test_user",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test_user",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-08-18T23:32:57Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-08-18T23:46:25Z",
+    "eventSource": "rds.amazonaws.com",
+    "eventName": "CreateDBInstance",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:103.0) Gecko/20100101 Firefox/103.0",
+    "requestParameters": {
+        "dBInstanceIdentifier": "ctw-test",
+        "dBInstanceClass": "db.t3.medium",
+        "engine": "docdb",
+        "dBClusterIdentifier": "ctw-test"
+    },
+    "responseElements": {
+        "dBInstanceIdentifier": "ctw-test",
+        "dBInstanceClass": "db.t3.medium",
+        "engine": "docdb",
+        "dBInstanceStatus": "creating",
+        "masterUsername": "test_user",
+        "allocatedStorage": 1,
+        "preferredBackupWindow": "00:00-00:30",
+        "backupRetentionPeriod": 1,
+        "dBSecurityGroups": [],
+        "vpcSecurityGroups": [
+            {
+                "vpcSecurityGroupId": "sg-ef6e8186",
+                "status": "active"
+            }
+        ],
+        "dBParameterGroups": [
+            {
+                "dBParameterGroupName": "default.docdb4.0",
+                "parameterApplyStatus": "in-sync"
+            }
+        ],
+        "dBSubnetGroup": {
+            "dBSubnetGroupName": "default",
+            "dBSubnetGroupDescription": "default",
+            "vpcId": "vpc-8b6d8de2",
+            "subnetGroupStatus": "Complete",
+            "subnets": [
+                {
+                    "subnetIdentifier": "subnet-24b3916e",
+                    "subnetAvailabilityZone": {
+                        "name": "ap-northeast-2c"
+                    },
+                    "subnetOutpost": {},
+                    "subnetStatus": "Active"
+                },
+                {
+                    "subnetIdentifier": "subnet-038c6c6a",
+                    "subnetAvailabilityZone": {
+                        "name": "ap-northeast-2a"
+                    },
+                    "subnetOutpost": {},
+                    "subnetStatus": "Active"
+                }
+            ]
+        },
+        "preferredMaintenanceWindow": "thu:17:01-thu:17:31",
+        "pendingModifiedValues": {},
+        "multiAZ": false,
+        "engineVersion": "4.0.0",
+        "autoMinorVersionUpgrade": true,
+        "readReplicaDBInstanceIdentifiers": [],
+        "licenseModel": "na",
+        "storageThroughput": 0,
+        "optionGroupMemberships": [
+            {
+                "optionGroupName": "default:docdb-4-0",
+                "status": "in-sync"
+            }
+        ],
+        "publiclyAccessible": false,
+        "storageType": "aurora",
+        "dbInstancePort": 0,
+        "dBClusterIdentifier": "ctw-test",
+        "storageEncrypted": true,
+        "kmsKeyId": "arn:aws:kms:ap-northeast-2:000000000000:key/UUID",
+        "dbiResourceId": "db-S5VCIDJ6WXADPC2VAJA5GC5FIU",
+        "cACertificateIdentifier": "rds-ca-2019",
+        "domainMemberships": [],
+        "copyTagsToSnapshot": false,
+        "monitoringInterval": 0,
+        "promotionTier": 1,
+        "dBInstanceArn": "arn:aws:rds:ap-northeast-2:000000000000:db:ctw-test",
+        "iAMDatabaseAuthenticationEnabled": false,
+        "performanceInsightsEnabled": false,
+        "deletionProtection": false,
+        "associatedRoles": [],
+        "httpEndpointEnabled": false,
+        "tagList": [],
+        "customerOwnedIpEnabled": false,
+        "networkType": "IPV4",
+        "backupTarget": "region"
+    },
+    "requestID": "f103d49e-9124-4e37-b782-95d68c389b35",
+    "eventID": "41063b4b-1bbb-49ba-9482-a1c72d7f8a7b",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "tlsDetails": {
+        "tlsVersion": "TLSv1.2",
+        "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256",
+        "clientProvidedHostHeader": "rds.ap-northeast-2.amazonaws.com"
+    },
+    "sessionCredentialFromConsole": "true"
+}
