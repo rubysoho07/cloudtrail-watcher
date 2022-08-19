@@ -1,0 +1,92 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test_user",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test_user",
+        "sessionContext": {
+            "sessionIssuer": {},
+            "webIdFederationData": {},
+            "attributes": {
+                "creationDate": "2022-08-18T23:32:57Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2022-08-18T23:45:37Z",
+    "eventSource": "kafka.amazonaws.com",
+    "eventName": "CreateClusterV2",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "172.0.0.1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:103.0) Gecko/20100101 Firefox/103.0",
+    "requestParameters": {
+        "provisioned": {
+            "brokerNodeGroupInfo": {
+                "clientSubnets": [
+                    "subnet-038c6c6a",
+                    "subnet-0676817e4b54a1cbb",
+                    "subnet-03a707a8c30952378"
+                ],
+                "instanceType": "kafka.t3.small",
+                "storageInfo": {
+                    "ebsStorageInfo": {
+                        "volumeSize": 10
+                    }
+                },
+                "connectivityInfo": {
+                    "publicAccess": {
+                        "type": "DISABLED"
+                    }
+                },
+                "securityGroups": [
+                    "sg-ef6e8186"
+                ]
+            },
+            "encryptionInfo": {
+                "encryptionInTransit": {
+                    "clientBroker": "TLS_PLAINTEXT",
+                    "inCluster": true
+                }
+            },
+            "kafkaVersion": "2.6.2",
+            "numberOfBrokerNodes": 3,
+            "enhancedMonitoring": "DEFAULT",
+            "clientAuthentication": {
+                "unauthenticated": {
+                    "enabled": true
+                },
+                "sasl": {
+                    "iam": {
+                        "enabled": true
+                    },
+                    "scram": {
+                        "enabled": false
+                    }
+                },
+                "tls": {
+                    "certificateAuthorityArnList": [],
+                    "enabled": false
+                }
+            }
+        },
+        "clusterName": "ct-watcher-test"
+    },
+    "responseElements": {
+        "clusterType": "PROVISIONED",
+        "Access-Control-Expose-Headers": "x-amzn-errortype,x-amzn-requestid,x-amzn-errormessage,x-amzn-trace-id,x-amz-apigw-id,date",
+        "clusterArn": "arn:aws:kafka:ap-northeast-2:000000000000:cluster/ct-watcher-test/89a4463c-d156-4d36-aee4-ee5ca0ec4fb3-3",
+        "clusterName": "ct-watcher-test",
+        "state": "CREATING",
+        "Access-Control-Max-Age": "86400"
+    },
+    "requestID": "4ef717a8-b954-4c78-9639-446c7fdd5f73",
+    "eventID": "e0cf7f0f-230e-451d-9480-53df7bc406cf",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management"
+}

@@ -311,3 +311,18 @@ class OpenSearchTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateDomain')
         self.assertEqual(result['source_ip_address'], 'AWS Internal')
         self.assertEqual(result['event_source'], 'es')
+
+
+class MSKTest(unittest.TestCase):
+    def test_create_cluster_v2(self):
+        with open('./samples/kakfa_CreateClusterV2.json') as f:
+            data = json.loads(f.read())
+
+        result = kafka.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['ct-watcher-test'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateClusterV2')
+        self.assertEqual(result['source_ip_address'], '172.0.0.1')
+        self.assertEqual(result['event_source'], 'kafka')

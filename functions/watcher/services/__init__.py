@@ -10,5 +10,6 @@ __all__ = [
     'rds',
     's3',
     'iam',
-    'es'
+    'es',
+    'kafka'
 ]
