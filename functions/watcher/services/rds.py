@@ -44,7 +44,7 @@ def _process_create_db_instance(event: dict, set_tags: bool = False) -> list:
 def process_event(event: dict) -> dict:
     """ Process CloudTrail event for RDS instances and clusters """
 
-    if event['requestParameters']['engine'] == 'docdb':
+    if 'engine' in event['requestParameters'].keys() and event['requestParameters']['engine'] == 'docdb':
         event_source = 'documentdb'
     else:
         event_source = get_service_name(event)

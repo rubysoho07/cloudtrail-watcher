@@ -14,7 +14,7 @@ def _set_mandatory_tag(event: dict):
 
     resource_arn = event['responseElements']['clusterArn']
 
-    kafka.add_tags_to_resource(
+    kafka.tag_resource(
         ResourceArn=resource_arn,
         Tags={
             'User': get_user_identity(event)
