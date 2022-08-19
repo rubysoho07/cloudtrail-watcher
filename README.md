@@ -8,6 +8,7 @@ When a resource like EC2, S3, and Lambda was created...
 ## Supported AWS Resources & Actions
 
 * Console Login
+* IAM (User, Group, Role, Policy, Instance Profile)
 * EC2 (Instance, Security Group)
 * RDS (Cluster, Instance)
 * S3 (Bucket)
@@ -17,7 +18,9 @@ When a resource like EC2, S3, and Lambda was created...
 * Redshift (Cluster)
 * ECS (Cluster)
 * EKS (Cluster)
-* IAM (User, Group, Role, Policy, Instance Profile)
+* 🆕 DocumentDB (Cluster, Instance)
+* 🆕 MSK(Managed Streaming for Apache Kafka) (Cluster)
+* 🆕 MWAA(Managed Workflow for Apache Airflow) (Environment)
 
 ## Deploy Infrastructures
 
