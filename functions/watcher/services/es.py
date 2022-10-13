@@ -6,10 +6,10 @@ es = boto3.client('opensearch')
 
 
 def _set_mandatory_tag(event: dict):
-    """ Set mandatory tag for ElastiCache resources. """
+    """ Set mandatory tag for OpenSearch Domain resources. """
 
     if 'tagList' in event['requestParameters'].keys():
-        if check_contain_mandatory_tag_list(event['requestParameters']['tags']) is True:
+        if check_contain_mandatory_tag_list(event['requestParameters']['tagList']) is True:
             return
 
     resource_id = event['responseElements']['aRN']
