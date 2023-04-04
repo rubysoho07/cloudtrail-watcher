@@ -1,0 +1,104 @@
+{
+    "eventVersion": "1.08",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test_user",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test_user",
+        "sessionContext": {
+            "attributes": {
+                "creationDate": "2023-04-04T08:03:21Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2023-04-04T08:16:48Z",
+    "eventSource": "dynamodb.amazonaws.com",
+    "eventName": "CreateTable",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "172.0.0.1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/111.0",
+    "requestParameters": {
+        "attributeDefinitions": [
+            {
+                "attributeName": "test",
+                "attributeType": "S"
+            }
+        ],
+        "tableName": "ct-watcher-test",
+        "keySchema": [
+            {
+                "attributeName": "test",
+                "keyType": "HASH"
+            }
+        ],
+        "billingMode": "PROVISIONED",
+        "provisionedThroughput": {
+            "readCapacityUnits": 5,
+            "writeCapacityUnits": 5
+        },
+        "tags": [
+            {
+                "key": "Name",
+                "value": "test"
+            }
+        ],
+        "tableClass": "STANDARD",
+        "deletionProtectionEnabled": false
+    },
+    "responseElements": {
+        "tableDescription": {
+            "attributeDefinitions": [
+                {
+                    "attributeName": "test",
+                    "attributeType": "S"
+                }
+            ],
+            "tableName": "ct-watcher-test",
+            "keySchema": [
+                {
+                    "attributeName": "test",
+                    "keyType": "HASH"
+                }
+            ],
+            "tableStatus": "CREATING",
+            "creationDateTime": "Apr 4, 2023, 8:16:48 AM",
+            "provisionedThroughput": {
+                "numberOfDecreasesToday": 0,
+                "readCapacityUnits": 5,
+                "writeCapacityUnits": 5
+            },
+            "tableSizeBytes": 0,
+            "itemCount": 0,
+            "tableArn": "arn:aws:dynamodb:ap-northeast-2:000000000000:table/ct-watcher-test",
+            "tableId": "cd137dd3-5df8-4400-92cf-520ef2264ab3",
+            "tableClassSummary": {
+                "tableClass": "STANDARD"
+            },
+            "deletionProtectionEnabled": false
+        }
+    },
+    "requestID": "2P4FMICD2G9VCAKNJD417C4HRBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+    "eventID": "0b875902-9a42-4049-a62f-80ebac0e6c2d",
+    "readOnly": false,
+    "resources": [
+        {
+            "accountId": "000000000000",
+            "type": "AWS::DynamoDB::Table",
+            "ARN": "arn:aws:dynamodb:ap-northeast-2:000000000000:table/ct-watcher-test"
+        }
+    ],
+    "eventType": "AwsApiCall",
+    "apiVersion": "2012-08-10",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "tlsDetails": {
+        "tlsVersion": "TLSv1.2",
+        "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256",
+        "clientProvidedHostHeader": "dynamodb.ap-northeast-2.amazonaws.com"
+    },
+    "sessionCredentialFromConsole": "true"
+}

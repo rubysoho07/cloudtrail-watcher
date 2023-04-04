@@ -341,3 +341,18 @@ class MWAATest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateEnvironment')
         self.assertEqual(result['source_ip_address'], '172.0.0.1')
         self.assertEqual(result['event_source'], 'airflow')
+
+
+class DynamoDBTest(unittest.TestCase):
+    def test_create_table(self):
+        with open('./samples/dynamodb_CreateTable.json') as f:
+            data = json.loads(f.read())
+
+        result = dynamodb.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['ct-watcher-test'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateTable')
+        self.assertEqual(result['source_ip_address'], '172.0.0.1')
+        self.assertEqual(result['event_source'], 'dynamodb')
