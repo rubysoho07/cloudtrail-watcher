@@ -23,7 +23,8 @@ When a resource like EC2, S3, and Lambda was created...
 * DocumentDB (Cluster, Instance)
 * MSK(Managed Streaming for Apache Kafka) (Cluster)
 * MWAA(Managed Workflow for Apache Airflow) (Environment)
-* 🆕 DynamoDB (Table)
+* DynamoDB (Table)
+* 🆕 ELB (CLB, ALB, NLB, GLB)
 
 ## Deploy Infrastructures
 
