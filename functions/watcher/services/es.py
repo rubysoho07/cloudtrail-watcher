@@ -32,19 +32,10 @@ def _process_create_domain(event: dict, set_tag: bool = False) -> list:
     return [event['responseElements']['domainStatus']['domainName']]
 
 
-def process_event(event: dict) -> dict:
+def process_event(event: dict, set_tag: bool = False) -> dict:
     """ Process CloudTrail event for OpenSearch Service. """
 
-    result = {
-        "resource_id": None,
-        "identity": get_user_identity(event),
-        "region": event['awsRegion'],
-        "source_ip_address": event['sourceIPAddress'],
-        "event_name": event['eventName'],
-        "event_source": get_service_name(event)
-    }
-
-    set_tag = check_set_mandatory_tag()
+    result = dict()
 
     if event['eventName'] == 'CreateDomain':
         result['resource_id'] = _process_create_domain(event, set_tag)

@@ -41,7 +41,7 @@ def _process_create_db_instance(event: dict, set_tags: bool = False) -> list:
     return [event['responseElements']['dBInstanceIdentifier']]
 
 
-def process_event(event: dict) -> dict:
+def process_event(event: dict, set_tag: bool = False) -> dict:
     """ Process CloudTrail event for RDS instances and clusters """
 
     if 'engine' in event['requestParameters'].keys() and event['requestParameters']['engine'] == 'docdb':
@@ -49,20 +49,11 @@ def process_event(event: dict) -> dict:
     else:
         event_source = get_service_name(event)
 
-    result = {
-        "resource_id": None,
-        "identity": get_user_identity(event),
-        "region": event['awsRegion'],
-        "source_ip_address": event['sourceIPAddress'],
-        "event_name": event['eventName'],
-        "event_source": event_source
-    }
+    result = dict()
 
     if 'errorCode' in event.keys():
         result['error'] = f"{event['errorCode']}: check CloudTrail event - {event['eventID']}"
         return result
-
-    set_tag = check_set_mandatory_tag()
 
     if event['eventName'] == "CreateDBCluster":
         result['resource_id'] = _process_create_db_cluster(event, set_tag)

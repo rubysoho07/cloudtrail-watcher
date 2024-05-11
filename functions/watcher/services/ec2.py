@@ -90,23 +90,14 @@ def _process_create_security_group(event: dict, set_tag: bool = False) -> list:
     return resource_ids
 
 
-def process_event(event: dict) -> dict:
+def process_event(event: dict, set_tag: bool = False) -> dict:
     """ Process CloudTrail event for EC2 services """
 
-    result = {
-        "resource_id": None,
-        "identity": get_user_identity(event),
-        "region": event['awsRegion'],
-        "source_ip_address": event['sourceIPAddress'],
-        "event_name": event['eventName'],
-        "event_source": get_service_name(event)
-    }
+    result = dict()
 
     if event['responseElements'] is None:
         result['error'] = f"response is null: eventName - {event['eventName']}, eventID: {event['eventID']},"
         return result
-
-    set_tag = check_set_mandatory_tag()
 
     if event['eventName'] == "RunInstances":
         result['resource_id'] = _process_run_instances(event, set_tag)

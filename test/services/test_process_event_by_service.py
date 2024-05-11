@@ -1,9 +1,7 @@
 import json
 import unittest
 
-from functions.watcher.lambda_function import process_event_by_service, \
-                                              notify_slack, \
-                                              process_console_login
+from functions.watcher.lambda_function import build_result, notify_slack
 
 
 class ProcessEventTest(unittest.TestCase):
@@ -11,7 +9,7 @@ class ProcessEventTest(unittest.TestCase):
         with open('./samples/s3_CreateBucket.json') as f:
             data = json.loads(f.read())
 
-        result = process_event_by_service(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['cloudtrailwatcher-000000000000'])
         self.assertEqual(result['identity'], 'user/test')
@@ -24,7 +22,7 @@ class ProcessEventTest(unittest.TestCase):
         with open('samples/signin_ConsoleLogin.json') as f:
             data = json.loads(f.read())
 
-        result = process_console_login(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ["Success"])
         self.assertEqual(result['identity'], 'user/test')
@@ -37,7 +35,7 @@ class ProcessEventTest(unittest.TestCase):
         with open('./samples/s3_CreateBucket.json') as f:
             data = json.loads(f.read())
 
-        result = process_event_by_service(data)
+        result = build_result(data)
         result['account_id'] = '000000000000'
 
         notify_slack(result)
@@ -47,7 +45,7 @@ class ProcessEventTest(unittest.TestCase):
         with open('samples/signin_ConsoleLogin.json') as f:
             data = json.loads(f.read())
 
-        result = process_console_login(data)
+        result = build_result(data)
         result['account_id'] = '000000000000'
 
         notify_slack(result)

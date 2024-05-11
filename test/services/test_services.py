@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from functions.watcher.services import *
+from functions.watcher.lambda_function import build_result
 
 
 class EC2Test(unittest.TestCase):
@@ -10,7 +10,7 @@ class EC2Test(unittest.TestCase):
         with open('./samples/ec2_CreateSecurityGroup.json') as f:
             data = json.loads(f.read())
 
-        result = ec2.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['sg-YOUR_SECURITY_GROUP_ID'])
         self.assertEqual(result['identity'], 'user/test')
@@ -23,7 +23,7 @@ class EC2Test(unittest.TestCase):
         with open('./samples/ec2_RunInstances_single.json') as f:
             data = json.loads(f.read())
 
-        result = ec2.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['i-YOUR_INSTANCE_IDS'])
         self.assertEqual(result['identity'], 'user/test')
@@ -36,7 +36,7 @@ class EC2Test(unittest.TestCase):
         with open('./samples/ec2_RunInstances_multi.json') as f:
             data = json.loads(f.read())
 
-        result = ec2.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['i-YOUR_INSTANCE_IDS', 'i-YOUR_INSTANCE_IDS'])
         self.assertEqual(result['identity'], 'user/test')
@@ -51,7 +51,7 @@ class LambdaTest(unittest.TestCase):
         with open('./samples/lambda_CreateFunction20150331.json') as f:
             data = json.loads(f.read())
 
-        result = lambda_.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['cloudtrailwatcher-000000000000'])
         self.assertEqual(result['identity'], 'user/test')
@@ -66,7 +66,7 @@ class S3Test(unittest.TestCase):
         with open('./samples/s3_CreateBucket.json') as f:
             data = json.loads(f.read())
 
-        result = s3.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['cloudtrailwatcher-000000000000'])
         self.assertEqual(result['identity'], 'user/test')
@@ -81,7 +81,7 @@ class RDSTest(unittest.TestCase):
         with open('./samples/rds_CreateDBCluster.json') as f:
             data = json.loads(f.read())
 
-        result = rds.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test-db'])
         self.assertEqual(result['identity'], 'user/test')
@@ -94,7 +94,7 @@ class RDSTest(unittest.TestCase):
         with open('./samples/rds_CreateDBInstance.json') as f:
             data = json.loads(f.read())
 
-        result = rds.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test-db-instance-1'])
         self.assertEqual(result['identity'], 'user/test')
@@ -107,27 +107,27 @@ class RDSTest(unittest.TestCase):
         with open('./samples/rds_CreateDBCluster_DocDB.json') as f:
             data = json.loads(f.read())
 
-        result = rds.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['ctw-test'])
         self.assertEqual(result['identity'], 'user/test_user')
         self.assertEqual(result['region'], 'ap-northeast-2')
         self.assertEqual(result['event_name'], 'CreateDBCluster')
         self.assertEqual(result['source_ip_address'], '127.0.0.1')
-        self.assertEqual(result['event_source'], 'documentdb')
+        self.assertEqual(result['event_source'], 'rds')
 
     def test_create_db_instance_docdb(self):
         with open('./samples/rds_CreateDBInstance_DocDB.json') as f:
             data = json.loads(f.read())
 
-        result = rds.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['ctw-test'])
         self.assertEqual(result['identity'], 'user/test_user')
         self.assertEqual(result['region'], 'ap-northeast-2')
         self.assertEqual(result['event_name'], 'CreateDBInstance')
         self.assertEqual(result['source_ip_address'], '127.0.0.1')
-        self.assertEqual(result['event_source'], 'documentdb')
+        self.assertEqual(result['event_source'], 'rds')
 
 
 class ElastiCacheTest(unittest.TestCase):
@@ -135,7 +135,7 @@ class ElastiCacheTest(unittest.TestCase):
         with open('./samples/elasticache_CreateCacheCluster.json') as f:
             data = json.loads(f.read())
 
-        result = elasticache.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test-memcached'])
         self.assertEqual(result['identity'], 'user/test')
@@ -148,7 +148,7 @@ class ElastiCacheTest(unittest.TestCase):
         with open('./samples/elasticache_CreateReplicationGroup.json') as f:
             data = json.loads(f.read())
 
-        result = elasticache.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test'])
         self.assertEqual(result['identity'], 'user/test')
@@ -163,7 +163,7 @@ class EMRTest(unittest.TestCase):
         with open('./samples/elasticmapreduce_RunJobFlow.json') as f:
             data = json.loads(f.read())
 
-        result = elasticmapreduce.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['j-2E1G6JJE6X1MQ'])
         self.assertEqual(result['identity'], 'user/test')
@@ -178,7 +178,7 @@ class RedshiftTest(unittest.TestCase):
         with open('./samples/redshift_CreateCluster.json') as f:
             data = json.loads(f.read())
 
-        result = redshift.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test-goni'])
         self.assertEqual(result['identity'], 'user/test')
@@ -193,7 +193,7 @@ class ECSTest(unittest.TestCase):
         with open('./samples/ecs_CreateCluster.json') as f:
             data = json.loads(f.read())
 
-        result = ecs.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test-ecs'])
         self.assertEqual(result['identity'], 'user/test')
@@ -208,7 +208,7 @@ class EKSTest(unittest.TestCase):
         with open('./samples/eks_CreateCluster.json') as f:
             data = json.loads(f.read())
 
-        result = eks.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test'])
         self.assertEqual(result['identity'], 'user/test')
@@ -223,7 +223,7 @@ class IAMTest(unittest.TestCase):
         with open('./samples/iam_CreateUser.json') as f:
             data = json.loads(f.read())
 
-        result = iam.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test_user'])
         self.assertEqual(result['identity'], 'user/test')
@@ -236,7 +236,7 @@ class IAMTest(unittest.TestCase):
         with open('./samples/iam_CreateGroup.json') as f:
             data = json.loads(f.read())
 
-        result = iam.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test_group'])
         self.assertEqual(result['identity'], 'user/test')
@@ -249,7 +249,7 @@ class IAMTest(unittest.TestCase):
         with open('./samples/iam_CreatePolicy.json') as f:
             data = json.loads(f.read())
 
-        result = iam.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['your_policy_name'])
         self.assertEqual(result['identity'], 'user/test')
@@ -262,7 +262,7 @@ class IAMTest(unittest.TestCase):
         with open('./samples/iam_CreateRole.json') as f:
             data = json.loads(f.read())
 
-        result = iam.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['role/service-role/your_role_name'])
         self.assertEqual(result['identity'], 'user/test')
@@ -275,7 +275,7 @@ class IAMTest(unittest.TestCase):
         with open('./samples/iam_CreatePolicyVersion.json') as f:
             data = json.loads(f.read())
 
-        result = iam.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test-policy:v2'])
         self.assertEqual(result['identity'], 'user/test')
@@ -288,7 +288,7 @@ class IAMTest(unittest.TestCase):
         with open('./samples/iam_CreateInstanceProfile.json') as f:
             data = json.loads(f.read())
 
-        result = iam.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['EC2_Role'])
         self.assertEqual(result['identity'], 'user/test')
@@ -303,7 +303,7 @@ class OpenSearchTest(unittest.TestCase):
         with open('./samples/es_CreateDomain.json') as f:
             data = json.loads(f.read())
 
-        result = es.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test-es2'])
         self.assertEqual(result['identity'], 'user/test')
@@ -318,7 +318,7 @@ class MSKTest(unittest.TestCase):
         with open('./samples/kakfa_CreateClusterV2.json') as f:
             data = json.loads(f.read())
 
-        result = kafka.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['ct-watcher-test'])
         self.assertEqual(result['identity'], 'user/test_user')
@@ -333,7 +333,7 @@ class MWAATest(unittest.TestCase):
         with open('./samples/airflow_CreateEnvironment.json') as f:
             data = json.loads(f.read())
 
-        result = airflow.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['ct-watcher-test'])
         self.assertEqual(result['identity'], 'user/test_user')
@@ -348,7 +348,7 @@ class DynamoDBTest(unittest.TestCase):
         with open('./samples/dynamodb_CreateTable.json') as f:
             data = json.loads(f.read())
 
-        result = dynamodb.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['ct-watcher-test'])
         self.assertEqual(result['identity'], 'user/test_user')
@@ -363,7 +363,7 @@ class ElasticLoadBalancingTest(unittest.TestCase):
         with open('./samples/elasticloadbalancing_CreateLoadBalancer_alb.json') as f:
             data = json.loads(f.read())
 
-        result = elasticloadbalancing.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test-alb'])
         self.assertEqual(result['identity'], 'user/test')
@@ -376,7 +376,7 @@ class ElasticLoadBalancingTest(unittest.TestCase):
         with open('./samples/elasticloadbalancing_CreateLoadBalancer_clb.json') as f:
             data = json.loads(f.read())
 
-        result = elasticloadbalancing.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['test-clb'])
         self.assertEqual(result['identity'], 'user/test')
@@ -391,7 +391,7 @@ class CloudFrontTest(unittest.TestCase):
         with open('./samples/cloudfront_CreateDistribution.json') as f:
             data = json.loads(f.read())
 
-        result = cloudfront.process_event(data)
+        result = build_result(data)
 
         self.assertEqual(result['resource_id'], ['DISTRIBUTION_ID'])
         self.assertEqual(result['identity'], 'user/test')

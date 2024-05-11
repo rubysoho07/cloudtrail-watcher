@@ -39,23 +39,14 @@ def _process_create_table(event: dict, set_tag: bool = False) -> list:
     return resource_ids
 
 
-def process_event(event: dict) -> dict:
+def process_event(event: dict, set_tag: bool = False) -> dict:
     """ Process CloudTrail event for DynamoDB services """
 
-    result = {
-        "resource_id": None,
-        "identity": get_user_identity(event),
-        "region": event['awsRegion'],
-        "source_ip_address": event['sourceIPAddress'],
-        "event_name": event['eventName'],
-        "event_source": get_service_name(event)
-    }
+    result = dict()
 
     if event['responseElements'] is None:
         result['error'] = f"response is null: eventName - {event['eventName']}, eventID: {event['eventID']},"
         return result
-
-    set_tag = check_set_mandatory_tag()
 
     if event['eventName'] == "CreateTable":
         result['resource_id'] = _process_create_table(event, set_tag)

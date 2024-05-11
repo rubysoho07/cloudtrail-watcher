@@ -26,17 +26,10 @@ def _process_create_distribution(event: dict, set_tag: bool = False) -> list:
     return [event['responseElements']['distribution']['id']]
 
 
-def process_event(event: dict) -> dict:
+def process_event(event: dict, set_tag: bool = False) -> dict:
     """ Process CloudTrail event for CloudFront distribution. """
 
-    result = {
-        "resource_id": None,
-        "identity": get_user_identity(event),
-        "region": event['awsRegion'],
-        "source_ip_address": event['sourceIPAddress'],
-        "event_name": event['eventName'],
-        "event_source": get_service_name(event)
-    }
+    result = dict()
 
     set_tag = check_set_mandatory_tag()
 

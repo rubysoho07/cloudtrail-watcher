@@ -93,23 +93,14 @@ def _process_create_group(event: dict) -> list:
     return [event['responseElements']['group']['groupName']]
 
 
-def process_event(event: dict) -> dict:
+def process_event(event: dict, set_tag: bool = False) -> dict:
     """ Process CloudTrail event for IAM services """
 
-    result = {
-        "resource_id": None,
-        "identity": get_user_identity(event),
-        "region": event['awsRegion'],
-        "source_ip_address": event['sourceIPAddress'],
-        "event_name": event['eventName'],
-        "event_source": get_service_name(event)
-    }
+    result = dict()
 
     if event['responseElements'] is None:
         result['error'] = f"response is None: check CloudTrail event - {event['eventID']}"
         return result
-
-    set_tag = check_set_mandatory_tag()
 
     if event['eventName'] == "CreateUser":
         result['resource_id'] = _process_create_user(event, set_tag)

@@ -18,6 +18,7 @@ s3 = boto3.client('s3')
 sns = boto3.resource('sns')
 
 account_alias = (None, False)
+set_tags = False
 
 
 def _get_account_alias() -> Union[tuple[str, bool], tuple[None, bool]]:
@@ -37,21 +38,9 @@ def _get_account_alias() -> Union[tuple[str, bool], tuple[None, bool]]:
         return result['AccountAliases'][0], True
 
 
-def process_console_login(record: dict) -> dict:
-    """ Process ConsoleLogin event """
-
-    return {
-        "resource_id": [record['responseElements']['ConsoleLogin']],
-        "identity": common.get_user_identity(record),
-        "region": record['awsRegion'],
-        "source_ip_address": record['sourceIPAddress'],
-        "event_name": record['eventName'],
-        "event_source": common.get_service_name(record)
-    }
-
-
 def process_event_by_service(record: dict) -> dict:
     """ Process event by service name"""
+    global set_tags
 
     service_name = common.get_service_name(record)
     try:
@@ -59,7 +48,7 @@ def process_event_by_service(record: dict) -> dict:
             service_name = 'lambda_'
 
         module = importlib.import_module(f"services.{service_name}")
-        return module.process_event(record)
+        return module.process_event(record, set_tags)
     except ImportError:
         return {"error": f"Not supported service: {service_name}, Event ID: {record['eventID']}"}
 
@@ -105,6 +94,23 @@ def _convert_to_slack_message(summary: dict) -> dict:
                 }
             })
 
+    if 'error_code' in summary.keys():
+        if 'error_message' in summary.keys():
+            error_message = summary['error_message']
+        else:
+            error_message = 'Cannot found error message'
+
+        result['blocks'].append({
+            "type": "section",
+            "text": {
+                "type": "plain_text",
+                "text": f"Error occurred : \n"
+                        f"- Error Code: {summary['error_code']}\n"
+                        f"- Error Message: {error_message}\n",
+                "emoji": True
+            }
+        })
+
     return result
 
 
@@ -130,12 +136,46 @@ def notify_sns(summary: dict):
     topic.publish(Message=json.dumps(summary))
 
 
+def build_result(record: dict) -> dict:
+    """ Build result dictionary from CloudTrail Event. """
+    if record['eventName'] == 'ConsoleLogin':
+        result = {
+            "resource_id": [record['responseElements']['ConsoleLogin']]
+        }
+    else:
+        result = process_event_by_service(record)
+
+    result['event_name'] = record['eventName']
+    result['event_source'] = common.get_service_name(record)
+    result['source_ip_address'] = record['sourceIPAddress']
+    result['identity'] = common.get_user_identity(record)
+    result['region'] = record['awsRegion']
+
+    # Add account ID information
+    if 'recipientAccountId' in record.keys():
+        result['account_id'] = record['recipientAccountId']
+    else:
+        result['account_id'] = None
+
+    # If error occurred, add error information
+    if 'errorCode' in record.keys():
+        result['error_code'] = result['errorCode']
+
+        if 'errorMessage' in record.keys():
+            result['error_message'] = result['errorMessage']
+
+    return result
+
+
 def handler(event, context):
     global account_alias
+    global set_tags
     print(event)
 
     if account_alias[1] is False:
         account_alias = _get_account_alias()
+
+    set_tags = common.check_set_mandatory_tag()
 
     # Get object information
     bucket = event['Records'][0]['s3']['bucket']['name']
@@ -151,17 +191,7 @@ def handler(event, context):
             if record['readOnly'] is True:
                 continue
 
-            if record['eventName'] == 'ConsoleLogin':
-                result = process_console_login(record)
-            else:
-                # Process event
-                result = process_event_by_service(record)
-
-            # Add account ID information
-            if 'recipientAccountId' in record.keys():
-                result['account_id'] = record['recipientAccountId']
-            else:
-                result['account_id'] = None
+            result = build_result(record)
 
             if 'error' in result.keys():
                 # Skip to send notification
