@@ -31,7 +31,7 @@ Resources:
       Role: !GetAtt WatcherFunctionRole.Arn
       Timeout: 120
       MemorySize: 512
-      Runtime: python3.9
+      Runtime: python3.12
       Handler: lambda_function.handler
       Environment:
         Variables:

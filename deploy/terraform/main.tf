@@ -38,7 +38,7 @@ resource "aws_lambda_function" "watcher_function" {
   source_code_hash = data.archive_file.watcher_function_codes.output_base64sha256
   timeout = 120
   memory_size = 512
-  runtime = "python3.9"
+  runtime = "python3.12"
   handler = "lambda_function.handler"
   environment {
     variables = {
