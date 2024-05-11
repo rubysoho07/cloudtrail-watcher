@@ -171,7 +171,7 @@ def handler(event, context):
             notify_slack(result)
             notify_sns(result)
         except ClientError as ce:
-            print(f"(ClientError) event ID: {event['eventID']}, event name: {event['eventName']}, "
+            print(f"(ClientError) event ID: {record['eventID']}, event name: {record['eventName']}, "
                   f"error code: {ce.response['Error']['Code']}, error message: {ce.response['Error']['Message']}")
         except Exception as e:
             traceback.print_exc()

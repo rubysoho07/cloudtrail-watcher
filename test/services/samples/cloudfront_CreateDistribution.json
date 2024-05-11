@@ -1,0 +1,250 @@
+{
+    "eventVersion": "1.09",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "attributes": {
+                "creationDate": "2024-05-11T00:55:09Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2024-05-11T02:51:07Z",
+    "eventSource": "cloudfront.amazonaws.com",
+    "eventName": "CreateDistribution",
+    "awsRegion": "us-east-1",
+    "sourceIPAddress": "127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:125.0) Gecko/20100101 Firefox/125.0",
+    "requestParameters": {
+        "distributionConfig": {
+            "defaultRootObject": "",
+            "aliases": {
+                "quantity": 0,
+                "items": []
+            },
+            "httpVersion": "http2",
+            "originGroups": {
+                "quantity": 0,
+                "items": []
+            },
+            "viewerCertificate": {
+                "minimumProtocolVersion": "TLSv1",
+                "cloudFrontDefaultCertificate": true
+            },
+            "webACLId": "",
+            "logging": {
+                "includeCookies": false,
+                "prefix": "",
+                "enabled": false,
+                "bucket": ""
+            },
+            "priceClass": "PriceClass_All",
+            "isIPV6Enabled": true,
+            "callerReference": "8af62ebc-27de-4c2e-8d13-99b2d4d71c4d",
+            "enabled": true,
+            "defaultCacheBehavior": {
+                "targetOriginId": "test",
+                "compress": true,
+                "functionAssociations": {
+                    "quantity": 0,
+                    "items": []
+                },
+                "trustedKeyGroups": {
+                    "quantity": 0,
+                    "items": [],
+                    "enabled": false
+                },
+                "smoothStreaming": false,
+                "fieldLevelEncryptionId": "",
+                "lambdaFunctionAssociations": {
+                    "quantity": 0,
+                    "items": []
+                },
+                "viewerProtocolPolicy": "allow-all",
+                "trustedSigners": {
+                    "items": [],
+                    "enabled": false,
+                    "quantity": 0
+                },
+                "cachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                "allowedMethods": {
+                    "quantity": 2,
+                    "items": [
+                        "GET",
+                        "HEAD"
+                    ],
+                    "cachedMethods": {
+                        "quantity": 2,
+                        "items": [
+                            "GET",
+                            "HEAD"
+                        ]
+                    }
+                }
+            },
+            "origins": {
+                "quantity": 1,
+                "items": [
+                    {
+                        "originPath": "",
+                        "connectionTimeout": 10,
+                        "s3OriginConfig": {
+                            "originAccessIdentity": ""
+                        },
+                        "id": "test",
+                        "domainName": "test",
+                        "connectionAttempts": 3,
+                        "customHeaders": {
+                            "quantity": 0,
+                            "items": []
+                        },
+                        "originShield": {
+                            "enabled": false
+                        },
+                        "originAccessControlId": ""
+                    }
+                ]
+            },
+            "comment": "HIDDEN_DUE_TO_SECURITY_REASONS"
+        }
+    },
+    "responseElements": {
+        "eTag": "E399VSHTP2W5C3",
+        "distribution": {
+            "activeTrustedSigners": {
+                "quantity": 0,
+                "enabled": false
+            },
+            "id": "DISTRIBUTION_ID",
+            "domainName": "random_domain.cloudfront.net",
+            "distributionConfig": {
+                "defaultRootObject": "",
+                "aliases": {
+                    "quantity": 0
+                },
+                "cacheBehaviors": {
+                    "quantity": 0
+                },
+                "httpVersion": "http2",
+                "originGroups": {
+                    "quantity": 0
+                },
+                "viewerCertificate": {
+                    "minimumProtocolVersion": "TLSv1",
+                    "cloudFrontDefaultCertificate": true,
+                    "sSLSupportMethod": "vip",
+                    "certificateSource": "cloudfront"
+                },
+                "webACLId": "",
+                "customErrorResponses": {
+                    "quantity": 0
+                },
+                "logging": {
+                    "includeCookies": false,
+                    "prefix": "",
+                    "enabled": false,
+                    "bucket": ""
+                },
+                "priceClass": "PriceClass_All",
+                "restrictions": {
+                    "geoRestriction": {
+                        "restrictionType": "none",
+                        "quantity": 0
+                    }
+                },
+                "isIPV6Enabled": true,
+                "callerReference": "8af62ebc-27de-4c2e-8d13-99b2d4d71c4d",
+                "continuousDeploymentPolicyId": "",
+                "enabled": true,
+                "defaultCacheBehavior": {
+                    "targetOriginId": "ORIGIN",
+                    "compress": true,
+                    "functionAssociations": {
+                        "quantity": 0
+                    },
+                    "trustedKeyGroups": {
+                        "quantity": 0,
+                        "enabled": false
+                    },
+                    "smoothStreaming": false,
+                    "fieldLevelEncryptionId": "",
+                    "lambdaFunctionAssociations": {
+                        "quantity": 0
+                    },
+                    "viewerProtocolPolicy": "allow-all",
+                    "trustedSigners": {
+                        "enabled": false,
+                        "quantity": 0
+                    },
+                    "cachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                    "allowedMethods": {
+                        "quantity": 2,
+                        "items": [
+                            "HEAD",
+                            "GET"
+                        ],
+                        "cachedMethods": {
+                            "quantity": 2,
+                            "items": [
+                                "HEAD",
+                                "GET"
+                            ]
+                        }
+                    }
+                },
+                "staging": false,
+                "origins": {
+                    "quantity": 1,
+                    "items": [
+                        {
+                            "originPath": "",
+                            "connectionTimeout": 10,
+                            "s3OriginConfig": {
+                                "originAccessIdentity": ""
+                            },
+                            "id": "ORIGIN",
+                            "domainName": "ORIGIN",
+                            "connectionAttempts": 3,
+                            "customHeaders": {
+                                "quantity": 0
+                            },
+                            "originShield": {
+                                "enabled": false
+                            },
+                            "originAccessControlId": ""
+                        }
+                    ]
+                },
+                "comment": "HIDDEN_DUE_TO_SECURITY_REASONS"
+            },
+            "aRN": "arn:aws:cloudfront::000000000000:distribution/DISTRIBUTION_ID",
+            "status": "InProgress",
+            "lastModifiedTime": "May 11, 2024, 2:51:06 AM",
+            "activeTrustedKeyGroups": {
+                "enabled": false,
+                "quantity": 0
+            },
+            "inProgressInvalidationBatches": 0
+        },
+        "location": "https://cloudfront.amazonaws.com/2020-05-31/distribution/DISTRIBUTION_ID"
+    },
+    "requestID": "98cbc108-e6f6-407e-80b4-21b3d14184bb",
+    "eventID": "db5ad124-2cb1-4677-808b-03289c1f8e98",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "apiVersion": "2020_05_31",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "tlsDetails": {
+        "tlsVersion": "TLSv1.3",
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "cloudfront.amazonaws.com"
+    },
+    "sessionCredentialFromConsole": "true"
+}

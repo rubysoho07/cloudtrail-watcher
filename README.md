@@ -25,6 +25,7 @@ EC2, S3, Lambda 함수와 같은 AWS 리소스를 생성할 때,
 * MWAA(Managed Workflow for Apache Airflow) (Environment)
 * DynamoDB (Table)
 * 🆕 ELB (CLB, ALB, NLB, GLB)
+* 🆕 CloudFront (Distribution)
 
 ## 인프라 구축
 

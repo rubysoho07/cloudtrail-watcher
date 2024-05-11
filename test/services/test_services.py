@@ -384,3 +384,18 @@ class ElasticLoadBalancingTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateLoadBalancer')
         self.assertEqual(result['source_ip_address'], '127.0.0.1')
         self.assertEqual(result['event_source'], 'elasticloadbalancing')
+
+
+class CloudFrontTest(unittest.TestCase):
+    def test_create_distribution(self):
+        with open('./samples/cloudfront_CreateDistribution.json') as f:
+            data = json.loads(f.read())
+
+        result = cloudfront.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['DISTRIBUTION_ID'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'us-east-1')
+        self.assertEqual(result['event_name'], 'CreateDistribution')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'cloudfront')

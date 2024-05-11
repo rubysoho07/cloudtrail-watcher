@@ -14,5 +14,6 @@ __all__ = [
     'kafka',
     'airflow',
     'dynamodb',
-    'elasticloadbalancing'
+    'elasticloadbalancing',
+    'cloudfront'
 ]

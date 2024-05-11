@@ -25,6 +25,7 @@ When a resource like EC2, S3, and Lambda was created...
 * MWAA(Managed Workflow for Apache Airflow) (Environment)
 * DynamoDB (Table)
 * 🆕 ELB (CLB, ALB, NLB, GLB)
+* 🆕 CloudFront (Distribution)
 
 ## Deploy Infrastructures
 

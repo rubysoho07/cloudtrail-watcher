@@ -189,7 +189,9 @@ resource "aws_iam_role" "watcher_function_role" {
             "airflow:TagResource",
             "dynamodb:TagResource",
             "elasticloadbalancing:DescribeTags",
-            "elasticloadbalancing:AddTags"
+            "elasticloadbalancing:AddTags",
+            "cloudfront:ListTagsForResource",
+            "cloudfront:TagResource",
           ]
           Resource = "*"
         }
