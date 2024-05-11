@@ -146,10 +146,12 @@ def build_result(record: dict) -> dict:
         result = process_event_by_service(record)
 
     result['event_name'] = record['eventName']
-    result['event_source'] = common.get_service_name(record)
     result['source_ip_address'] = record['sourceIPAddress']
     result['identity'] = common.get_user_identity(record)
     result['region'] = record['awsRegion']
+
+    if 'event_source' not in result.keys():
+        result['event_source'] = common.get_service_name(record)
 
     # Add account ID information
     if 'recipientAccountId' in record.keys():

@@ -114,7 +114,7 @@ class RDSTest(unittest.TestCase):
         self.assertEqual(result['region'], 'ap-northeast-2')
         self.assertEqual(result['event_name'], 'CreateDBCluster')
         self.assertEqual(result['source_ip_address'], '127.0.0.1')
-        self.assertEqual(result['event_source'], 'rds')
+        self.assertEqual(result['event_source'], 'documentdb')
 
     def test_create_db_instance_docdb(self):
         with open('./samples/rds_CreateDBInstance_DocDB.json') as f:
@@ -127,7 +127,7 @@ class RDSTest(unittest.TestCase):
         self.assertEqual(result['region'], 'ap-northeast-2')
         self.assertEqual(result['event_name'], 'CreateDBInstance')
         self.assertEqual(result['source_ip_address'], '127.0.0.1')
-        self.assertEqual(result['event_source'], 'rds')
+        self.assertEqual(result['event_source'], 'documentdb')
 
 
 class ElastiCacheTest(unittest.TestCase):

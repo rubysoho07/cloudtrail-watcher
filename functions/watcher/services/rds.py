@@ -44,12 +44,12 @@ def _process_create_db_instance(event: dict, set_tags: bool = False) -> list:
 def process_event(event: dict, set_tag: bool = False) -> dict:
     """ Process CloudTrail event for RDS instances and clusters """
 
-    if 'engine' in event['requestParameters'].keys() and event['requestParameters']['engine'] == 'docdb':
-        event_source = 'documentdb'
-    else:
-        event_source = get_service_name(event)
-
     result = dict()
+
+    if 'engine' in event['requestParameters'].keys() and event['requestParameters']['engine'] == 'docdb':
+        result['event_source'] = 'documentdb'
+    else:
+        result['event_source'] = get_service_name(event)
 
     if 'errorCode' in event.keys():
         result['error'] = f"{event['errorCode']}: check CloudTrail event - {event['eventID']}"
