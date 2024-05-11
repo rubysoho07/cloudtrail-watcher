@@ -1,0 +1,59 @@
+{
+    "eventVersion": "1.09",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test",
+        "sessionContext": {
+            "attributes": {
+                "creationDate": "2024-05-11T00:55:09Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2024-05-11T01:28:33Z",
+    "eventSource": "elasticloadbalancing.amazonaws.com",
+    "eventName": "CreateLoadBalancer",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:125.0) Gecko/20100101 Firefox/125.0",
+    "requestParameters": {
+        "subnets": [
+            "subnet-038c6c6a",
+            "subnet-24b3916e"
+        ],
+        "securityGroups": [
+            "sg-ef6e8186"
+        ],
+        "loadBalancerName": "test-clb",
+        "listeners": [
+            {
+                "protocol": "HTTP",
+                "loadBalancerPort": 80,
+                "instanceProtocol": "HTTP",
+                "instancePort": 80
+            }
+        ],
+        "scheme": "internet-facing"
+    },
+    "responseElements": {
+        "dNSName": "test-1004199582.ap-northeast-2.elb.amazonaws.com"
+    },
+    "requestID": "9ad0d6a0-2025-4ec4-8e97-d38506f9bb11",
+    "eventID": "96a861ee-dbc9-49d3-a288-d7a631127b14",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "apiVersion": "2012-06-01",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "tlsDetails": {
+        "tlsVersion": "TLSv1.3",
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "elasticloadbalancing.ap-northeast-2.amazonaws.com"
+    },
+    "sessionCredentialFromConsole": "true"
+}

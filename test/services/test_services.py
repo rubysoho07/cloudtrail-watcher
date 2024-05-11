@@ -356,3 +356,31 @@ class DynamoDBTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateTable')
         self.assertEqual(result['source_ip_address'], '172.0.0.1')
         self.assertEqual(result['event_source'], 'dynamodb')
+
+
+class ElasticLoadBalancingTest(unittest.TestCase):
+    def test_create_load_balancer_alb(self):
+        with open('./samples/elasticloadbalancing_CreateLoadBalancer_alb.json') as f:
+            data = json.loads(f.read())
+
+        result = elasticloadbalancing.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test-alb'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateLoadBalancer')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'elasticloadbalancing')
+
+    def test_create_load_balancer_clb(self):
+        with open('./samples/elasticloadbalancing_CreateLoadBalancer_clb.json') as f:
+            data = json.loads(f.read())
+
+        result = elasticloadbalancing.process_event(data)
+
+        self.assertEqual(result['resource_id'], ['test-clb'])
+        self.assertEqual(result['identity'], 'user/test')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateLoadBalancer')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'elasticloadbalancing')

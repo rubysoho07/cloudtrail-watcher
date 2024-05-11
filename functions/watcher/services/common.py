@@ -37,7 +37,8 @@ def check_contain_mandatory_tag_list(tags: list) -> bool:
         }
     """
 
-    result = False
+    if len(tags) == 0:
+        return False
 
     for tag in tags:
         if 'Key' in tag and tag['Key'] == 'User':
@@ -45,7 +46,7 @@ def check_contain_mandatory_tag_list(tags: list) -> bool:
         elif 'key' in tag and tag['key'] == 'User':
             return True
 
-    return result
+    return False
 
 
 def check_contain_mandatory_tag_dict(tags: dict) -> bool:

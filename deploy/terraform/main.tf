@@ -187,7 +187,9 @@ resource "aws_iam_role" "watcher_function_role" {
             "iam:ListAccountAliases",
             "kafka:TagResource",
             "airflow:TagResource",
-            "dynamodb:TagResource"
+            "dynamodb:TagResource",
+            "elasticloadbalancing:DescribeTags",
+            "elasticloadbalancing:AddTags"
           ]
           Resource = "*"
         }

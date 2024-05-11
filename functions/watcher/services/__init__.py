@@ -13,5 +13,6 @@ __all__ = [
     'es',
     'kafka',
     'airflow',
-    'dynamodb'
+    'dynamodb',
+    'elasticloadbalancing'
 ]

@@ -147,6 +147,8 @@ Resources:
                   "iam:ListAccountAliases",
                   "kafka:TagResource",
                   "airflow:TagResource",
-                  "dynamodb:TagResource"
+                  "dynamodb:TagResource",
+                  "elasticloadbalancing:DescribeTags",
+                  "elasticloadbalancing:AddTags"
                 ]
                 Resource: "*"
