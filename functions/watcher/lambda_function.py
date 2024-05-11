@@ -84,8 +84,9 @@ def _convert_to_slack_message(summary: dict) -> dict:
         account_str = f"{account_alias[0]}({summary['account_id']})"
 
     if summary['event_name'] == 'ConsoleLogin':
-        message = f":warning: *{summary['identity']}* logged in *{account_str}* " \
-                  f"({summary['resource_id'][0]} / from {summary['source_ip_address']})"
+        message = f":warning: *{summary['identity']}* logged in *{account_str}* \n" \
+                  f"Status: {summary['resource_id'][0]}\n" \
+                  f"Source IP: {summary['source_ip_address']}"
         result['blocks'][0]['text']['text'] = message
     else:
         message = f":warning: *{summary['identity']}* created new resources on " \
@@ -96,8 +97,10 @@ def _convert_to_slack_message(summary: dict) -> dict:
                 "type": "section",
                 "text": {
                     "type": "plain_text",
-                    "text": f"service: {summary['event_source']} / event_name: {summary['event_name']} "
-                            f"/ source_ip: {summary['source_ip_address']} / resource_ids: {summary['resource_id']}",
+                    "text": f"- Service: {summary['event_source']}\n"
+                            f"- Event name: {summary['event_name']}\n"
+                            f"- Source IP: {summary['source_ip_address']}\n"
+                            f"- Resource IDs: {summary['resource_id']}",
                     "emoji": True
                 }
             })
