@@ -7,6 +7,10 @@ When a resource like EC2, S3, and Lambda was created...
 * You can be notified via Slack message(using Incoming Webhook) or email(using Amazon SNS). 
 * CloudTrail Watcher Lambda Function will create `User` tag on your AWS resources automatically.
 
+## Architecture
+
+![Architecture](./cloudtrail-watcher-architecture.png)
+
 ## Supported AWS Resources & Actions
 
 * Console Login

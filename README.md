@@ -7,6 +7,10 @@ EC2, S3, Lambda 함수와 같은 AWS 리소스를 생성할 때,
 * 슬랙 메시지(Incoming Webhook)나 이메일(Amazon SNS 사용)으로 알림을 받을 수 있습니다. 
 * CloudTrail Watcher Lambda 함수가 `User` 태그를 자동으로 AWS 리소스에 추가합니다.
 
+## 아키텍처
+
+![Architecture](./cloudtrail-watcher-architecture.png)
+
 ## 지원하는 AWS 리소스와 활동
 
 * 콘솔 로그인
