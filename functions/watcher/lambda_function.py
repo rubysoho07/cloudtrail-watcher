@@ -19,6 +19,7 @@ sns = boto3.resource('sns')
 
 account_alias = (None, False)
 set_tags = False
+disable_autoscaling_alarm = False
 
 
 def _get_account_alias() -> Union[tuple[str, bool], tuple[None, bool]]:
@@ -172,12 +173,15 @@ def build_result(record: dict) -> dict:
 def handler(event, context):
     global account_alias
     global set_tags
+    global disable_autoscaling_alarm
+
     print(event)
 
     if account_alias[1] is False:
         account_alias = _get_account_alias()
 
     set_tags = common.check_set_mandatory_tag()
+    disable_autoscaling_alarm = common.check_disable_autoscaling_alarm()
 
     # Get object information
     bucket = event['Records'][0]['s3']['bucket']['name']
@@ -197,6 +201,11 @@ def handler(event, context):
 
             if 'error' in result.keys():
                 # Skip to send notification
+                continue
+
+            # Skip autoscaling alarm
+            if disable_autoscaling_alarm and \
+                    result['identity'].startswith("assumed-role/AWSServiceRoleForAutoScaling"):
                 continue
 
             # Send notification

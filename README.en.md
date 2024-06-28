@@ -28,8 +28,9 @@ When a resource like EC2, S3, and Lambda was created...
 * MSK(Managed Streaming for Apache Kafka) (Cluster)
 * MWAA(Managed Workflow for Apache Airflow) (Environment)
 * DynamoDB (Table)
-* 🆕 ELB (CLB, ALB, NLB, GLB)
-* 🆕 CloudFront (Distribution)
+* ELB (CLB, ALB, NLB, GLB)
+* CloudFront (Distribution)
+* 🆕 ECR (Repository)
 
 ## Deploy Infrastructures
 
@@ -128,7 +129,7 @@ Creating tag doesn't influence sending messages via Slack or Email by using Amaz
 
 ### Instruction
 
-* Set `SET_MANDATORY_TAG` environment variable on Lambda function: If the value is not in `DISABLED`, `0`, `False`, `false`, the feature setting mandatory tags will work.
+* Set `SET_MANDATORY_TAG` environment variable on Lambda function: If the value is not in `DISABLED`, `0`, `False`, `false`, the function will set mandatory tags to resources.
 
 #### SAM
 
@@ -147,6 +148,29 @@ When you run `terraform apply` command, add `-var 'set_mandatory_tag=true'`optio
 terraform apply -var 'aws_region=ap-northeast-2' \
                 -var 'resource_prefix=<your_resource_prefix or blank>' \
                 -var 'set_mandatory_tag=true'
+```
+
+## Disable alarm for resources created by autoscaling
+
+* Add `DISABLE_AUTOSCALING_ALARM` environment variable on Lambda function: If the value is not in `DISABLED`, `0`, `False`, `false`, the function will not send alarm for resources created by autoscaling.
+
+#### SAM
+
+When you deploy with SAM CLI, add `--parameter-overrides DisableAutoscalingAlarm=true` option like below:
+
+```shell
+sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID \ 
+                                 DisableAutoscalingAlarm=true
+```
+
+#### Terraform
+
+When you run `terraform apply` command, add `-var 'disable_autoscaling_alarm=true'`option:
+
+```shell
+terraform apply -var 'aws_region=ap-northeast-2' \
+                -var 'resource_prefix=<your_resource_prefix or blank>' \
+                -var 'disable_autoscaling_alarm=true'
 ```
 
 ## References

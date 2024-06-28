@@ -63,3 +63,15 @@ def check_contain_mandatory_tag_dict(tags: dict) -> bool:
         return True
     else:
         return False
+
+
+def check_disable_autoscaling_alarm() -> bool:
+    """
+        Check if watcher function notifies for autoscaling.
+        If you want to set this feature, set environment variable named 'DISABLE_AUTOSCALING_ALARM'
+    """
+    if 'DISABLE_AUTOSCALING_ALARM' in os.environ.keys() and \
+       os.environ['DISABLE_AUTOSCALING_ALARM'] not in ['DISABLED', 'False', '0', 'false']:
+        return True
+
+    return False

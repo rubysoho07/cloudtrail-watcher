@@ -21,6 +21,11 @@ Parameters:
     Default: "DISABLED"
     Description: "Set mandatory tags when resources are created."
 
+  DisableAutoscalingAlarm:
+    Type: String
+    Default: "DISABLED"
+    Description: "Disable alarm for resources created by autoscaling"
+
 Resources:
   WatcherFunction:
     Type: "AWS::Serverless::Function"
@@ -38,6 +43,7 @@ Resources:
           SNS_TOPIC_ARN: !Ref WatcherSNSTopic
           SLACK_WEBHOOK_URL: !Ref SlackWebhookURL
           SET_MANDATORY_TAG: !Ref SetMandatoryTag
+          DISABLE_AUTOSCALING_ALARM: !Ref DisableAutoscalingAlarm
       Events:
         DetectLogsFromS3:       # AWS::Lambda::Permission resource created automatically by SAM
           Type: S3

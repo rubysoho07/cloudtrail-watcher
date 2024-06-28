@@ -28,8 +28,9 @@ EC2, S3, Lambda 함수와 같은 AWS 리소스를 생성할 때,
 * MSK(Managed Streaming for Apache Kafka) (Cluster)
 * MWAA(Managed Workflow for Apache Airflow) (Environment)
 * DynamoDB (Table)
-* 🆕 ELB (CLB, ALB, NLB, GLB)
-* 🆕 CloudFront (Distribution)
+* ELB (CLB, ALB, NLB, GLB)
+* CloudFront (Distribution)
+* 🆕 ECR (Repository)
 
 ## 인프라 구축
 
@@ -147,6 +148,29 @@ sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOU
 terraform apply -var 'aws_region=ap-northeast-2' \
                 -var 'resource_prefix=<your_resource_prefix or blank>' \
                 -var 'set_mandatory_tag=true'
+```
+
+## Autoscaling 리소스 알람 생략
+
+* Lambda 함수에 `DISABLE_AUTOSCALING_ALARM` 환경 변수를 추가합니다. 환경 변수 값이 `DISABLED`, `0`, `False`, `false`가 아니면, Autoscaling 리소스에 대한 알람을 보내지 않습니다. 
+
+#### SAM
+
+SAM CLI로 배포할 때, `--parameter-overrides DisableAutoscalingAlarm=true` 옵션을 아래와 같이 추가합니다.
+
+```shell
+sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID \ 
+                                 DisableAutoscalingAlarm=true
+```
+
+#### Terraform
+
+`terraform apply` 명령을 실행할 때, `-var 'disable_autoscaling_alarm=true'` 옵션을 아래와 같이 추가합니다.
+
+```shell
+terraform apply -var 'aws_region=ap-northeast-2' \
+                -var 'resource_prefix=<your_resource_prefix or blank>' \
+                -var 'disable_autoscaling_alarm=true'
 ```
 
 ## 참고자료

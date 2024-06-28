@@ -45,6 +45,7 @@ resource "aws_lambda_function" "watcher_function" {
       SNS_TOPIC_ARN = aws_sns_topic.watcher_sns_topic.arn
       SLACK_WEBHOOK_URL = var.slack_webhook_url
       SET_MANDATORY_TAG = var.set_mandatory_tag
+      DISABLE_AUTOSCALING_ALARM = var.disable_autoscaling_alarm
     }
   }
 }

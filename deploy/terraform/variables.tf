@@ -36,3 +36,9 @@ variable "set_mandatory_tag" {
   description = "Set mandatory tags when resources are created."
   default = "DISABLED"
 }
+
+variable "disable_autoscaling_alarm" {
+  type = string
+  description = "Disable alarm for resources created by autoscaling"
+  default = "DISABLED"
+}
