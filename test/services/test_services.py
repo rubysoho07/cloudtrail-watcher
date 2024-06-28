@@ -315,7 +315,7 @@ class OpenSearchTest(unittest.TestCase):
 
 class MSKTest(unittest.TestCase):
     def test_create_cluster_v2(self):
-        with open('./samples/kakfa_CreateClusterV2.json') as f:
+        with open('./samples/kafka_CreateClusterV2.json') as f:
             data = json.loads(f.read())
 
         result = build_result(data)
