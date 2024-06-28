@@ -192,6 +192,8 @@ resource "aws_iam_role" "watcher_function_role" {
             "elasticloadbalancing:AddTags",
             "cloudfront:ListTagsForResource",
             "cloudfront:TagResource",
+            "ecr:ListTagsForResource",
+            "ecr:TagResource"
           ]
           Resource = "*"
         }

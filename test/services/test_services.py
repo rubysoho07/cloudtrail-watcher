@@ -399,3 +399,18 @@ class CloudFrontTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateDistribution')
         self.assertEqual(result['source_ip_address'], '127.0.0.1')
         self.assertEqual(result['event_source'], 'cloudfront')
+
+
+class ECRTest(unittest.TestCase):
+    def test_create_repository(self):
+        with open('./samples/ecr_CreateRepository.json') as f:
+            data = json.loads(f.read())
+
+        result = build_result(data)
+
+        self.assertEqual(result['resource_id'], ['test'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateRepository')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'ecr')
