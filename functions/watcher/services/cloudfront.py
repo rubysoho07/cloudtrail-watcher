@@ -31,8 +31,6 @@ def process_event(event: dict, set_tag: bool = False) -> dict:
 
     result = dict()
 
-    set_tag = check_set_mandatory_tag()
-
     if event['eventName'] == "CreateDistribution":
         result['resource_id'] = _process_create_distribution(event, set_tag)
     else:
