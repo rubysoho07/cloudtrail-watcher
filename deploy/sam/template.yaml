@@ -152,5 +152,7 @@ Resources:
                   "elasticloadbalancing:AddTags",
                   "cloudfront:ListTagsForResource",
                   "cloudfront:TagResource",
+                  "ecr:ListTagsForResource",
+                  "ecr:TagResource"
                 ]
                 Resource: "*"
