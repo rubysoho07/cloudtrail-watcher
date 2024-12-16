@@ -1,3 +1,9 @@
+# CloudTrail을 이미 S3 버킷에 저장하고 있을 때
+locals {
+  s3_bucket_name = "your-bucket-name"
+  s3_bucket_arn  = "your-bucket-arn"
+}
+
 terraform {
   required_providers {
     aws = {
@@ -56,12 +62,14 @@ resource "aws_lambda_permission" "watcher_function_permission" {
   principal = "s3.amazonaws.com"
 }
 
-resource "aws_s3_bucket" "watcher_logs_bucket" {
-  bucket = local.resource_prefix
-}
+# CloudTrail을 이미 S3 버킷에 저장하고 있을 때
+# resource "aws_s3_bucket" "watcher_logs_bucket" {
+#   bucket = local.resource_prefix
+# }
 
+# CloudTrail을 이미 S3 버킷에 저장하고 있을 때
 resource "aws_s3_bucket_notification" "watcher_logs_bucket_notification" {
-  bucket = aws_s3_bucket.watcher_logs_bucket.id
+  bucket = local.s3_bucket_name
 
   lambda_function {
     lambda_function_arn = aws_lambda_function.watcher_function.arn
@@ -107,19 +115,20 @@ resource "aws_s3_bucket_policy" "watcher_logs_bucket_policy" {
   })
 }
 
-resource "aws_cloudtrail" "watcher_trail" {
-  depends_on = [aws_s3_bucket_policy.watcher_logs_bucket_policy]
+# CloudTrail을 이미 S3 버킷에 저장하고 있을 때
+# resource "aws_cloudtrail" "watcher_trail" {
+#   depends_on = [aws_s3_bucket_policy.watcher_logs_bucket_policy]
 
-  name = local.resource_prefix
-  s3_bucket_name = aws_s3_bucket.watcher_logs_bucket.id
-  enable_logging = true
-  is_multi_region_trail = true
-  include_global_service_events = true
+#   name = local.resource_prefix
+#   s3_bucket_name = aws_s3_bucket.watcher_logs_bucket.id
+#   enable_logging = true
+#   is_multi_region_trail = true
+#   include_global_service_events = true
 
-  event_selector {
-    read_write_type = "WriteOnly"
-  }
-}
+#   event_selector {
+#     read_write_type = "WriteOnly"
+#   }
+# }
 
 resource "aws_sns_topic" "watcher_sns_topic" {
   name = local.resource_prefix
