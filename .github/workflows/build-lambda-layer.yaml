@@ -17,13 +17,15 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
       - name: Build Lambda Layer
         run: |
-          pwd
-          ls -al
           cd functions/watcher
           rm -rf __pycache__/ services/__pycache__/
           zip -r $PWD/layer.zip .
+
       - name: Create Lambda Layer
         run: |
           cd functions/watcher
