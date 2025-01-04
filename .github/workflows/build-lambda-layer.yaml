@@ -30,6 +30,6 @@ jobs:
       - name: Create Lambda Layer
         run: |
           cd functions/watcher
-          aws lambda publish-layer-version --layer-name cloudtrail-watch-lambda-layer \
+          aws lambda publish-layer-version --layer-name cloudtrail-watcher-lambda-layer \
                                            --compatible-runtimes "python3.12" \
                                            --zip-file fileb://$PWD/layer.zip
