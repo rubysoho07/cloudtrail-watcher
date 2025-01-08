@@ -1,9 +1,6 @@
 name: Create CloudTrail Watcher Lambda Layer
 
 on:
-  push:
-    branches:
-      - "main"
   release:
     types: [published]
 
