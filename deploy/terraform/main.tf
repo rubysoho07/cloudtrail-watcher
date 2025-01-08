@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = ">= 2.0.0"
     }
   }
@@ -9,7 +9,7 @@ terraform {
 
 provider "aws" {
   profile = var.aws_profile
-  region = var.aws_region
+  region  = var.aws_region
 
   default_tags {
     tags = {
@@ -21,8 +21,8 @@ provider "aws" {
 data "aws_caller_identity" "current_account" {}
 
 data "archive_file" "watcher_function_codes" {
-  type = "zip"
-  source_dir = "../../functions/watcher/"
+  type        = "zip"
+  source_dir  = "../../functions/watcher/"
   output_path = "/tmp/cloudtrailwatcher_function.zip"
 }
 
@@ -31,29 +31,29 @@ locals {
 }
 
 resource "aws_lambda_function" "watcher_function" {
-  function_name = local.resource_prefix
-  description = "CloudTrail Watcher Function"
-  role = aws_iam_role.watcher_function_role.arn
-  filename = data.archive_file.watcher_function_codes.output_path
+  function_name    = local.resource_prefix
+  description      = "CloudTrail Watcher Function"
+  role             = aws_iam_role.watcher_function_role.arn
+  filename         = data.archive_file.watcher_function_codes.output_path
   source_code_hash = data.archive_file.watcher_function_codes.output_base64sha256
-  timeout = 120
-  memory_size = 512
-  runtime = "python3.12"
-  handler = "lambda_function.handler"
+  timeout          = 120
+  memory_size      = 512
+  runtime          = "python3.12"
+  handler          = "lambda_function.handler"
   environment {
     variables = {
-      SNS_TOPIC_ARN = aws_sns_topic.watcher_sns_topic.arn
-      SLACK_WEBHOOK_URL = var.slack_webhook_url
-      SET_MANDATORY_TAG = var.set_mandatory_tag
+      SNS_TOPIC_ARN             = aws_sns_topic.watcher_sns_topic.arn
+      SLACK_WEBHOOK_URL         = var.slack_webhook_url
+      SET_MANDATORY_TAG         = var.set_mandatory_tag
       DISABLE_AUTOSCALING_ALARM = var.disable_autoscaling_alarm
     }
   }
 }
 
 resource "aws_lambda_permission" "watcher_function_permission" {
-  action = "lambda:InvokeFunction"
+  action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.watcher_function.function_name
-  principal = "s3.amazonaws.com"
+  principal     = "s3.amazonaws.com"
 }
 
 resource "aws_s3_bucket" "watcher_logs_bucket" {
@@ -65,7 +65,7 @@ resource "aws_s3_bucket_notification" "watcher_logs_bucket_notification" {
 
   lambda_function {
     lambda_function_arn = aws_lambda_function.watcher_function.arn
-    events = ["s3:ObjectCreated:*"]
+    events              = ["s3:ObjectCreated:*"]
   }
 
   depends_on = [aws_lambda_permission.watcher_function_permission]
@@ -75,7 +75,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "watcher_logs_bucket_lifecycle"
   bucket = aws_s3_bucket.watcher_logs_bucket.id
 
   rule {
-    id = "DeleteLogAfter1Year"
+    id     = "DeleteLogAfter1Year"
     status = "Enabled"
     expiration {
       days = 365
@@ -93,14 +93,14 @@ resource "aws_s3_bucket_policy" "watcher_logs_bucket_policy" {
         Principal = {
           Service = "cloudtrail.amazonaws.com"
         }
-        Action = "s3:GetBucketAcl"
+        Action   = "s3:GetBucketAcl"
         Resource = aws_s3_bucket.watcher_logs_bucket.arn
-      },{
+        }, {
         Effect = "Allow"
         Principal = {
           Service = "cloudtrail.amazonaws.com"
         }
-        Action = "s3:PutObject"
+        Action   = "s3:PutObject"
         Resource = "${aws_s3_bucket.watcher_logs_bucket.arn}/*"
       }
     ]
@@ -110,10 +110,10 @@ resource "aws_s3_bucket_policy" "watcher_logs_bucket_policy" {
 resource "aws_cloudtrail" "watcher_trail" {
   depends_on = [aws_s3_bucket_policy.watcher_logs_bucket_policy]
 
-  name = local.resource_prefix
-  s3_bucket_name = aws_s3_bucket.watcher_logs_bucket.id
-  enable_logging = true
-  is_multi_region_trail = true
+  name                          = local.resource_prefix
+  s3_bucket_name                = aws_s3_bucket.watcher_logs_bucket.id
+  enable_logging                = true
+  is_multi_region_trail         = true
   include_global_service_events = true
 
   event_selector {
@@ -126,7 +126,7 @@ resource "aws_sns_topic" "watcher_sns_topic" {
 }
 
 resource "aws_iam_role" "watcher_function_role" {
-  name = "${local.resource_prefix}-role"
+  name        = "${local.resource_prefix}-role"
   description = "Role for CloudTrail Watcher Lambda function"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -151,14 +151,16 @@ resource "aws_iam_role" "watcher_function_role" {
       Version = "2012-10-17"
       Statement = [
         {
-          Effect = "Allow"
-          Action = "s3:GetObject"
+          Effect   = "Allow"
+          Action   = "s3:GetObject"
           Resource = "${aws_s3_bucket.watcher_logs_bucket.arn}/*"
-        },{
-          Effect = "Allow"
-          Action = "sns:Publish"
+        },
+        {
+          Effect   = "Allow"
+          Action   = "sns:Publish"
           Resource = aws_sns_topic.watcher_sns_topic.arn
-        },{
+        },
+        {
           Effect = "Allow"
           Action = [
             "lambda:ListTags",
