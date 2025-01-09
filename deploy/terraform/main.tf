@@ -140,67 +140,69 @@ resource "aws_iam_role" "watcher_function_role" {
       },
     ]
   })
+}
 
-  managed_policy_arns = [
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  ]
+resource "aws_iam_role_policy_attachment" "lambda_role" {
+  role       = aws_iam_role.watcher_function_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
 
-  inline_policy {
-    name = "${local.resource_prefix}-policy"
-    policy = jsonencode({
-      Version = "2012-10-17"
-      Statement = [
-        {
-          Effect   = "Allow"
-          Action   = "s3:GetObject"
-          Resource = "${aws_s3_bucket.watcher_logs_bucket.arn}/*"
-        },
-        {
-          Effect   = "Allow"
-          Action   = "sns:Publish"
-          Resource = aws_sns_topic.watcher_sns_topic.arn
-        },
-        {
-          Effect = "Allow"
-          Action = [
-            "lambda:ListTags",
-            "lambda:TagResource",
-            "s3:GetBucketTagging",
-            "s3:PutBucketTagging",
-            "ec2:DescribeNetworkInterfaces",
-            "ec2:DescribeTags",
-            "ec2:DescribeVolumes",
-            "ec2:DescribeInstances",
-            "ec2:DescribeSecurityGroups",
-            "ec2:CreateTags",
-            "elasticache:AddTagsToResource",
-            "rds:AddTagsToResource",
-            "elasticmapreduce:AddTags",
-            "redshift:CreateTags",
-            "ecs:TagResource",
-            "eks:TagResource",
-            "iam:ListUserTags",
-            "iam:ListRoleTags",
-            "iam:ListPolicyTags",
-            "iam:ListInstanceProfileTags",
-            "iam:TagUser",
-            "iam:TagRole",
-            "iam:TagPolicy",
-            "iam:TagInstanceProfile",
-            "iam:ListAccountAliases",
-            "kafka:TagResource",
-            "airflow:TagResource",
-            "dynamodb:TagResource",
-            "elasticloadbalancing:DescribeTags",
-            "elasticloadbalancing:AddTags",
-            "cloudfront:ListTagsForResource",
-            "cloudfront:TagResource",
-            "ecr:ListTagsForResource",
-            "ecr:TagResource"
-          ]
-          Resource = "*"
-        }
-      ]
-    })
-  }
+resource "aws_iam_role_policy" "watcher_function_policy" {
+  name = "${local.resource_prefix}-policy"
+  role = aws_iam_role.watcher_function_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "s3:GetObject"
+        Resource = "${aws_s3_bucket.watcher_logs_bucket.arn}/*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = "sns:Publish"
+        Resource = aws_sns_topic.watcher_sns_topic.arn
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "lambda:ListTags",
+          "lambda:TagResource",
+          "s3:GetBucketTagging",
+          "s3:PutBucketTagging",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DescribeTags",
+          "ec2:DescribeVolumes",
+          "ec2:DescribeInstances",
+          "ec2:DescribeSecurityGroups",
+          "ec2:CreateTags",
+          "elasticache:AddTagsToResource",
+          "rds:AddTagsToResource",
+          "elasticmapreduce:AddTags",
+          "redshift:CreateTags",
+          "ecs:TagResource",
+          "eks:TagResource",
+          "iam:ListUserTags",
+          "iam:ListRoleTags",
+          "iam:ListPolicyTags",
+          "iam:ListInstanceProfileTags",
+          "iam:TagUser",
+          "iam:TagRole",
+          "iam:TagPolicy",
+          "iam:TagInstanceProfile",
+          "iam:ListAccountAliases",
+          "kafka:TagResource",
+          "airflow:TagResource",
+          "dynamodb:TagResource",
+          "elasticloadbalancing:DescribeTags",
+          "elasticloadbalancing:AddTags",
+          "cloudfront:ListTagsForResource",
+          "cloudfront:TagResource",
+          "ecr:ListTagsForResource",
+          "ecr:TagResource"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
 }
