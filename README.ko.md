@@ -1,19 +1,19 @@
 # CloudTrail Watcher
 
-한국어 버전: [README.md](./README.md)
+English Version: [README.en.md](./README.en.md)
 
-When a resource like EC2, S3, and Lambda was created...
+EC2, S3, Lambda 함수와 같은 AWS 리소스를 생성할 때,
 
-* You can be notified via Slack message(using Incoming Webhook) or email(using Amazon SNS). 
-* CloudTrail Watcher Lambda Function will create `User` tag on your AWS resources automatically.
+* 슬랙 메시지(Incoming Webhook)나 이메일(Amazon SNS 사용)으로 알림을 받을 수 있습니다. 
+* CloudTrail Watcher Lambda 함수가 `User` 태그를 자동으로 AWS 리소스에 추가합니다.
 
-## Architecture
+## 아키텍처
 
 ![Architecture](./cloudtrail-watcher-architecture.png)
 
-## Supported AWS Resources & Actions
+## 지원하는 AWS 리소스와 활동
 
-* Console Login
+* 콘솔 로그인
 * IAM (User, Group, Role, Policy, Instance Profile)
 * EC2 (Instance, Security Group)
 * RDS (Cluster, Instance)
@@ -30,11 +30,11 @@ When a resource like EC2, S3, and Lambda was created...
 * DynamoDB (Table)
 * ELB (CLB, ALB, NLB, GLB)
 * CloudFront (Distribution)
-* 🆕 ECR (Repository)
+* ECR (Repository)
 
-## Deploy Infrastructures
+## 인프라 구축
 
-### Deploy with SAM (Serverless Application Model)
+### SAM (Serverless Application Model)으로 인프라 구성하기
 
 ```shell
 $ cd deploy/sam
@@ -45,18 +45,18 @@ $ sam deploy --stack-name cloudtrail-watcher \
              --capabilities CAPABILITY_NAMED_IAM
              --tags 'User=cloudtrail-watcher'
              
-# If you want to override additional parameters when deploying
+# 배포 시 추가 파라미터를 오버라이드 하고 싶다면
 $ sam deploy --stack-name cloudtrail-watcher \
              --parameter-overrides ResourcesDefaultPrefix=your_prefix SetMandatoryTag=true \
              --capabilities CAPABILITY_NAMED_IAM
              # If you want more tags
              --tags 'User=cloudtrail-watcher' 'Team=DevOps' 
              
-# Destroy SAM stack
+# SAM stack 배포
 $ sam delete 
 ```
 
-If you are not familiar with SAM CLI, I would recommend using these commands below.
+SAM CLI에 익숙하지 않으시다면, 아래 명령을 사용하시기를 권장합니다. 
 
 ```shell
 $ cd deploy/sam
@@ -64,35 +64,35 @@ $ sam build
 $ sam deploy --guided
 ```
 
-### Deploy with Terraform 
+### Terraform으로 인프라 구성하기 
 
 ```shell
 $ cd deploy/terraform
 $ terraform init
 
-# If you want to set prefix for resources
+# 생성하는 리소스에 접두어를 붙이고 싶다면
 $ terraform apply -var 'aws_region=ap-northeast-2' -var 'resource_prefix=<your_resource_prefix>'
 
-# If you don't need to set prefix for resources
+# 생성하는 리소스에 접두어를 붙이고 싶지 않다면
 $ terraform apply -var 'aws_region=ap-northeast-2' -var 'resource_prefix='
 
-# Destroy infrastructure deployments
+# 배포된 인프라 삭제하기
 $ terraform destroy -var 'aws_region=ap-northeast-2' \
                     -var 'resource_prefix=<your_resource_prefix or blank>'
-                    # If you have to set more variables...
+                    # 더 많은 변수를 추가하는 경우
                     -var 'variable_name=value'
 ```
 
-## Notification
+## 알림 받기
 
 ### Slack
 
-* Change function's `SLACK_WEBHOOK_URL` environment variable to Slack Incoming Webhook URL. 
-* Default value is `DISABLED`. If you don't want to notify resource creation via Slack, set this variable `DISABLED`.
+* 함수의 `SLACK_WEBHOOK_URL` 환경 변수를 Slack의 Incoming Webhook URL로 변경합니다. 
+* 기본값은 `DISABLED` 입니다. 리소스 생성 알림을 슬랙으로 받고 싶지 않다면, 이 환경 변수를 `DISABLED`로 지정해 주세요.
 
 #### SAM
 
-When you deploy with SAM CLI, add `--parameter-overrides` option like below:
+SAM CLI로 배포한다면, 아래와 같이 `--parameter-overrides` 옵션을 추가해 주세요.
 
 ```shell
 sam deploy --parameter-overrides SlackWebhookURL=https://hooks.slack.com/services/...
@@ -100,40 +100,40 @@ sam deploy --parameter-overrides SlackWebhookURL=https://hooks.slack.com/service
 
 #### Terraform
 
-When you run `terraform apply` command, add option:
+`terraform apply` 명령을 실행할 때, 옵션을 추가합니다.
 
 ```shell
 terraform apply -var 'slack_webhook_url=https://hooks.slack.com/services/...'
 ```
 
-### Email
+### 이메일
 
 ```shell
-# Get SNS Topic ARN
+# SNS Topic ARN을 가져 옵니다. 
 TOPIC_ARN=$(aws sns list-topics | jq -r '.Topics[].TopicArn' | grep cloudtrailwatcher)
 
-# Subscribe a SNS Topic
+# SNS Topic 구독하기
 aws sns subscribe --topic-arn $TOPIC_ARN \ 
                   --protocol email \ 
                   --notification-endpoint your@email.address
 ```
 
-If you receive email from AWS SNS, please confirm the email to complete subscription.
+AWS SNS로부터 이메일을 수신했다면, 구독을 완료하기 위해 이메일을 확인하세요.
 
-## Set Mandatory Tag
+## 필수 태그 지정하기
 
-CloudTrail Watcher supports create tags for newly created resources. Lambda function checks `User` tag exists on these resources. 
-If the function cannot find `User` tag on them, it creates `User` tag on behalf of you. 
+CloudTrail Watcher는 새로 생성한 리소스에 대해 태그 추가를 지원합니다. Lambda 함수가 리소스에 `User` 태그가 있는지 확인합니다. 
+함수가 `User` 태그를 찾을 수 없으면, 여러분을 대신해서 `User` 태그를 추가해 줍니다. 
 
-Creating tag doesn't influence sending messages via Slack or Email by using Amazon SNS. 
+태그 추가는 슬랙 메시지나 Amazon SNS를 통해 이메일을 보내는 데 영향을 주지 않습니다.  
 
-### Instruction
+### 사용법
 
-* Set `SET_MANDATORY_TAG` environment variable on Lambda function: If the value is not in `DISABLED`, `0`, `False`, `false`, the function will set mandatory tags to resources.
+* Lambda 함수에 `SET_MANDATORY_TAG` 환경 변수를 추가합니다. 환경 변수 값이 `DISABLED`, `0`, `False`, `false`가 아니면, 필수 태그 추가 기능이 동작합니다.
 
 #### SAM
 
-When you deploy with SAM CLI, add `--parameter-overrides SetMandatoryTag=true` option like below:
+SAM CLI로 배포할 때, `--parameter-overrides SetMandatoryTag=true` 옵션을 아래와 같이 추가합니다.
 
 ```shell
 sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID \ 
@@ -142,7 +142,7 @@ sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOU
 
 #### Terraform
 
-When you run `terraform apply` command, add `-var 'set_mandatory_tag=true'`option:
+`terraform apply` 명령을 실행할 때, `-var 'set_mandatory_tag=true'` 옵션을 추가합니다.
 
 ```shell
 terraform apply -var 'aws_region=ap-northeast-2' \
@@ -150,13 +150,13 @@ terraform apply -var 'aws_region=ap-northeast-2' \
                 -var 'set_mandatory_tag=true'
 ```
 
-## Disable alarm for resources created by autoscaling
+## Autoscaling 리소스 알람 생략
 
-* Add `DISABLE_AUTOSCALING_ALARM` environment variable on Lambda function: If the value is not in `DISABLED`, `0`, `False`, `false`, the function will not send alarm for resources created by autoscaling.
+* Lambda 함수에 `DISABLE_AUTOSCALING_ALARM` 환경 변수를 추가합니다. 환경 변수 값이 `DISABLED`, `0`, `False`, `false`가 아니면, Autoscaling 리소스에 대한 알람을 보내지 않습니다. 
 
 #### SAM
 
-When you deploy with SAM CLI, add `--parameter-overrides DisableAutoscalingAlarm=true` option like below:
+SAM CLI로 배포할 때, `--parameter-overrides DisableAutoscalingAlarm=true` 옵션을 아래와 같이 추가합니다.
 
 ```shell
 sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID \ 
@@ -165,7 +165,7 @@ sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOU
 
 #### Terraform
 
-When you run `terraform apply` command, add `-var 'disable_autoscaling_alarm=true'`option:
+`terraform apply` 명령을 실행할 때, `-var 'disable_autoscaling_alarm=true'` 옵션을 아래와 같이 추가합니다.
 
 ```shell
 terraform apply -var 'aws_region=ap-northeast-2' \
@@ -173,6 +173,6 @@ terraform apply -var 'aws_region=ap-northeast-2' \
                 -var 'disable_autoscaling_alarm=true'
 ```
 
-## References
+## 참고자료
 
 * [CloudTrail Log Event Reference](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference.html)

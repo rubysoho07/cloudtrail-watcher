@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: CloudTrail Watcher Lambda Layer
+
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: cloudtrail-watcher-lambda-layer
+    Description: CloudTrail Watcher Lambda Layer
+    SemanticVersion: "0.0.2"
+    Author: Yungon Park
+    LicenseUrl: LICENSE
+    ReadmeUrl: README.md
+    SpdxLicenseId: MIT
+    Labels: ["layer", "cloudtrail", "security"]
+    HomePageUrl: https://github.com/rubysoho07/cloudtrail-watcher
+    SourceCodeUrl: https://github.com/rubysoho07/cloudtrail-watcher
+
+Resources:
+  WatcherLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: functions/watcher
+      LayerName: cloudtrail-watcher-lambda-layer
+      CompatibleRuntimes:
+        - python3.12
+
+  WatcherFunctionPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: "cloudtrail-watcher-function-resource-policy"
+      Description: "IAM policy for CloudTrail Watcher Lambda Function to access aws resources"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action: [
+              "lambda:ListTags",
+              "lambda:TagResource",
+              "s3:GetBucketTagging",
+              "s3:PutBucketTagging",
+              "ec2:DescribeNetworkInterfaces",
+              "ec2:DescribeTags",
+              "ec2:DescribeVolumes",
+              "ec2:DescribeInstances",
+              "ec2:DescribeSecurityGroups",
+              "ec2:CreateTags",
+              "elasticache:AddTagsToResource",
+              "rds:AddTagsToResource",
+              "elasticmapreduce:AddTags",
+              "redshift:CreateTags",
+              "ecs:TagResource",
+              "eks:TagResource",
+              "iam:ListUserTags",
+              "iam:ListRoleTags",
+              "iam:ListPolicyTags",
+              "iam:ListInstanceProfileTags",
+              "iam:TagUser",
+              "iam:TagRole",
+              "iam:TagPolicy",
+              "iam:TagInstanceProfile",
+              "iam:ListAccountAliases",
+              "kafka:TagResource",
+              "airflow:TagResource",
+              "dynamodb:TagResource",
+              "elasticloadbalancing:DescribeTags",
+              "elasticloadbalancing:AddTags",
+              "cloudfront:ListTagsForResource",
+              "cloudfront:TagResource",
+              "ecr:ListTagsForResource",
+              "ecr:TagResource"
+            ]
+            Resource: "*"
+
+Outputs:
+  WatcherLayerArn:
+    Description: ARN of the CloudTrail Watcher Lambda Layer
+    Value: !Ref WatcherLayer
+  
+  WatcherFunctionPolicyArn:
+    Description: ARN of the IAM Managed Policy for CloudTrail Watcher Lambda Function
+    Value: !Ref WatcherFunctionPolicy

@@ -1,0 +1,56 @@
+name: Publish to Serverless Application Repository
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  package-sar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SAM CLI
+        uses: aws-actions/setup-sam@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Package for SAR
+        run: sam package --template-file template.sar.yaml --s3-bucket ${{ secrets.S3_BUCKET_NAME }} --output-template-file packaged.sar.yaml
+
+      - name: Upload packaged.sar.yaml as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: packaged-sar-template
+          path: packaged.sar.yaml
+    
+  publish-sar:
+    runs-on: ubuntu-latest
+    needs: package-sar
+    strategy:
+      matrix:
+        aws-region: [us-east-1]
+    steps:
+      - name: Download packaged.sar.yaml artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: packaged-sar-template
+
+      - name: Setup SAM CLI
+        uses: aws-actions/setup-sam@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ matrix.aws-region }}
+
+      - name: Publish to SAR
+        run: sam publish --template template.sar.yaml
