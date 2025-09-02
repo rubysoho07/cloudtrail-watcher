@@ -6,7 +6,7 @@ import importlib
 from typing import Union
 from urllib import request
 
-from .services import common
+from cloudtrail_watcher.services import common
 
 sns = boto3.resource('sns')
 
@@ -27,10 +27,8 @@ def get_account_alias() -> Union[tuple[str, bool], tuple[None, bool]]:
         return result['AccountAliases'][0], True
 
 
-def _convert_to_slack_message(summary: dict) -> dict:
+def _convert_to_slack_message(summary: dict, account_info: tuple) -> dict:
     """ Convert summary dict to Slack message format """
-    global account_alias
-
     result = {
         "blocks": [{
             "type": "section",
@@ -41,10 +39,10 @@ def _convert_to_slack_message(summary: dict) -> dict:
         }]
     }
 
-    if account_alias[0] is None:
+    if account_info[0] is None:
         account_str = f"{summary['account_id']}"
     else:
-        account_str = f"{account_alias[0]}({summary['account_id']})"
+        account_str = f"{account_info[0]}({summary['account_id']})"
 
     if summary['event_name'] == 'ConsoleLogin':
         message = f":warning: *{summary['identity']}* logged in *{account_str}* \n" \
@@ -88,25 +86,24 @@ def _convert_to_slack_message(summary: dict) -> dict:
     return result
 
 
-def process_event_by_service(record: dict) -> dict:
+def process_event_by_service(record: dict, set_tags: bool=False) -> dict:
     """ Process event by service name"""
-    global set_tags
 
     service_name = common.get_service_name(record)
     try:
         if service_name == 'lambda':
             service_name = 'lambda_'
 
-        module = importlib.import_module(f".services.{service_name}")
+        module = importlib.import_module(f"cloudtrail_watcher.services.{service_name}")
         return module.process_event(record, set_tags)
     except ImportError:
         return {"error": f"Not supported service: {service_name}, Event ID: {record['eventID']}"}
 
 
-def notify_slack(summary: dict):
+def notify_slack(summary: dict, account_info: tuple):
     """ Send notification to Slack Webhook. """
 
-    message = _convert_to_slack_message(summary)
+    message = _convert_to_slack_message(summary, account_info)
 
     if 'SLACK_WEBHOOK_URL' in os.environ.keys() and os.environ['SLACK_WEBHOOK_URL'] != 'DISABLED':
         req = request.Request(url=os.environ['SLACK_WEBHOOK_URL'],
@@ -125,14 +122,14 @@ def notify_sns(summary: dict):
     topic.publish(Message=json.dumps(summary))
 
 
-def build_result(record: dict) -> dict:
+def build_result(record: dict, set_tags: bool=False) -> dict:
     """ Build result dictionary from CloudTrail Event. """
     if record['eventName'] == 'ConsoleLogin':
         result = {
             "resource_id": [record['responseElements']['ConsoleLogin']]
         }
     else:
-        result = process_event_by_service(record)
+        result = process_event_by_service(record, set_tags)
 
     result['event_name'] = record['eventName']
     result['source_ip_address'] = record['sourceIPAddress']
@@ -150,9 +147,9 @@ def build_result(record: dict) -> dict:
 
     # If error occurred, add error information
     if 'errorCode' in record.keys():
-        result['error_code'] = result['errorCode']
+        result['error_code'] = record['errorCode']
 
         if 'errorMessage' in record.keys():
-            result['error_message'] = result['errorMessage']
+            result['error_message'] = record['errorMessage']
 
     return result

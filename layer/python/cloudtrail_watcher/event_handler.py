@@ -6,8 +6,8 @@ import boto3
 
 from botocore.exceptions import ClientError
 
-from .services import common
-from .utils import notify_slack, notify_sns, get_account_alias, build_result
+from cloudtrail_watcher.services import common
+from cloudtrail_watcher.utils import notify_slack, notify_sns, get_account_alias, build_result
 
 
 s3 = boto3.client('s3')
@@ -44,7 +44,7 @@ def handler(event, context):
             if record['readOnly'] is True:
                 continue
 
-            result = build_result(record)
+            result = build_result(record, set_tags)
 
             if 'error' in result.keys():
                 # Skip to send notification
@@ -56,7 +56,7 @@ def handler(event, context):
                 continue
 
             # Send notification
-            notify_slack(result)
+            notify_slack(result, account_alias)
             notify_sns(result)
         except ClientError as ce:
             print(f"(ClientError) event ID: {record['eventID']}, event name: {record['eventName']}, "
