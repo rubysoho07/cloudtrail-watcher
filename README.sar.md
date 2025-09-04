@@ -1,15 +1,13 @@
-# CloudTrail Watcher
-
-한국어 버전: [README.ko.md](./README.ko.md)
+# CloudTrail Watcher Lambda Layer
 
 When a resource like EC2, S3, and Lambda was created...
 
 * You can be notified via Slack message(using Incoming Webhook) or email(using Amazon SNS). 
 * CloudTrail Watcher Lambda Function will create `User` tag on your AWS resources automatically.
 
-## Architecture
+## Architecture 
 
-![Architecture](./cloudtrail-watcher-architecture.png)
+![Architecture](https://github.com/rubysoho07/cloudtrail-watcher/blob/main/cloudtrail-watcher-architecture.png?raw=true)
 
 ## Supported AWS Resources & Actions
 
@@ -32,7 +30,7 @@ When a resource like EC2, S3, and Lambda was created...
 * CloudFront (Distribution)
 * ECR (Repository)
 
-## Deploy Infrastructures
+## Deploy Resources
 
 This application includes a Lambda Layer and a IAM Policy for the layer. You can choose the method to deploy these resources. 
 
@@ -55,6 +53,6 @@ Because of the limitation of SAM and CloudFormation, You can only deploy this ap
 
 You can deploy this application included additional resources with Terraform. Please refer Terraform module: [terraform-aws-cloudtrail-watcher](https://github.com/rubysoho07/terraform-aws-cloudtrail-watcher)
 
-## References
+## Remove Resources
 
-* [CloudTrail Log Event Reference](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference.html)
+After you remove your lambda function and related resources, you can delete Lambda layer and IAM policy by deleting the CloudFormation Stack.

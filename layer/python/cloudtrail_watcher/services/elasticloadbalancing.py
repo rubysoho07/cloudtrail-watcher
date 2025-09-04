@@ -1,6 +1,6 @@
 import boto3
 
-from services.common import *
+from .common import *
 
 elb = boto3.client('elb')
 elb_v2 = boto3.client('elbv2')

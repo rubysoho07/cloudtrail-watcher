@@ -1,6 +1,6 @@
 import boto3
 
-from services.common import *
+from .common import *
 
 elasticache = boto3.client('elasticache')
 

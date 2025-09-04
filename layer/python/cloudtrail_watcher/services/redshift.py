@@ -1,6 +1,6 @@
 import boto3
 
-from services.common import *
+from .common import *
 
 redshift = boto3.client('redshift')
 sts = boto3.client('sts')

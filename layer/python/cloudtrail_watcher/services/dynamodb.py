@@ -1,6 +1,6 @@
 import boto3
 
-from services.common import *
+from .common import *
 
 dynamodb = boto3.client('dynamodb')
 

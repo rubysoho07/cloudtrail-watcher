@@ -2,7 +2,7 @@ import boto3
 
 from botocore.exceptions import ClientError
 
-from services.common import *
+from .common import *
 
 s3 = boto3.resource('s3')
 

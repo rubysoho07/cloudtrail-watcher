@@ -131,6 +131,7 @@ dmypy.json
 # SAM (Serverless Application Model)
 .aws-sam/
 samconfig.toml
+packaged.sar.yaml
 
 # Terraform
 .terraform/
@@ -139,3 +140,6 @@ terraform.tfstate.backup
 
 # PyCharm
 .idea/
+
+# VS Code
+.vscode/

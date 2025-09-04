@@ -1,6 +1,6 @@
 import boto3
 
-from services.common import *
+from .common import *
 
 ec2 = boto3.resource('ec2')
 

@@ -1,6 +1,6 @@
 import boto3
 
-from services.common import *
+from .common import *
 
 kafka = boto3.client('kafka')
 
