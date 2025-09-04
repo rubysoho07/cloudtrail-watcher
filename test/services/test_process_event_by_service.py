@@ -1,10 +1,13 @@
 import json
 import unittest
 
-from functions.watcher.lambda_function import build_result, notify_slack
+from layer.python.cloudtrail_watcher.utils import build_result, notify_slack
 
 
 class ProcessEventTest(unittest.TestCase):
+
+    _account_info = ("test", "000000000000")
+
     def test_create_bucket(self):
         with open('./samples/s3_CreateBucket.json') as f:
             data = json.loads(f.read())
@@ -38,7 +41,7 @@ class ProcessEventTest(unittest.TestCase):
         result = build_result(data)
         result['account_id'] = '000000000000'
 
-        notify_slack(result)
+        notify_slack(result, self._account_info)
         self.assertTrue(True)
 
     def test_send_console_login_message(self):
@@ -48,5 +51,5 @@ class ProcessEventTest(unittest.TestCase):
         result = build_result(data)
         result['account_id'] = '000000000000'
 
-        notify_slack(result)
+        notify_slack(result, self._account_info)
         self.assertTrue(True)
