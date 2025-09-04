@@ -34,144 +34,26 @@ When a resource like EC2, S3, and Lambda was created...
 
 ## Deploy Infrastructures
 
+This application includes a Lambda Layer and a IAM Policy for the layer. You can choose the method to deploy these resources. 
+
 ### Deploy with SAM (Serverless Application Model)
 
-```shell
-$ cd deploy/sam
-$ ACCOUNT_ID=$(aws sts get-caller-identity | jq -r '.Account')
-$ sam build
-$ sam deploy --stack-name cloudtrail-watcher \
-             --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID \ 
-             --capabilities CAPABILITY_NAMED_IAM
-             --tags 'User=cloudtrail-watcher'
-             
-# If you want to override additional parameters when deploying
-$ sam deploy --stack-name cloudtrail-watcher \
-             --parameter-overrides ResourcesDefaultPrefix=your_prefix SetMandatoryTag=true \
-             --capabilities CAPABILITY_NAMED_IAM
-             # If you want more tags
-             --tags 'User=cloudtrail-watcher' 'Team=DevOps' 
-             
-# Destroy SAM stack
-$ sam delete 
-```
+You can deploy this application included additional resources with SAM. Please refer `deploy/sam/template-with-layer.yaml` file.
 
-If you are not familiar with SAM CLI, I would recommend using these commands below.
+Because of the limitation of SAM and CloudFormation, You can only deploy this application with new CloudTrail and S3 bucket.
 
-```shell
-$ cd deploy/sam
-$ sam build
-$ sam deploy --guided
-```
+### Deployment options (SAM Template Parameters)
 
-### Deploy with Terraform 
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|----------|
+| ResourcesDefaultPrefix | Prefix for resources related with CloudTrail Watcher (If not set, 'cloudtrailwatcher-<YOUR_ACCOUNT_ID>') | string | "" | no |
+| SlackWebhookURL | Slack Webhook URL (set "DISABLED" to disable) | string | "DISABLED" | no |
+| SetMandatoryTag | Make 'User' tags when resources are created. If you want to enable this feature, set this variable "True" | string | "False" | no |
+| DisableAutoscalingAlarm | Ignore alarm for resources created by autoscaling. If you want to enable this feature, set this variable "True" | string | "False" | no |
 
-```shell
-$ cd deploy/terraform
-$ terraform init
+### Deploy with Terraform
 
-# If you want to set prefix for resources
-$ terraform apply -var 'aws_region=ap-northeast-2' -var 'resource_prefix=<your_resource_prefix>'
-
-# If you don't need to set prefix for resources
-$ terraform apply -var 'aws_region=ap-northeast-2' -var 'resource_prefix='
-
-# Destroy infrastructure deployments
-$ terraform destroy -var 'aws_region=ap-northeast-2' \
-                    -var 'resource_prefix=<your_resource_prefix or blank>'
-                    # If you have to set more variables...
-                    -var 'variable_name=value'
-```
-
-## Notification
-
-### Slack
-
-* Change function's `SLACK_WEBHOOK_URL` environment variable to Slack Incoming Webhook URL. 
-* Default value is `DISABLED`. If you don't want to notify resource creation via Slack, set this variable `DISABLED`.
-
-#### SAM
-
-When you deploy with SAM CLI, add `--parameter-overrides` option like below:
-
-```shell
-sam deploy --parameter-overrides SlackWebhookURL=https://hooks.slack.com/services/...
-```
-
-#### Terraform
-
-When you run `terraform apply` command, add option:
-
-```shell
-terraform apply -var 'slack_webhook_url=https://hooks.slack.com/services/...'
-```
-
-### Email
-
-```shell
-# Get SNS Topic ARN
-TOPIC_ARN=$(aws sns list-topics | jq -r '.Topics[].TopicArn' | grep cloudtrailwatcher)
-
-# Subscribe a SNS Topic
-aws sns subscribe --topic-arn $TOPIC_ARN \ 
-                  --protocol email \ 
-                  --notification-endpoint your@email.address
-```
-
-If you receive email from AWS SNS, please confirm the email to complete subscription.
-
-## Set Mandatory Tag
-
-CloudTrail Watcher supports create tags for newly created resources. Lambda function checks `User` tag exists on these resources. 
-If the function cannot find `User` tag on them, it creates `User` tag on behalf of you. 
-
-Creating tag doesn't influence sending messages via Slack or Email by using Amazon SNS. 
-
-### Instruction
-
-* Set `SET_MANDATORY_TAG` environment variable on Lambda function: If the value is not in `DISABLED`, `0`, `False`, `false`, the function will set mandatory tags to resources.
-
-#### SAM
-
-When you deploy with SAM CLI, add `--parameter-overrides SetMandatoryTag=true` option like below:
-
-```shell
-sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID \ 
-                                 SetMandatoryTag=true
-```
-
-#### Terraform
-
-When you run `terraform apply` command, add `-var 'set_mandatory_tag=true'`option:
-
-```shell
-terraform apply -var 'aws_region=ap-northeast-2' \
-                -var 'resource_prefix=<your_resource_prefix or blank>' \
-                -var 'set_mandatory_tag=true'
-```
-
-## Disable alarm for resources created by autoscaling
-
-* Add `DISABLE_AUTOSCALING_ALARM` environment variable on Lambda function: If the value is not in `DISABLED`, `0`, `False`, `false`, the function will not send alarm for resources created by autoscaling.
-
-#### SAM
-
-When you deploy with SAM CLI, add `--parameter-overrides DisableAutoscalingAlarm=true` option like below:
-
-```shell
-sam deploy --parameter-overrides ResourcesDefaultPrefix=cloudtrailwatcher-$ACCOUNT_ID \ 
-                                 DisableAutoscalingAlarm=true
-```
-
-#### Terraform
-
-When you run `terraform apply` command, add `-var 'disable_autoscaling_alarm=true'`option:
-
-```shell
-terraform apply -var 'aws_region=ap-northeast-2' \
-                -var 'resource_prefix=<your_resource_prefix or blank>' \
-                -var 'disable_autoscaling_alarm=true'
-```
+You can deploy this application included additional resources with Terraform. Please refer Terraform module: [terraform-aws-cloudtrail-watcher](https://github.com/rubysoho07/terraform-aws-cloudtrail-watcher)
 
 ## References
 

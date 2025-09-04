@@ -34,8 +34,6 @@ When a resource like EC2, S3, and Lambda was created...
 
 This application includes a Lambda Layer and a IAM Policy for the layer. You can choose the method to deploy these resources. 
 
-If you already configured CloudTrail, you MUST deploy the layer and function to the region where your S3 bucket for CloudTrail logs exists.
-
 ### Deploy with SAM (Serverless Application Model)
 
 You can deploy this application included additional resources with SAM. Please refer `deploy/sam/template-with-layer.yaml` file.
