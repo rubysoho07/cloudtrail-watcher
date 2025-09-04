@@ -22,8 +22,6 @@ def handler(event, context):
     global set_tags
     global disable_autoscaling_alarm
 
-    print(event)
-
     if account_alias[1] is False:
         account_alias = get_account_alias()
 

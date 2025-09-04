@@ -6,10 +6,10 @@ Metadata:
   AWS::ServerlessRepo::Application:
     Name: cloudtrail-watcher-lambda-layer
     Description: CloudTrail Watcher Lambda Layer
-    SemanticVersion: "0.0.11"
+    SemanticVersion: "0.0.13"
     Author: Yungon Park
     LicenseUrl: LICENSE
-    ReadmeUrl: README.md
+    ReadmeUrl: README.sar.md
     SpdxLicenseId: MIT
     Labels: ["layer", "cloudtrail", "security"]
     HomePageUrl: https://github.com/rubysoho07/cloudtrail-watcher
@@ -23,6 +23,7 @@ Resources:
       LayerName: cloudtrail-watcher-lambda-layer
       CompatibleRuntimes:
         - python3.12
+        - python3.13
 
   WatcherFunctionPolicy:
     Type: AWS::IAM::ManagedPolicy
