@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from layer.python.cloudtrail_watcher.utils import build_result
+from cloudtrail_watcher.utils import build_result
 
 
 class EC2Test(unittest.TestCase):

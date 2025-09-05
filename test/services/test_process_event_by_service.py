@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from layer.python.cloudtrail_watcher.utils import build_result, notify_slack
+from cloudtrail_watcher.utils import build_result, notify_slack
 
 
 class ProcessEventTest(unittest.TestCase):
