@@ -24,6 +24,7 @@ def process_event(event: dict, set_tag: bool = False) -> dict:
 
     return result
 ```
+* If you created a new file, add file name to `__all__` in `lambda/python/cloudtrail_watcher/services/__init__.py` as a new module.
 
 * Get the name of the event from `eventName` in the CloudTrail event. (ID: EVENT_NAME)
 * Create a function in SERVICE_FILE. (ID: PROCESS_EVENT_FUNCTION)
