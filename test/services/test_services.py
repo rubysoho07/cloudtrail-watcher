@@ -429,3 +429,18 @@ class SQSTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateQueue')
         self.assertEqual(result['source_ip_address'], '127.0.0.1')
         self.assertEqual(result['event_source'], 'sqs')
+
+
+class SNSTest(unittest.TestCase):
+    def test_create_topic(self):
+        with open('./samples/sns_CreateTopic.json') as f:
+            data = json.loads(f.read())
+
+        result = build_result(data)
+
+        self.assertEqual(result['resource_id'], ['sns-test.fifo'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateTopic')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'sns')

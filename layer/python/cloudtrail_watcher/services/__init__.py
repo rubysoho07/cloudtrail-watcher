@@ -16,5 +16,6 @@ __all__ = [
     'dynamodb',
     'elasticloadbalancing',
     'cloudfront',
-    'sqs'
+    'sqs',
+    'sns'
 ]

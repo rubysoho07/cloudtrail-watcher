@@ -69,7 +69,8 @@ Resources:
               "cloudfront:TagResource",
               "ecr:ListTagsForResource",
               "ecr:TagResource",
-              "sqs:TagQueue"
+              "sqs:TagQueue",
+              "sns:TagResource"
             ]
             Resource: "*"
 
