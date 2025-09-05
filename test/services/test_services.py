@@ -414,3 +414,18 @@ class ECRTest(unittest.TestCase):
         self.assertEqual(result['event_name'], 'CreateRepository')
         self.assertEqual(result['source_ip_address'], '127.0.0.1')
         self.assertEqual(result['event_source'], 'ecr')
+
+
+class SQSTest(unittest.TestCase):
+    def test_create_queue(self):
+        with open('./samples/sqs_CreateQueue.json') as f:
+            data = json.loads(f.read())
+
+        result = build_result(data)
+
+        self.assertEqual(result['resource_id'], ['test-queue'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'CreateQueue')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'sqs')
