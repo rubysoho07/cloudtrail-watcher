@@ -50,4 +50,4 @@ jobs:
           aws-region: us-east-1
 
       - name: Publish to SAR
-        run: sam publish --template template.sar.yaml
+        run: sam publish --template packaged.sar.yaml
