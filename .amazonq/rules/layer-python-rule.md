@@ -26,7 +26,7 @@ def process_event(event: dict, set_tag: bool = False) -> dict:
 ```
 
 * Get the name of the event from `eventName` in the CloudTrail event. (ID: EVENT_NAME)
-* Create a function in SERVICE_FILE.
+* Create a function in SERVICE_FILE. (ID: PROCESS_EVENT_FUNCTION)
     * Function name: Start with `_process_`, add EVENT_NAME with snake case.
     * Arguments: event in dict, set_tag in bool. The default value of set_tag is False.
     * Return value: resource name in list
@@ -41,6 +41,10 @@ else:
     message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
     result['error'] = message
 ```
+
+* Add permission for used in PROCESS_EVENT_FUNCTION.
+    * File name: "template.sar.yaml" in the root of the project
+    * Add permission in IAM Policy document of WatcherFunctionPolicy resource.
 
 ## Priority
 
