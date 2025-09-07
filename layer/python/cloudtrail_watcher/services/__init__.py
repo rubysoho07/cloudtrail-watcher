@@ -15,5 +15,7 @@ __all__ = [
     'airflow',
     'dynamodb',
     'elasticloadbalancing',
-    'cloudfront'
+    'cloudfront',
+    'sqs',
+    'sns'
 ]
