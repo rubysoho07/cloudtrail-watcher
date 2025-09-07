@@ -31,6 +31,8 @@ When a resource like EC2, S3, and Lambda was created...
 * ELB (CLB, ALB, NLB, GLB)
 * CloudFront (Distribution)
 * ECR (Repository)
+* SNS (Topic)
+* SQS (Queue)
 
 ## Deploy Infrastructures
 

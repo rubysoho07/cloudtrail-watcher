@@ -31,6 +31,8 @@ EC2, S3, Lambda 함수와 같은 AWS 리소스를 생성할 때,
 * ELB (CLB, ALB, NLB, GLB)
 * CloudFront (Distribution)
 * ECR (Repository)
+* SNS (Topic)
+* SQS (Queue)
 
 ## 인프라 구축
 
