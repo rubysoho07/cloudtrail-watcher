@@ -1,0 +1,66 @@
+{
+    "eventVersion": "1.11",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test_user",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test_user"
+    },
+    "eventTime": "2026-01-24T04:22:08Z",
+    "eventSource": "ec2.amazonaws.com",
+    "eventName": "RevokeSecurityGroupEgress",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "127.0.0.1",
+    "userAgent": "APN/1.0 HashiCorp/1.0 Terraform/1.13.5 (+https://www.terraform.io) terraform-provider-aws/6.28.0 (+https://registry.terraform.io/providers/hashicorp/aws) aws-sdk-go-v2/1.41.0 ua/2.1 os/macos lang/go#1.25.5 md/GOOS#darwin md/GOARCH#arm64 api/ec2#1.279.0 m/n",
+    "requestParameters": {
+        "groupId": "sg-0e79c7acdf4a0225e",
+        "ipPermissions": {
+            "items": [
+                {
+                    "ipProtocol": "-1",
+                    "groups": {},
+                    "ipRanges": {
+                        "items": [
+                            {
+                                "cidrIp": "0.0.0.0/0"
+                            }
+                        ]
+                    },
+                    "ipv6Ranges": {},
+                    "prefixListIds": {}
+                }
+            ]
+        }
+    },
+    "responseElements": {
+        "requestId": "23724e3f-e405-4fc3-9f25-1b5bce91cd0a",
+        "_return": true,
+        "revokedSecurityGroupRuleSet": {
+            "items": [
+                {
+                    "groupId": "sg-0e79c7acdf4a0225e",
+                    "securityGroupRuleId": "sgr-0842f7411dc6a5a34",
+                    "isEgress": true,
+                    "ipProtocol": "-1",
+                    "fromPort": -1,
+                    "toPort": -1,
+                    "cidrIpv4": "0.0.0.0/0"
+                }
+            ]
+        }
+    },
+    "requestID": "23724e3f-e405-4fc3-9f25-1b5bce91cd0a",
+    "eventID": "3e862025-bc94-4304-8ad5-211b8cdc970e",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "tlsDetails": {
+        "tlsVersion": "TLSv1.3",
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.ap-northeast-2.amazonaws.com"
+    }
+}

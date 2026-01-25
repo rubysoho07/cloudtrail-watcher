@@ -90,8 +90,28 @@ def _process_create_security_group(event: dict, set_tag: bool = False) -> list:
     return resource_ids
 
 
+def _process_authorize_security_group_egress(event: dict, set_tag: bool = False) -> list:
+    resource_ids = [event['requestParameters']['groupId']]
+    return resource_ids
+
+
+def _process_authorize_security_group_ingress(event: dict, set_tag: bool = False) -> list:
+    resource_ids = [event['requestParameters']['groupId']]
+    return resource_ids
+
+
+def _process_revoke_security_group_egress(event: dict, set_tag: bool = False) -> list:
+    resource_ids = [event['requestParameters']['groupId']]
+    return resource_ids
+
+
+def _process_revoke_security_group_ingress(event: dict, set_tag: bool = False) -> list:
+    resource_ids = [event['requestParameters']['groupId']]
+    return resource_ids
+
+
 def process_event(event: dict, set_tag: bool = False) -> dict:
-    """ Process CloudTrail event for EC2 services """
+    """ Process CloudTrail event for EC2 """
 
     result = dict()
 
@@ -99,10 +119,18 @@ def process_event(event: dict, set_tag: bool = False) -> dict:
         result['error'] = f"response is null: eventName - {event['eventName']}, eventID: {event['eventID']},"
         return result
 
-    if event['eventName'] == "RunInstances":
+    if event['eventName'] == 'RunInstances':
         result['resource_id'] = _process_run_instances(event, set_tag)
-    elif event['eventName'] == "CreateSecurityGroup":
+    elif event['eventName'] == 'CreateSecurityGroup':
         result['resource_id'] = _process_create_security_group(event, set_tag)
+    elif event['eventName'] == 'AuthorizeSecurityGroupEgress':
+        result['resource_id'] = _process_authorize_security_group_egress(event, set_tag)
+    elif event['eventName'] == 'AuthorizeSecurityGroupIngress':
+        result['resource_id'] = _process_authorize_security_group_ingress(event, set_tag)
+    elif event['eventName'] == 'RevokeSecurityGroupEgress':
+        result['resource_id'] = _process_revoke_security_group_egress(event, set_tag)
+    elif event['eventName'] == 'RevokeSecurityGroupIngress':
+        result['resource_id'] = _process_revoke_security_group_ingress(event, set_tag)
     else:
         message = f"Cannot process event: {event['eventName']}, eventID: {event['eventID']}"
         result['error'] = message

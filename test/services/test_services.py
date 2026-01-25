@@ -45,6 +45,58 @@ class EC2Test(unittest.TestCase):
         self.assertEqual(result['source_ip_address'], 'AWS Internal')
         self.assertEqual(result['event_source'], 'ec2')
 
+    def test_authorize_security_group_egress(self):
+        with open('./samples/ec2_AuthorizeSecurityGroupEgress.json') as f:
+            data = json.loads(f.read())
+
+        result = build_result(data)
+
+        self.assertEqual(result['resource_id'], ['sg-0e79c7acdf4a0225e'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'AuthorizeSecurityGroupEgress')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'ec2')
+
+    def test_authorize_security_group_ingress(self):
+        with open('./samples/ec2_AuthorizeSecurityGroupIngress.json') as f:
+            data = json.loads(f.read())
+
+        result = build_result(data)
+
+        self.assertEqual(result['resource_id'], ['sg-0e79c7acdf4a0225e'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'AuthorizeSecurityGroupIngress')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'ec2')
+
+    def test_revoke_security_group_egress(self):
+        with open('./samples/ec2_RevokeSecurityGroupEgress.json') as f:
+            data = json.loads(f.read())
+
+        result = build_result(data)
+
+        self.assertEqual(result['resource_id'], ['sg-0e79c7acdf4a0225e'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'RevokeSecurityGroupEgress')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'ec2')
+
+    def test_revoke_security_group_ingress(self):
+        with open('./samples/ec2_RevokeSecurityGroupIngress.json') as f:
+            data = json.loads(f.read())
+
+        result = build_result(data)
+
+        self.assertEqual(result['resource_id'], ['sg-0e79c7acdf4a0225e'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'RevokeSecurityGroupIngress')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'ec2')
+
 
 class LambdaTest(unittest.TestCase):
     def test_create_function_20150331(self):

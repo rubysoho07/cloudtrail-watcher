@@ -1,0 +1,70 @@
+{
+    "eventVersion": "1.11",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "YOUR_PRINCIPAL_ID",
+        "arn": "arn:aws:iam::000000000000:user/test_user",
+        "accountId": "000000000000",
+        "accessKeyId": "YOUR_ACCESS_KEY_ID",
+        "userName": "test_user"
+    },
+    "eventTime": "2026-01-24T03:45:49Z",
+    "eventSource": "ec2.amazonaws.com",
+    "eventName": "AuthorizeSecurityGroupIngress",
+    "awsRegion": "ap-northeast-2",
+    "sourceIPAddress": "127.0.0.1",
+    "userAgent": "APN/1.0 HashiCorp/1.0 Terraform/1.13.5 (+https://www.terraform.io) terraform-provider-aws/6.28.0 (+https://registry.terraform.io/providers/hashicorp/aws) aws-sdk-go-v2/1.41.0 ua/2.1 os/macos lang/go#1.25.5 md/GOOS#darwin md/GOARCH#arm64 api/ec2#1.279.0 m/n",
+    "requestParameters": {
+        "groupId": "sg-0e79c7acdf4a0225e",
+        "ipPermissions": {
+            "items": [
+                {
+                    "ipProtocol": "tcp",
+                    "fromPort": 22,
+                    "toPort": 22,
+                    "groups": {},
+                    "ipRanges": {
+                        "items": [
+                            {
+                                "cidrIp": "0.0.0.0/0"
+                            }
+                        ]
+                    },
+                    "ipv6Ranges": {},
+                    "prefixListIds": {}
+                }
+            ]
+        }
+    },
+    "responseElements": {
+        "requestId": "e5c178b5-7d64-4bd8-97b2-2f6e4b77513a",
+        "_return": true,
+        "securityGroupRuleSet": {
+            "items": [
+                {
+                    "groupOwnerId": "000000000000",
+                    "groupId": "sg-0e79c7acdf4a0225e",
+                    "securityGroupRuleId": "sgr-0ab4202bcd11d93d2",
+                    "isEgress": false,
+                    "ipProtocol": "tcp",
+                    "fromPort": 22,
+                    "toPort": 22,
+                    "cidrIpv4": "0.0.0.0/0",
+                    "securityGroupRuleArn": "arn:aws:ec2:ap-northeast-2:000000000000:security-group-rule/sgr-0ab4202bcd11d93d2"
+                }
+            ]
+        }
+    },
+    "requestID": "e5c178b5-7d64-4bd8-97b2-2f6e4b77513a",
+    "eventID": "1beb5d85-3e0f-4000-b7d7-edb9300e0594",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "000000000000",
+    "eventCategory": "Management",
+    "tlsDetails": {
+        "tlsVersion": "TLSv1.3",
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.ap-northeast-2.amazonaws.com"
+    }
+}
