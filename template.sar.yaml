@@ -6,7 +6,7 @@ Metadata:
   AWS::ServerlessRepo::Application:
     Name: cloudtrail-watcher-lambda-layer
     Description: CloudTrail Watcher Lambda Layer
-    SemanticVersion: "0.1.2"
+    SemanticVersion: "0.1.3"
     Author: Yungon Park
     LicenseUrl: LICENSE
     ReadmeUrl: README.sar.md
