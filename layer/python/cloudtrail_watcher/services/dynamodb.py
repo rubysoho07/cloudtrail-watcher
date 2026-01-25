@@ -19,7 +19,7 @@ def _process_create_table(event: dict, set_tag: bool = False) -> list:
 
     resource_ids = [event['responseElements']['tableDescription']['tableName']]
 
-    if set_tag is True:
+    if set_tag:
         has_user_tags = False
 
         # Check tags
@@ -27,7 +27,7 @@ def _process_create_table(event: dict, set_tag: bool = False) -> list:
             has_user_tags = check_contain_mandatory_tag_list(event['requestParameters']['tags'])
 
         # If mandatory tags are not set, set mandatory tags
-        if has_user_tags is False:
+        if not has_user_tags:
             dynamodb.tag_resource(
                 ResourceArn=event['responseElements']['tableDescription']['tableArn'],
                 Tags=[{

@@ -11,10 +11,10 @@ def _process_create_user(event: dict, set_tag: bool = False) -> list:
 
     user_name = event['responseElements']['user']['userName']
 
-    if set_tag is True:
+    if set_tag:
         tags = iam.list_user_tags(UserName=user_name)['Tags']
 
-        if check_contain_mandatory_tag_list(tags) is False:
+        if not check_contain_mandatory_tag_list(tags):
             iam.tag_user(UserName=user_name,
                          Tags=[{
                              'Key': 'User',
@@ -29,10 +29,10 @@ def _process_create_role(event: dict, set_tag: bool = False) -> list:
 
     role_name = event['responseElements']['role']['arn'].split(':')[-1]
 
-    if set_tag is True:
+    if set_tag:
         tags = iam.list_role_tags(RoleName=role_name.split('/')[-1])['Tags']
 
-        if check_contain_mandatory_tag_list(tags) is False:
+        if not check_contain_mandatory_tag_list(tags):
             iam.tag_role(RoleName=role_name.split('/')[-1],
                          Tags=[{
                              'Key': 'User',

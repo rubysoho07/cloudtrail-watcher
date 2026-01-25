@@ -9,7 +9,7 @@ def _set_mandatory_tag(event: dict):
     """ Set mandatory tag for MWAA(Managed Workflow for Apache Airflow) resources. """
 
     if 'Tags' in event['requestParameters'].keys():
-        if check_contain_mandatory_tag_dict(event['requestParameters']['tags']) is True:
+        if check_contain_mandatory_tag_dict(event['requestParameters']['tags']):
             return
 
     resource_arn = event['responseElements']['Arn']
@@ -24,7 +24,7 @@ def _set_mandatory_tag(event: dict):
 
 def _process_create_environment(event: dict, set_tag: bool = False) -> list:
 
-    if set_tag is True:
+    if set_tag:
         _set_mandatory_tag(event)
 
     return [event['requestParameters']['Name']]

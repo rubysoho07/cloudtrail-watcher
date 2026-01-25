@@ -11,12 +11,12 @@ def _process_create_distribution(event: dict, set_tag: bool = False) -> list:
 
     distribution_arn = event['responseElements']['distribution']['aRN']
 
-    if set_tag is True:
+    if set_tag:
         tags = cloudfront.list_tags_for_resource(Resource=distribution_arn)
 
         exists_mandatory_tag = check_contain_mandatory_tag_list(tags['Tags']['Items'])
 
-        if exists_mandatory_tag is False:
+        if not exists_mandatory_tag:
             cloudfront.tag_resource(Resource=distribution_arn,
                                     Tags={'Items': [{
                                         'Key': 'User',

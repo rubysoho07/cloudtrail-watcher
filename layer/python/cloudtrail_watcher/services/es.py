@@ -9,7 +9,7 @@ def _set_mandatory_tag(event: dict):
     """ Set mandatory tag for OpenSearch Domain resources. """
 
     if 'tagList' in event['requestParameters'].keys():
-        if check_contain_mandatory_tag_list(event['requestParameters']['tagList']) is True:
+        if check_contain_mandatory_tag_list(event['requestParameters']['tagList']):
             return
 
     resource_id = event['responseElements']['aRN']
@@ -26,7 +26,7 @@ def _set_mandatory_tag(event: dict):
 def _process_create_domain(event: dict, set_tag: bool = False) -> list:
     """ Process CreateDomain event for OpenSearch Service. Returns domain name. """
 
-    if set_tag is True:
+    if set_tag:
         _set_mandatory_tag(event)
 
     return [event['responseElements']['domainStatus']['domainName']]

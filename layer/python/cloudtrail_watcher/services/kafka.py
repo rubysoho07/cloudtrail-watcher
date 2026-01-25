@@ -9,7 +9,7 @@ def _set_mandatory_tag(event: dict):
     """ Set mandatory tag for MSK resources. """
 
     if 'tags' in event['requestParameters'].keys():
-        if check_contain_mandatory_tag_dict(event['requestParameters']['tags']) is True:
+        if check_contain_mandatory_tag_dict(event['requestParameters']['tags']):
             return
 
     resource_arn = event['responseElements']['clusterArn']
@@ -24,7 +24,7 @@ def _set_mandatory_tag(event: dict):
 
 def _process_create_cluster_v2(event: dict, set_tag: bool = False) -> list:
 
-    if set_tag is True:
+    if set_tag:
         _set_mandatory_tag(event)
 
     return [event['responseElements']['clusterName']]

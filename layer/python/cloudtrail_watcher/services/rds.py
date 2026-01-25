@@ -7,10 +7,10 @@ rds = boto3.client('rds')
 
 def _set_mandatory_tag(event: dict, set_tags: bool = False):
     """ Set mandatory tag for RDS cluster and instance. """
-    if set_tags is False:
+    if not set_tags:
         return
 
-    if check_contain_mandatory_tag_list(event['responseElements']['tagList']) is True:
+    if check_contain_mandatory_tag_list(event['responseElements']['tagList']):
         return
 
     if event['eventName'] == 'CreateDBCluster':

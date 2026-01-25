@@ -8,8 +8,8 @@ ecs = boto3.client('ecs')
 def _process_create_cluster(event: dict, set_tag: bool = False) -> list:
     """ Process ECS CreateCluster API. """
 
-    if set_tag is True:
-        if check_contain_mandatory_tag_list(event['responseElements']['cluster']['tags']) is False:
+    if set_tag:
+        if not check_contain_mandatory_tag_list(event['responseElements']['cluster']['tags']):
             ecs.tag_resource(
                 resourceArn=event['responseElements']['cluster']['clusterArn'],
                 tags=[{

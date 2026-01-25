@@ -24,13 +24,13 @@ def _process_create_bucket(event: dict, set_tags: bool = False) -> list:
     bucket_name = event['requestParameters']['bucketName']
 
     # Set mandatory tags
-    if set_tags is True:
+    if set_tags:
         bucket_tagging = s3.BucketTagging(bucket_name)
 
         try:
             tag_set = bucket_tagging.tag_set
 
-            if _check_user_tag(tag_set) is False:
+            if not _check_user_tag(tag_set):
                 tag_set.append({
                     'Key': 'User',
                     'Value': get_user_identity(event)

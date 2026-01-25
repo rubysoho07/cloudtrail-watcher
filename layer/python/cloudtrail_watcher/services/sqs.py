@@ -20,9 +20,9 @@ def process_event(event: dict, set_tag: bool = False) -> dict:
 
 
 def _process_create_queue(event: dict, set_tag: bool = False) -> list:
-    """ Process CreateQueue event """
+    """ Process CreateQueue event for SQS """
     
-    if set_tag is True:
+    if set_tag:
         if 'tags' not in event['requestParameters'] or \
            check_contain_mandatory_tag_dict(event['requestParameters']['tags']) is False:
             sqs.tag_queue(

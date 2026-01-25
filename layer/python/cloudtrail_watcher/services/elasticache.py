@@ -9,7 +9,7 @@ def _set_mandatory_tag(event: dict):
     """ Set mandatory tag for ElastiCache resources. """
 
     if 'tags' in event['requestParameters'].keys():
-        if check_contain_mandatory_tag_list(event['requestParameters']['tags']) is True:
+        if check_contain_mandatory_tag_list(event['requestParameters']['tags']):
             return
 
     resource_id = event['responseElements']['aRN']
@@ -25,7 +25,7 @@ def _set_mandatory_tag(event: dict):
 
 def _process_create_cache_cluster(event: dict, set_tag: bool = False) -> list:
 
-    if set_tag is True:
+    if set_tag:
         _set_mandatory_tag(event)
 
     return [event['responseElements']['aRN'].split(':')[-1]]
@@ -33,7 +33,7 @@ def _process_create_cache_cluster(event: dict, set_tag: bool = False) -> list:
 
 def _process_create_replication_group(event: dict, set_tag: bool = False) -> list:
 
-    if set_tag is True:
+    if set_tag:
         _set_mandatory_tag(event)
 
     return [event['responseElements']['aRN'].split(':')[-1]]

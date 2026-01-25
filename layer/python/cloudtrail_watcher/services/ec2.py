@@ -32,7 +32,7 @@ def _process_run_instances(event: dict, set_tags: bool = False) -> list:
     resource_ids = _get_instance_resource_ids(event)
 
     # Set mandatory tags
-    if set_tags is True:
+    if set_tags:
         has_user_tag = {
             'instance': False,
             'volume': False,
@@ -50,10 +50,10 @@ def _process_run_instances(event: dict, set_tags: bool = False) -> list:
         for resource_id in resource_ids:
             instance = ec2.Instance(resource_id)
 
-            if has_user_tag['instance'] is False:
+            if not has_user_tag['instance']:
                 instance.create_tags(Tags=common_tags)
 
-            if has_user_tag['volume'] is False:
+            if not has_user_tag['volume']:
                 for volume in instance.volumes.all():
                     volume.create_tags(Tags=common_tags)
 
@@ -70,7 +70,7 @@ def _process_create_security_group(event: dict, set_tag: bool = False) -> list:
 
     sg = ec2.SecurityGroup(resource_ids[0])
 
-    if set_tag is True:
+    if set_tag:
         has_user_tags = False
 
         # Check tags
@@ -81,7 +81,7 @@ def _process_create_security_group(event: dict, set_tag: bool = False) -> list:
                     break
 
         # If mandatory tags are not set, set mandatory tags
-        if has_user_tags is False:
+        if not has_user_tags:
             sg.create_tags(Tags=[{
                 'Key': 'User',
                 'Value': get_user_identity(event)

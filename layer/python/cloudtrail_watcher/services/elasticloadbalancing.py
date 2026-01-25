@@ -10,7 +10,7 @@ def _process_create_load_balancer(event: dict, set_tags: bool = False) -> list:
 
     is_clb = 'type' not in event['requestParameters']
 
-    if set_tags is True:
+    if set_tags:
         if is_clb is True:
             response = elb.describe_tags(LoadBalancerNames=[event['requestParameters']['loadBalancerName']])
         else:
@@ -20,7 +20,7 @@ def _process_create_load_balancer(event: dict, set_tags: bool = False) -> list:
 
         exists_mandatory_tags = check_contain_mandatory_tag_list(response['TagDescriptions'][0]['Tags'])
 
-        if exists_mandatory_tags is False:
+        if not exists_mandatory_tags:
             if is_clb is True:
                 elb.add_tags(
                     LoadBalancerNames=[event['requestParameters']['loadBalancerName']],

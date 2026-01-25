@@ -10,12 +10,12 @@ def _process_create_repository(event: dict, set_tag: bool = False) -> list:
 
     repository_arn = event['responseElements']['repository']['repositoryArn']
 
-    if set_tag is True:
+    if set_tag:
         tags = ecr.list_tags_for_resource(resourceArn=repository_arn)
 
         exists_mandatory_tag = check_contain_mandatory_tag_list(tags['tags'])
 
-        if exists_mandatory_tag is False:
+        if not exists_mandatory_tag:
             ecr.tag_resource(resourceArn=repository_arn,
                              tags=[{
                                  'Key': 'User',

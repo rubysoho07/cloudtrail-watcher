@@ -9,7 +9,7 @@ lambda_ = boto3.client('lambda')
 def _process_create_function_20150331(event: dict, set_tags: bool = False) -> list:
 
     # Set mandatory tags
-    if set_tags is True:
+    if set_tags:
         function_arn = event['responseElements']['functionArn']
         function_tags = lambda_.list_tags(Resource=function_arn)
 
