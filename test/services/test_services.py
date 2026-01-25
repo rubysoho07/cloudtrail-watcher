@@ -97,6 +97,19 @@ class EC2Test(unittest.TestCase):
         self.assertEqual(result['source_ip_address'], '127.0.0.1')
         self.assertEqual(result['event_source'], 'ec2')
 
+    def test_modify_security_group_rules(self):
+        with open('./samples/ec2_ModifySecurityGroupRules.json') as f:
+            data = json.loads(f.read())
+
+        result = build_result(data)
+
+        self.assertEqual(result['resource_id'], ['sg-ef6e8186'])
+        self.assertEqual(result['identity'], 'user/test_user')
+        self.assertEqual(result['region'], 'ap-northeast-2')
+        self.assertEqual(result['event_name'], 'ModifySecurityGroupRules')
+        self.assertEqual(result['source_ip_address'], '127.0.0.1')
+        self.assertEqual(result['event_source'], 'ec2')
+
 
 class LambdaTest(unittest.TestCase):
     def test_create_function_20150331(self):

@@ -110,6 +110,11 @@ def _process_revoke_security_group_ingress(event: dict, set_tag: bool = False) -
     return resource_ids
 
 
+def _process_modify_security_group_rules(event: dict, set_tag: bool = False) -> list:
+    resource_ids = [event['requestParameters']['ModifySecurityGroupRulesRequest']['GroupId']]
+    return resource_ids
+
+
 def process_event(event: dict, set_tag: bool = False) -> dict:
     """ Process CloudTrail event for EC2 """
 
@@ -131,6 +136,8 @@ def process_event(event: dict, set_tag: bool = False) -> dict:
         result['resource_id'] = _process_revoke_security_group_egress(event, set_tag)
     elif event['eventName'] == 'RevokeSecurityGroupIngress':
         result['resource_id'] = _process_revoke_security_group_ingress(event, set_tag)
+    elif event['eventName'] == 'ModifySecurityGroupRules':
+        result['resource_id'] = _process_modify_security_group_rules(event, set_tag)
     else:
         message = f"Cannot process event: {event['eventName']}, eventID: {event['eventID']}"
         result['error'] = message
