@@ -62,4 +62,4 @@ jobs:
           token: ${{ secrets.RELEASE_TERRAFORM_MODULE_TOKEN }}
           repository: rubysoho07/terraform-aws-cloudtrail-watcher
           event-type: cloudtrail-watcher-release
-          client-payload: '{"version": "${{ github.event.release.tag_name }}"}}'
+          client-payload: '{"version": "${{ github.event.release.tag_name }}"}'
