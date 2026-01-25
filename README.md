@@ -15,7 +15,7 @@ When a resource like EC2, S3, and Lambda was created...
 
 * Console Login
 * IAM (User, Group, Role, Policy, Instance Profile)
-* EC2 (Instance, Security Group)
+* EC2 (Instance, Security Group (Creating security group, Adding/Removing/Modifying rules))
 * RDS (Cluster, Instance)
 * S3 (Bucket)
 * ElastiCache (Redis, Memcached)

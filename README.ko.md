@@ -15,7 +15,7 @@ EC2, S3, Lambda 함수와 같은 AWS 리소스를 생성할 때,
 
 * 콘솔 로그인
 * IAM (User, Group, Role, Policy, Instance Profile)
-* EC2 (Instance, Security Group)
+* EC2 (Instance, Security Group (보안그룹 생성, 규칙 추가/수정/삭제))
 * RDS (Cluster, Instance)
 * S3 (Bucket)
 * ElastiCache (Redis, Memcached)
