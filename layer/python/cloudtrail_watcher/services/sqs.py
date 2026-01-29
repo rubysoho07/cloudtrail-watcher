@@ -1,35 +1,38 @@
 import boto3
 
-from .common import *
+from .common import get_user_identity, check_contain_mandatory_tag_dict
 
-sqs = boto3.client('sqs')
+sqs = boto3.client("sqs")
 
 
 def process_event(event: dict, set_tag: bool = False) -> dict:
-    """ Process CloudTrail event for SQS """
+    """Process CloudTrail event for SQS"""
 
     result = dict()
 
-    if event['eventName'] == 'CreateQueue':
-        result['resource_id'] = _process_create_queue(event, set_tag)
+    if event["eventName"] == "CreateQueue":
+        result["resource_id"] = _process_create_queue(event, set_tag)
     else:
-        message = f"Cannot process event: {event['eventName']}, eventID: {event['eventID']}"
-        result['error'] = message
+        message = (
+            f"Cannot process event: {event['eventName']}, eventID: {event['eventID']}"
+        )
+        result["error"] = message
 
     return result
 
 
 def _process_create_queue(event: dict, set_tag: bool = False) -> list:
-    """ Process CreateQueue event for SQS """
-    
+    """Process CreateQueue event for SQS"""
+
     if set_tag:
-        if 'tags' not in event['requestParameters'] or \
-           check_contain_mandatory_tag_dict(event['requestParameters']['tags']) is False:
+        if (
+            "tags" not in event["requestParameters"]
+            or check_contain_mandatory_tag_dict(event["requestParameters"]["tags"])
+            is False
+        ):
             sqs.tag_queue(
-                QueueUrl=event['responseElements']['queueUrl'],
-                Tags={
-                    'User': get_user_identity(event)
-                }
+                QueueUrl=event["responseElements"]["queueUrl"],
+                Tags={"User": get_user_identity(event)},
             )
 
-    return [event['requestParameters']['queueName']]
+    return [event["requestParameters"]["queueName"]]

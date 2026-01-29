@@ -2,25 +2,26 @@ import os
 
 
 def get_service_name(event: dict) -> str:
-    """ Get AWS service name from CloudTrail event. """
-    return event['eventSource'].split('.')[0]
+    """Get AWS service name from CloudTrail event."""
+    return event["eventSource"].split(".")[0]
 
 
 def get_user_identity(event: dict) -> str:
-    """ Get user identity from CloudTrail event. """
-    if 'arn' not in event['userIdentity'].keys():
+    """Get user identity from CloudTrail event."""
+    if "arn" not in event["userIdentity"].keys():
         return "Unknown"
 
-    return event['userIdentity']['arn'].split(':')[-1]
+    return event["userIdentity"]["arn"].split(":")[-1]
 
 
 def check_set_mandatory_tag() -> bool:
     """
-        Check if watcher function sets mandatory tags for new resources.
-        If you want to set required tags, set environment variable named 'SET_MANDATORY_TAG'
+    Check if watcher function sets mandatory tags for new resources.
+    If you want to set required tags, set environment variable named 'SET_MANDATORY_TAG'
     """
-    if 'SET_MANDATORY_TAG' in os.environ.keys() and \
-       os.environ['SET_MANDATORY_TAG'] not in ['DISABLED', 'False', '0', 'false']:
+    if "SET_MANDATORY_TAG" in os.environ.keys() and os.environ[
+        "SET_MANDATORY_TAG"
+    ] not in ["DISABLED", "False", "0", "false"]:
         return True
 
     return False
@@ -28,22 +29,22 @@ def check_set_mandatory_tag() -> bool:
 
 def check_contain_mandatory_tag_list(tags: list) -> bool:
     """
-        Check if mandatory tag exists in tag list.
-        In tag list, a tag contains a key-value pair.
-        for example:
-        {
-            "Key": "ExampleKey",
-            "Value": "Example_Value"
-        }
+    Check if mandatory tag exists in tag list.
+    In tag list, a tag contains a key-value pair.
+    for example:
+    {
+        "Key": "ExampleKey",
+        "Value": "Example_Value"
+    }
     """
 
     if len(tags) == 0:
         return False
 
     for tag in tags:
-        if 'Key' in tag and tag['Key'] == 'User':
+        if "Key" in tag and tag["Key"] == "User":
             return True
-        elif 'key' in tag and tag['key'] == 'User':
+        elif "key" in tag and tag["key"] == "User":
             return True
 
     return False
@@ -51,15 +52,15 @@ def check_contain_mandatory_tag_list(tags: list) -> bool:
 
 def check_contain_mandatory_tag_dict(tags: dict) -> bool:
     """
-        Check if mandatory tag exists in tag dictionary.
-        In tag dict, a tag contains a key-value pair.
-        for example:
-        {
-            "Key": "Value"
-        }
+    Check if mandatory tag exists in tag dictionary.
+    In tag dict, a tag contains a key-value pair.
+    for example:
+    {
+        "Key": "Value"
+    }
     """
 
-    if 'User' in tags:
+    if "User" in tags:
         return True
     else:
         return False
@@ -67,11 +68,12 @@ def check_contain_mandatory_tag_dict(tags: dict) -> bool:
 
 def check_disable_autoscaling_alarm() -> bool:
     """
-        Check if watcher function notifies for autoscaling.
-        If you want to set this feature, set environment variable named 'DISABLE_AUTOSCALING_ALARM'
+    Check if watcher function notifies for autoscaling.
+    If you want to set this feature, set environment variable named 'DISABLE_AUTOSCALING_ALARM'
     """
-    if 'DISABLE_AUTOSCALING_ALARM' in os.environ.keys() and \
-       os.environ['DISABLE_AUTOSCALING_ALARM'] not in ['DISABLED', 'False', '0', 'false']:
+    if "DISABLE_AUTOSCALING_ALARM" in os.environ.keys() and os.environ[
+        "DISABLE_AUTOSCALING_ALARM"
+    ] not in ["DISABLED", "False", "0", "false"]:
         return True
 
     return False

@@ -1,38 +1,40 @@
 import boto3
 
-from .common import *
+from .common import get_user_identity, check_contain_mandatory_tag_list
 
-emr = boto3.client('emr')
+emr = boto3.client("emr")
 
 
 def _process_run_job_flow(event: dict, set_tag: bool = False) -> list:
-    """ Process RunJobFlow event to create EMR cluster. """
+    """Process RunJobFlow event to create EMR cluster."""
 
-    job_flow_id = event['responseElements']['jobFlowId']
+    job_flow_id = event["responseElements"]["jobFlowId"]
 
     if set_tag:
-        if 'tags' not in event['requestParameters'] or \
-                check_contain_mandatory_tag_list(event['requestParameters']['tags']) is False:
+        if (
+            "tags" not in event["requestParameters"]
+            or check_contain_mandatory_tag_list(event["requestParameters"]["tags"])
+            is False
+        ):
             emr.add_tags(
                 ResourceId=job_flow_id,
-                Tags=[{
-                    'Key': 'User',
-                    'Value': get_user_identity(event)
-                }]
+                Tags=[{"Key": "User", "Value": get_user_identity(event)}],
             )
 
     return [job_flow_id]
 
 
 def process_event(event: dict, set_tag: bool = False) -> dict:
-    """ Process CloudTrail event for EMR cluster """
+    """Process CloudTrail event for EMR cluster"""
 
     result = dict()
 
-    if event['eventName'] == "RunJobFlow":
-        result['resource_id'] = _process_run_job_flow(event, set_tag)
+    if event["eventName"] == "RunJobFlow":
+        result["resource_id"] = _process_run_job_flow(event, set_tag)
     else:
-        message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
-        result['error'] = message
+        message = (
+            f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
+        )
+        result["error"] = message
 
     return result
