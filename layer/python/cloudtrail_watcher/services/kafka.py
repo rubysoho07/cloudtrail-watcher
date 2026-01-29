@@ -1,44 +1,42 @@
 import boto3
 
-from .common import *
+from .common import get_user_identity, check_contain_mandatory_tag_dict
 
-kafka = boto3.client('kafka')
+kafka = boto3.client("kafka")
 
 
 def _set_mandatory_tag(event: dict):
-    """ Set mandatory tag for MSK resources. """
+    """Set mandatory tag for MSK resources."""
 
-    if 'tags' in event['requestParameters'].keys():
-        if check_contain_mandatory_tag_dict(event['requestParameters']['tags']):
+    if "tags" in event["requestParameters"].keys():
+        if check_contain_mandatory_tag_dict(event["requestParameters"]["tags"]):
             return
 
-    resource_arn = event['responseElements']['clusterArn']
+    resource_arn = event["responseElements"]["clusterArn"]
 
     kafka.tag_resource(
-        ResourceArn=resource_arn,
-        Tags={
-            'User': get_user_identity(event)
-        }
+        ResourceArn=resource_arn, Tags={"User": get_user_identity(event)}
     )
 
 
 def _process_create_cluster_v2(event: dict, set_tag: bool = False) -> list:
-
     if set_tag:
         _set_mandatory_tag(event)
 
-    return [event['responseElements']['clusterName']]
+    return [event["responseElements"]["clusterName"]]
 
 
 def process_event(event: dict, set_tag: bool = False) -> dict:
-    """ Process CloudTrail event for MSK(Kafka). """
+    """Process CloudTrail event for MSK(Kafka)."""
 
     result = dict()
 
-    if event['eventName'] == 'CreateClusterV2':
-        result['resource_id'] = _process_create_cluster_v2(event, set_tag)
+    if event["eventName"] == "CreateClusterV2":
+        result["resource_id"] = _process_create_cluster_v2(event, set_tag)
     else:
-        message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
-        result['error'] = message
+        message = (
+            f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
+        )
+        result["error"] = message
 
     return result

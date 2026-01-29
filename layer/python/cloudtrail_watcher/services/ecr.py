@@ -1,39 +1,40 @@
 import boto3
 
-from .common import *
+from .common import get_user_identity, check_contain_mandatory_tag_list
 
-ecr = boto3.client('ecr')
+ecr = boto3.client("ecr")
 
 
 def _process_create_repository(event: dict, set_tag: bool = False) -> list:
-    """ Process ECR event for creating a repository. returns name of the repository. """
+    """Process ECR event for creating a repository. returns name of the repository."""
 
-    repository_arn = event['responseElements']['repository']['repositoryArn']
+    repository_arn = event["responseElements"]["repository"]["repositoryArn"]
 
     if set_tag:
         tags = ecr.list_tags_for_resource(resourceArn=repository_arn)
 
-        exists_mandatory_tag = check_contain_mandatory_tag_list(tags['tags'])
+        exists_mandatory_tag = check_contain_mandatory_tag_list(tags["tags"])
 
         if not exists_mandatory_tag:
-            ecr.tag_resource(resourceArn=repository_arn,
-                             tags=[{
-                                 'Key': 'User',
-                                 'Value': get_user_identity(event)
-                             }])
+            ecr.tag_resource(
+                resourceArn=repository_arn,
+                tags=[{"Key": "User", "Value": get_user_identity(event)}],
+            )
 
-    return [event['responseElements']['repository']['repositoryName']]
+    return [event["responseElements"]["repository"]["repositoryName"]]
 
 
 def process_event(event: dict, set_tag: bool = False) -> dict:
-    """ Process CloudTrail event for CloudFront distribution. """
+    """Process CloudTrail event for CloudFront distribution."""
 
     result = dict()
 
-    if event['eventName'] == "CreateRepository":
-        result['resource_id'] = _process_create_repository(event, set_tag)
+    if event["eventName"] == "CreateRepository":
+        result["resource_id"] = _process_create_repository(event, set_tag)
     else:
-        message = f"Cannot process event: {event['eventName']}, eventID: {event['eventID']}"
-        result['error'] = message
+        message = (
+            f"Cannot process event: {event['eventName']}, eventID: {event['eventID']}"
+        )
+        result["error"] = message
 
     return result
