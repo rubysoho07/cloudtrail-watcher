@@ -1,0 +1,118 @@
+# Agent Rules
+
+## Lambda Layer in Python
+
+### Purpose
+
+This rule manages features to process CloudTrail log by event name.
+
+### Instructions
+
+* Please refer the rule of a CloudTrail event: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-events.html
+* Get AWS service name from `eventSource` in the event. If `eventSource` is "cloudtrail.amazonaws.com", use "cloudtrail" before "amazonaws.com". (ID: SERVICE_NAME)
+* Create a file if `layer/python/cloudtrail_watcher/services/SERVICE_NAME.py` doesn't exist. File structure is below. (ID: SERVICE_FILE)
+
+```python
+import boto3
+
+from .common import *
+
+SERVICE_NAME = boto3.client('SERVICE_NAME')
+
+def process_event(event: dict, set_tag: bool = False) -> dict:
+    """ Process CloudTrail event for SERVICE_NAME """
+	
+    result = dict()
+
+    return result
+```
+
+* If you created a new file, add file name to `__all__` in `lambda/python/cloudtrail_watcher/services/__init__.py` as a new module.
+
+* Get the name of the event from `eventName` in the CloudTrail event. (ID: EVENT_NAME)
+* Create a function in SERVICE_FILE. (ID: PROCESS_EVENT_FUNCTION)
+    * Function name: Start with `_process_`, add EVENT_NAME with snake case.
+    * Arguments: event in dict, set_tag in bool. The default value of set_tag is False.
+    * Return value: resource name in list
+    * If set_tag is True, check whether 'User' tag exists.
+        * If 'User' tag doesn't exists, set 'User' tag by using 'get_user_identity' function in 'common.py'.
+* Add a rule below in process_event function.
+
+```python
+if event['eventName'] == 'EVENT_NAME':
+    result['resource_id'] = "Call the function created from PROCESS_FUNCTION"
+else:
+    message = f"Cannot process event: {event['eventName']}, eventID: f{event['eventID']}"
+    result['error'] = message
+```
+
+* Add permission for used in PROCESS_EVENT_FUNCTION.
+    * File name: "template.sar.yaml" in the root of the project
+    * Add permission in IAM Policy document of WatcherFunctionPolicy resource.
+
+### Priority
+
+High
+
+### Error Handling
+
+N/A
+
+---
+
+## Release Rule
+
+### Purpose
+
+This rule automates release.
+
+### Instructions
+
+* When updating version, modify these files below.
+  * pyproject.toml: `project.version`
+  * uv.lock: Run `uv sync` command
+  * template.sar.yaml: `Metadata.AWS::ServerlessRepo::Application.SementicVersion`
+* Commit files with message: `release: Update to [SEMANTIC_VERSION]`
+* Tag for the git commit with `[SEMANTIC_VERSION]`.
+* Push commit and tag to remote repository.
+* Create GitHub release using gh CLI:
+  * Get commit messages between previous and current tag: `git log --oneline [PREVIOUS_TAG]..[CURRENT_TAG]`
+  * Create release: `gh release create [SEMANTIC_VERSION] --title "[SEMANTIC_VERSION]" --notes "[COMMIT_MESSAGES]"`
+  * Verify GitHub Actions status: `gh run list --limit 1`
+
+### Priority
+
+Low
+
+### Error Handling
+
+N/A
+
+---
+
+## Test Code Modification
+
+### Purpose
+
+This rule modifies test code.
+
+### Instructions
+
+* If added new file in test/services/samples, mask sensitive data.
+    * If accountId is not "000000000000", change it to "000000000000".
+    * If values is not "test_user" after "user/", change it to "test_user".
+    * Change same values with sourceIPAddress to "127.0.0.1".
+    * Change principalId to "YOUR_PRINCIPAL_ID".
+    * Change accessKeyId to "YOUR_ACCESS_KEY_ID".
+    * If you discover same values in other places, change them in the same way.
+* Create test case for the action in test/services/test_services.py file.
+    * Create a class and a test case for the service if the class doesn't exist.
+    * If the class exists, just create a test case in the class.
+
+### Priority
+
+Low
+
+### Error Handling
+
+N/A
