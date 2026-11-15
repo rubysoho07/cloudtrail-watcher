@@ -1,6 +1,6 @@
 [project]
 name = "cloudtrail-watcher"
-version = "0.1.4"
+version = "0.1.5"
 description = "Watch CloudTrail events and notify via Slack Webhook and SNS"
 readme = "README.md"
 requires-python = ">=3.13"
